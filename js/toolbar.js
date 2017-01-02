@@ -45,7 +45,7 @@ on, mouse, query, Deferred) {
             on(window, "resize", lang.hitch(this, this._windowScrolled));
             this.pTools = dom.byId("panelTools");
             this.pMenu = dom.byId("panelMenu");
-            on(this.pMenu, "click", lang.hitch(this, this._menuClick));
+            // on(this.pMenu, "click", lang.hitch(this, this._menuClick));
             this.pPages = dom.byId("panelPages");
             //Prevent body scroll when scrolling to the end of the panel content
             on(this.pPages, mouse.enter, lang.hitch(this, function () {
@@ -306,15 +306,15 @@ on, mouse, query, Deferred) {
             }
         },
 
-        // menu click
-        _menuClick: function () {
-            if (query("#panelTools").style("display") == "block") {
-                query("#panelTools").style("display", "none");
-                this._closePage();
-            } else {
-                query("#panelTools").style("display", "block");
-            }
-            this._updateMap();
-        }
+        // // menu click
+        // _menuClick: function () {
+        //     if (query("#panelTools").style("display") == "block") {
+        //         query("#panelTools").style("display", "none");
+        //         this._closePage();
+        //     } else {
+        //         query("#panelTools").style("display", "block");
+        //     }
+        //     this._updateMap();
+        // }
     });
 });

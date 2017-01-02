@@ -340,8 +340,7 @@ input[type=checkbox].checkbox {
 
 .esriSimpleSliderTL {
   top: 10px;
-  left: auto;
-  right:20px;
+  left: 10px;
   border: none;
 }
 
@@ -580,12 +579,12 @@ img {
 
 #panelPages {
   font-family: Helvetica, Arial, sans-serif;
-  width: calc(100% - 2px);
+  /*width: calc(100% - 2px);
   height: calc(100% - 155px);
-  background-color: #F9F9F9;
-  overflow: auto;
+  background-color: #F9F9F9;*/
+  overflow: hidden;
   padding: 1px;
-  background: #aaa;
+  background: transparent;
 }
 
 .page {
@@ -610,20 +609,15 @@ img {
   .pageContent {
     background-color: white;
     margin: 0;
-    height: 100%;
-    width: 100%;
-    /*position: absolute;*/
     top: 0;
   }
 }
 
-.pageHeader {
+/*.pageHeader {
   position: relative;
   width: calc(100% + 2px);
-  /* top: 0; */
-  /* margin: 0 -1px; */
   height: 25px;
-}
+}*/
 
 .pageTitle {
   font-size: 18px;
@@ -668,24 +662,26 @@ img {
 
 .pageBody {
   width: 100%;
-  height: calc(100% - 52px);
+  height: calc(100% - 26px);
   color: #000000;
   overflow: hidden;
   overflow-y: auto;
-  background-color: transparent;
+  /*background-color: white;*/
   display: inline-block;
-  position: relative;
+  position: absolute;
 }
 
 .esriPrint {
   padding: 0px;
-  padding-bottom: 16px;
+ /* padding-bottom: 16px;*/
 }
 
 @media only screen and (min-width: 760px) {
   #panelTop {
     width: 100%;
-    } }
+    display: none;
+    } 
+  }
 
 #panelTitle {
   width: 100%;
@@ -733,22 +729,24 @@ img {
 
 #panelSearch {
   margin: 0;
-  width:100%;
-  position: relative;
+  position: absolute;
+  top: 2px;
+  right: 2px;
 }
 
 #panelSearch .searchLabel {
   padding: 8px 4px;
   float: left;
+  display:none;
 }
 
 #panelTools {
-  left: 0px;
-  top: 0px;
-  min-height: 26px;
-  width: calc(100% - 2px);
-  display: block;
-  clear: both;
+    right: 10px;
+    top: 54px;
+    width: 26px;
+    max-height: calc(100% - 66px);
+    clear: both;
+    position: absolute;
   }
 
 @media only screen and (min-width: 720px) {
@@ -1377,7 +1375,7 @@ h3 {
 
 .esriOverviewMap .ovwContainer {
   display: block;
-  position: absolute;
+  position: relative;
 }
 
 #panelTool_instructions,
@@ -1493,7 +1491,7 @@ html, body {
     /* padding-left: 10px; */
 }
 
-.showAttr {display: grid;}
+.showAttr {display: inherit;}
 
 .hideAttr {
     display:none;
@@ -1518,7 +1516,9 @@ text-align: left;
 
 #mapDiv {
     width: calc(100% - 0px) !important;
-    height: calc(100% - 0px) !important;
+    height: calc(100% - 44px) !important;
+    top: 44px;
+    position: absolute;
 }
 
 .splitterContent {
@@ -1534,9 +1534,14 @@ td, th {
 
 #leftPanel{
     min-width: 400px;
-    height: 100%;
-    width: 100%;
-    background-color: white;
+    height: calc(100% - 64px);
+    background-color: transparent;
+    position: absolute;
+    top: 54px;
+    right: 46px;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
 #panelBottom {
@@ -1546,13 +1551,14 @@ td, th {
     padding: 4px 10px;
     color: white;
     white-space: nowrap;
+    display:none;
 }
 
 #fixContent {
   width: calc(100% - 2px);
   height: calc(100% - 27px);
   /* height: 100%; */
-   osition: relative; 
+  position: relative; 
   /* overflow: hidden; */
 }
 
@@ -1562,6 +1568,7 @@ td, th {
   /*width: calc(100% - 20px);*/
   /*margin: 0 10px;*/
   padding: 0 10px;
+  background: white;
 }
 
 .goThereHint {
@@ -1697,9 +1704,9 @@ td, th {
 }
 
 .esriOverviewMap {
-    margin: 4px;
+    /*margin: 4px;
     width: calc(100% - 8px);
-    height: calc(100% - 8px);
+    height: calc(100% - 8px);*/
 }
 
 .ovwContainer {
@@ -1748,10 +1755,10 @@ td, th {
     height: calc(100% - 274px);
 }
 
-.leftWrapper {
+/*.leftWrapper {
     display: flex;
     flex-direction: column;
-}
+}*/
 
 header {
     height: auto;
