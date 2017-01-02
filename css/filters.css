@@ -102,10 +102,11 @@
     /* top: 0px; */
     height: calc(100% - 73px);
     border: 1px solid black;
-    border-top-right-radius: 8px;
+    /*border-top-right-radius: 8px;*/
     padding: 10px;
     position: absolute;
     overflow-y: auto;
+    background-color: white;
 }
 
 .dijitCalendarYearContainer {

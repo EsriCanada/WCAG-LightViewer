@@ -3,6 +3,7 @@
   --position: relative;
   --width: 297px;
   --overflow: auto; 
+  background: white;
 }
 
 .TableOfContents .toc-title {
@@ -583,7 +584,7 @@ img {
   height: calc(100% - 155px);
   background-color: #F9F9F9;*/
   overflow: hidden;
-  padding: 1px;
+  /*padding: 1px;*/
   background: transparent;
 }
 
@@ -1197,6 +1198,7 @@ input[type=checkbox]:checked.share-dialog-checkbox + .share-dialog-checkbox:befo
 
 .esriBasemapGallery{
   padding:10px 0 10px 10px;
+  background-color: white;
 }
 
 .toc-title-container {
@@ -1273,6 +1275,7 @@ div[tabindex='0']:not(.pageClose):not(.pageUp):not(.pageDown):hover
   height: auto;
   position: relative;
   padding: 10px;
+  background-color: white;
 }
 
 .esriMeasurement .esriButtonChecked .dijitButtonNode,
@@ -1319,6 +1322,7 @@ input[type='checkbox']:focus {
 .esriBookmarkList {
   margin-top: 1px;
   margin-bottom: 2px;
+  background-color: white;
 }
 
 .esriBasemapGallerySelectedNode a {
@@ -1477,13 +1481,16 @@ html, body {
 
 #featuresList {
     list-style: none;
-    /*margin: 10px;*/
+    margin: 0;
     padding-left: 0;
     -webkit-padding-start: 0;
     background-color: white;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-margin-before: 0; 
+    -webkit-margin-after: 0; 
 }
+
 #featuresList li {
     /* margin-bottom: 4px; */
     /* margin-left: -10px; */
@@ -1607,13 +1614,21 @@ td, th {
     background-repeat: no-repeat;
 }
 
+.showLoading {
+    display: -webkit-inline-box;
+    display: inline-box;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.hideLoading {
+    display:none;
+}
+
 .small-loading {
     background-position: center center;
     background-image: url(../images/reload1.gif);
     background-repeat: no-repeat;
     background-size: 22px 22px;
-    display: -webkit-inline-box;
-    vertical-align: -webkit-baseline-middle;
     width: 22px;
     height: 22px;
     z-index: 2000;
@@ -1707,6 +1722,10 @@ td, th {
     /*margin: 4px;
     width: calc(100% - 8px);
     height: calc(100% - 8px);*/
+    border-color: gray;
+    border-width: 1px;
+    border-style: solid;
+    position: relative;
 }
 
 .ovwContainer {
@@ -1719,6 +1738,7 @@ td, th {
 
 .legend, .ShareDialog, .PrintDialog {
   padding: 10px;
+  background-color: white;
 }
 
 .legend table {

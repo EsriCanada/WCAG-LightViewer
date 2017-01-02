@@ -198,7 +198,7 @@ on, mouse, query, Deferred) {
             if(loaderImg && loaderImg !=="") {
                 domConstruct.create("div", {
                     id: "loading_" + name,
-                    class: 'small-loading'
+                    class: 'hideLoading small-loading'
                 }, pageHeader);
             }
 

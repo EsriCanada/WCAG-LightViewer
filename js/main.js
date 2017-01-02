@@ -574,7 +574,7 @@ define(["dojo/ready",
                     animatedMarker:  this.config.animated_marker,
                     markerImage: this.config.marker,
                     markerSize: this.config.marker_size
-                }, featuresDiv);
+                }, domConstruct.create("div", {}, featuresDiv));
                 featureList.startup();
 
                 // on(toolbar, 'updateTool_features', lang.hitch(this, function(name) {

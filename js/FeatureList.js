@@ -129,10 +129,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             return dojo.hasClass(page, "showAttr");
         },
 
-        _reloadList : function(ext) {
-            if(!this._isVisible()) return;
-            var loading_features = this.domNode.parentNode.querySelector('#loading_features');
-            domStyle.set(loading_features, 'display', '-webkit-inline-box');
+        __reloadList : function(ext) {
+            var deferred = new Deferred();
+
             var list = query("#featuresList")[0];
             this.map.graphics.clear();
             window.tasks.filter(function(t) { return t.layer.visible && t.layer.visibleAtMapScale;}).forEach(lang.hitch(this.map, function(t) {
@@ -210,9 +209,21 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         window.featureExpand(checkbox, true);
                         checkbox.focus();
                     }
-                    domStyle.set(loading_features, 'display', 'none');
+                deferred.resolve(true);
                 }
             );
+            return deferred.promise; 
+        },
+
+        _reloadList : function(ext) {
+            if(!this._isVisible()) return;
+            //domStyle.set(loading_features, 'display', 'inline-box');
+            domClass.remove(loading_features, "hideLoading");
+            domClass.add(loading_features, "showLoading");
+
+            this.__reloadList(ext).then(function(results) {
+                domClass.replace(loading_features, "hideLoading", "showLoading");
+            });
         },
 
         _createList: function(){

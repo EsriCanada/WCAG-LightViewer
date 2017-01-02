@@ -1,11 +1,11 @@
 <div class="featureItem">
 	<table role="presentation">
 		<tr>
-			<th valign="top">
+			<th valign="top" colspan="4" style="display: flex;">
 				<input id="featureButton_${_layerId}_${_featureId}" class="checkbox" type="checkbox" name="featureItem" value="${_layerId},${_featureId}" onchange="featureExpand(this)" onkeypress="featureExpandAndZoom(event, this)"/>
-			</th>
-			<th colspan="3" style="padding:0;" valign="top" align="left">
-				<label for="featureButton_${_layerId}_${_featureId}" class="checkbox">${_title}</label>
+				<div>
+					<label for="featureButton_${_layerId}_${_featureId}" class="checkbox">${_title}</label>
+				</div>
 			</th>
 		</tr>
 		<tr class="featureItem_${_layerId}_${_featureId} hideAttr">
