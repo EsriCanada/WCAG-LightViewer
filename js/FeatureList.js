@@ -217,6 +217,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
         _reloadList : function(ext) {
             if(!this._isVisible()) return;
+            var loading_features = this.domNode.parentNode.parentNode.querySelector('#loading_features');
             //domStyle.set(loading_features, 'display', 'inline-box');
             domClass.remove(loading_features, "hideLoading");
             domClass.add(loading_features, "showLoading");
