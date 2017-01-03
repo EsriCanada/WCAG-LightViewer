@@ -130,10 +130,11 @@ on, mouse, query, Deferred) {
 
             if(badgeEvName && badgeEvName !== '') {
                 var setIndicator = domConstruct.create("img", {
-                    src:"images/set.png",
+                    src:"images/"+badgeEvName+".png",
                     class:"setIndicator",
                     style:"display:none;",
                     tabindex:-1,
+                    id: 'badge_'+badgeEvName,
                     alt:""
                 });
                 domConstruct.place(setIndicator, panelTool);
@@ -154,11 +155,11 @@ on, mouse, query, Deferred) {
                     }
                     if(filtersOn.length>0) {
                         domStyle.set(setIndicator,'display','');
-                        domAttr.set(pTool, "title", this.config.i18n.tooltips.filtersApply || "Some Filters Apply");            
+                        //domAttr.set(setIndicator, "title", this.config.i18n.tooltips.filtersApply || "Some Filters Apply");            
 
                     } else {
                         domStyle.set(setIndicator,'display','none');
-                        domAttr.set(pTool, "title", tip); 
+                        //domAttr.set(pTool, "title", tip); 
                     }
                 }));
             }
@@ -241,37 +242,27 @@ on, mouse, query, Deferred) {
                 }
             });
 
-            //if(defaultBtns === undefined || (active || defaultBtn !== name)) {
-                //dom.byId('leftPanel').visible = false;
-                pages.forEach(function(p){
-                    if(hidden && p === page) {
-                        domClass.replace(p, "showAttr","hideAttr");
-                    } else {
-                        domClass.replace(p,"hideAttr","showAttr");
-                        //query('leftPanel').visible = true;
-                    }
-                });
-                var tool = dom.byId("toolButton_"+name);
-                var tools = query(".panelTool");           
-                this.emit("updateTool", name);
-                tools.forEach(lang.hitch(this, function(t){
-                    if(active && t === tool) {
-                        domClass.add(t, "panelToolActive");
-                        this.emit("updateTool_"+name);
-                    } else {
-                        domClass.remove(t,"panelToolActive");
-                    }
-                }));
-            //}
-            
+            pages.forEach(function(p){
+                if(hidden && p === page) {
+                    domClass.replace(p, "showAttr","hideAttr");
+                } else {
+                    domClass.replace(p,"hideAttr","showAttr");
+                }
+            });
+            var tool = dom.byId("toolButton_"+name);
+            var tools = query(".panelTool");           
+            this.emit("updateTool", name);
+            tools.forEach(lang.hitch(this, function(t){
+                if(active && t === tool) {
+                    domClass.add(t, "panelToolActive");
+                    this.emit("updateTool_"+name);
+                } else {
+                    domClass.remove(t,"panelToolActive");
+                }
+            }));           
 
             domStyle.set(query("#panelPages")[0], "visibility", active?'visible':'collapse');
             domStyle.set(query("#leftPanel")[0], "display", active?'flex':'none');
-            // // if(active) {
-            // //     domClass.replace(fixContent, "hideAttr", "showAttr");
-            // // } else {
-            // //     domClass.replace(fixContent, "showAttr", "hideAttr");
-            // // }
         },
 
         _atachEnterKey: function(onButton, clickButton) {

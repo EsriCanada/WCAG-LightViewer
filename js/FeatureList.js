@@ -1,5 +1,5 @@
 define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "esri/kernel", 
-    "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on",
+    "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on", "dojo/_base/connect",
     "dojo/Deferred", "dojo/promise/all", 
     "dojo/query", 
     "esri/tasks/query", "esri/tasks/QueryTask",
@@ -16,7 +16,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     
     ], function (
         Evented, declare, lang, has, esriNS,
-        _WidgetBase, _TemplatedMixin, on, 
+        _WidgetBase, _TemplatedMixin, on, connect,
         Deferred, all, 
         query,
         Query, QueryTask,
@@ -48,6 +48,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             this.set("map", defaults.map);
             var Layers = this._getLayers(defaults.layers);
             this.set("Layers", Layers);
+
+            window._this = this;
 
             if(options.animatedMarker) {
                 window.markerSymbol = new esri.symbol.PictureMarkerSymbol({
@@ -227,6 +229,18 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             });
         },
 
+        showBadge : function(show) {
+            var indicator = dom.byId('badge_featureSelected');
+            if (show) {
+                domStyle.set(indicator,'display','');
+                domAttr.set(indicator, "title", "Feature Selected");
+                domAttr.set(indicator, "alt", "Feature Selected");
+            } else {
+                domStyle.set(indicator,'display','none');
+            }
+            connect.publish("featureSelected", [{id:'toolButton_features', show:show}]);
+        },
+
         _createList: function(){
             window.tasks = [];
             for(var l = 0; l<this.Layers.length; l++) {
@@ -277,7 +291,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 if(event.charCode === 43 || event.charCode === 45 || event.charCode === 46) { // +,- or .
                     //console.log(event.charCode, checkbox);
                     checkbox.checked = !checkbox.checked;
-                    window.featureExpand(checkbox);
+                    window.featureExpand(checkbox, false);
                     if(checkbox.checked) {
                         var btn = document.querySelector(((event.charCode === 43) ? '#zoomBtn_' : '#panBtn_')+checkbox.value.replace(',','_'));
                         btn.click();
@@ -306,6 +320,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 var layer = r.layer;
                 layer._map.graphics.clear();
 
+                lang.hitch(window._this, window._this.showBadge(checkBox.checked));
+                    
                 if(checkBox.checked)
                 {
                     _prevSelected = values[0]+'_'+fid;
@@ -370,6 +386,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 }
             };
             
+
             on(this.map, "extent-change", lang.hitch(this, this._reloadList), this);
 
             _getFeatureListItem = function(r, f, objectIdFieldName, layer, content, listTemplate) {
@@ -410,12 +427,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }
 
                     } while (true);
-
-//                     layer.queryAttachmentInfos(featureId).then(function(a) {
-//                         result = result.replace("</table>",'<tr><td/><td valign="top" align="right">Attachments</td><td valign="top">:</td><td valign="top"></td></tr></table>');
-//                         console.log(a,result);
-//                         }
-//                     );
 
                     return result;
                 } catch (e) {

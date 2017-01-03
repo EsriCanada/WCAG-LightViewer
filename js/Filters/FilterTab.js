@@ -3,7 +3,7 @@ define([
     "dojo/on", "dojo/_base/connect",
     "esri/tasks/query", "esri/tasks/QueryTask", "esri/graphicsUtils",
     "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/_base/lang", "dojo/has", "esri/kernel", 
-    "dojo/dom-style",
+    "dojo/dom", "dojo/dom-attr", "dojo/dom-style",
     //"application/AComboBoxWidget/AComboBoxWidget",
     "dojo/text!application/Filters/templates/FilterTab.html"
 ], function(
@@ -11,7 +11,7 @@ define([
     on, connect,
     Query, QueryTask, graphicsUtils,
     _WidgetBase, _TemplatedMixin, lang, has, esriNS,
-    domStyle, 
+    dom, domAttr, domStyle, 
     //AComboBox,
     FilterTab
     ){
@@ -41,29 +41,11 @@ define([
         fieldSelect:null,
 
         _init: function () {
-            // this.fieldSelect = new Select({
-            //     id: this.id+"-fieldsCombo",
-            //     "data-dojo-attach-point": "fieldsCombo",
-            //     options:[]
-            // });
-            // this.filter.fields.forEach(lang.hitch(this, function(fl){
-            //     this.fieldSelect.options.push({ label: fl.label, value: fl.fieldName});
-            // }));
-
-            // this.fieldSelect.startup();
-            // this.fieldSelect.placeAt(this.fieldsDiv);
-
             var items = [];
             this.filter.fields.forEach(lang.hitch(this, function(fl){
                 this.fieldsCombo.innerHTML += '<option value="'+fl.fieldName+'">'+fl.label+'</option>';
-//                 items.push({name:fl.label, value:fl.fieldName});
             }));
-
-            // this.aComboBox = new AComboBox({items:items},null,this.labelForComboAttributes);
-            // this.aComboBox.placeAt(this.AComboBoxHolder);
-            // this.aComboBox.startup();
-
-    },
+        },
 
         filterKeyPress: function(btn) {
             // console.log(btn, btn.currentTarget.parentElement);
@@ -73,8 +55,7 @@ define([
         },
 
         filterChange: function(ev) {
-             var pageId = ev.target.value;
-//             console.log(page, ev);
+            var pageId = ev.target.value;
             var pages = document.querySelectorAll('.tabContent');
             for(var i = 0; i< pages.length; i++) {
                 var page = pages[i];
@@ -169,10 +150,13 @@ define([
         },
 
         showBadge: function(show) {
+            var indicator = dom.byId('badge_somefilters');
             if (show) {
-                domStyle.set(this.setIndicator,'display','');
+                domStyle.set(indicator,'display','');
+                domAttr.set(indicator, "title", "Some Filters Apply");
+                domAttr.set(indicator, "alt", "Some Filters Apply");
             } else {
-                domStyle.set(this.setIndicator,'display','none');
+                domStyle.set(indicator,'display','none');
             }
             connect.publish("somefilters", [{id:this.id, show:show}]);
         },
