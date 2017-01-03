@@ -120,9 +120,6 @@ input[type=checkbox].checkbox {
   font-weight: normal; 
 }
 
-#mapDiv {
-}
-
 .loading-indicator {
   /* Loading status */
   display: none;
@@ -134,6 +131,7 @@ input[type=checkbox].checkbox {
   left: 0;
   overflow: hidden;
   background: #fff; 
+  text-align: center;
 }
 
 .app-loading .loading-indicator, .app-error .loading-indicator {
@@ -294,7 +292,7 @@ input[type=checkbox].checkbox {
   display: none;
 }
 
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 720px) {
   .esriSimpleSlider {
     display: block;
   } 
@@ -319,7 +317,7 @@ input[type=checkbox].checkbox {
   color: #fff;
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 720px) {
   .arcgisSearch .searchGroup .searchInput {
     /* max-width: 300px; */
     display: block;
@@ -680,7 +678,7 @@ img {
  /* padding-bottom: 16px;*/
 }
 
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 720px) {
   #panelTop {
     width: 100%;
     display: none;
@@ -690,7 +688,18 @@ img {
 #panelTitle {
   width: 100%;
   min-height: 28px;
-  }
+  top: 0;
+  position: absolute;
+}
+
+#panelTitle h1 {
+  padding: 6px 2px;
+  margin: 0;
+  -webkit-margin-before: 0; 
+  -webkit-margin-after: 0; 
+  -webkit-margin-start: 0px; 
+  -webkit-margin-end: 0px; 
+}
 
 .no-search #panelText {
   display: block; }
@@ -701,7 +710,7 @@ img {
   padding: 2px 1px 0 2px;
 }
 
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 720px) {
   #panelLogo {
     padding: 5px 4px 0 4px;
   }
@@ -722,7 +731,7 @@ img {
   display: block;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 720px) {
   #panelText {
     font-size: 28px; 
   }
@@ -737,15 +746,6 @@ img {
   /*font-size: 14px;*/
 }
 
-#panelTitle h1 {
-  padding: 6px 2px;
-  margin: 0;
-  -webkit-margin-before: 0; 
-  -webkit-margin-after: 0; 
-  -webkit-margin-start: 0px; 
-  -webkit-margin-end: 0px; 
-}
-
 #panelText.nosearch {
   display: block; 
 }
@@ -755,6 +755,20 @@ img {
   position: absolute;
   top: 2px;
   right: 2px;
+  display:none;
+}
+
+.skip {
+  display:none;
+}
+
+@media (min-width: 720px) {
+  #panelSearch {
+    display:initial;
+  }
+  .skip {
+    display:initial;
+  }
 }
 
 #panelSearch .searchLabel {
@@ -764,17 +778,24 @@ img {
 }
 
 #panelTools {
-    right: 10px;
-    top: 54px;
+    display: block !important;
+    right: 8px;
+    top: 40px;
     width: 26px;
-    max-height: calc(100% - 66px);
+    max-height: calc(100% - 50px);
     clear: both;
     position: absolute;
+    overflow: hidden;
+    overflow-y: hidden;
   }
 
 @media only screen and (min-width: 720px) {
   #panelTools {
-    display: block !important;
+    right: 10px;
+    top: 54px;
+    max-height: calc(100% - 66px);
+    max-width: 42px;
+    overflow-y: none !important;
   } 
 }
 
@@ -1551,17 +1572,22 @@ text-align: left;
 }
 
 #mapDiv {
-    width: calc(100% - 0px) !important;
-    height: calc(100% - 44px) !important;
-    top: 44px;
+    height: calc(100% - 32px) !important;
+    top: 32px;
+    width: 100% !important;
+    left: 0;
     position: absolute;
+}
+
+@media only screen and (min-width: 720px) {
+  #mapDiv {
+      height: calc(100% - 44px) !important;
+      top: 44px;
+  }
 }
 
 .splitterContent {
     overflow-y: hidden !important;
-}
-
-td, th {
 }
 
 .borderBottom {
@@ -1581,37 +1607,14 @@ td, th {
     pointer-events: none; 
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 720px) {
   #leftPanel{
     min-width: 400px;
     max-width: 50%;
   }
 }
 
-#panelBottom {
-    position:absolute;
-    bottom: 1px;
-    width: calc(100% - 20px);
-    padding: 4px 10px;
-    color: white;
-    white-space: nowrap;
-    display:none;
-}
-
-#fixContent {
-  width: calc(100% - 2px);
-  height: calc(100% - 27px);
-  /* height: 100%; */
-  position: relative; 
-  /* overflow: hidden; */
-}
-
 #instructionsDiv {
-  /*position: absolute;*/
-  /*bottom: 0;*/
-  /*width: calc(100% - 20px);*/
-  /*margin: 0 10px;*/
-  /*padding: 0 10px;*/
   background: white;
 }
 
@@ -1644,16 +1647,26 @@ td, th {
   /* width: calc(100% - 22px); */
 }
 
-.app-loading .loading-indicator {
+.app-loading 
+.loading-indicator {
   /* Loading image */
     background-position: center center;
     background-image: url(../images/reload3.gif);
     background-repeat: no-repeat;
+    background-size: 100px 100px;
+}
+
+@media only screen and (min-width: 720px) {
+  .app-loading 
+  .loading-indicator {
+      background-size: auto;
+  }
 }
 
 .showLoading {
     display: inherit;
     vertical-align: -webkit-baseline-middle;
+    vertical-align: middle;
 }
 
 .hideLoading {
@@ -1777,10 +1790,6 @@ td, th {
   padding: 10px;
 }
 
-/*.legend {
-  position:absolute !important;
-}*/
-
 .legend table {
   width:100%;
 }
@@ -1799,7 +1808,7 @@ td, th {
 }
 
 #detailDiv {
-  background: white;
+    background: white;
     overflow-y: auto;
     /*position: absolute;*/
     color: black;
@@ -1841,7 +1850,6 @@ main {
     overflow: hidden;
     overflow-y: auto;
     position: absolute !important;
-    /* display: block; */
     height: calc(100% - 22px);
     width:100%;
 }
@@ -1849,3 +1857,5 @@ main {
 .dialog-content {
   margin:4px;
 }
+
+
