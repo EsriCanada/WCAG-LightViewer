@@ -586,6 +586,7 @@ img {
   overflow: hidden;
   /*padding: 1px;*/
   background: transparent;
+  pointer-events: none; 
 }
 
 .page {
@@ -606,12 +607,14 @@ img {
   height: 100%;
 }
 
-@media only screen and (min-width: 600px) {
-  .pageContent {
-    background-color: white;
-    margin: 0;
-    top: 0;
-  }
+.pageContent {
+  background-color: white;
+  margin: 0;
+  top: 0;
+}
+
+.pageContent:not(#pageContent_features) {
+  pointer-events: all;  
 }
 
 .pageHeader {
@@ -1002,7 +1005,9 @@ img {
 
 @media only screen and (min-width: 720px) {
   .calcite .icon-container {
-    display: block; } }
+    display: block; 
+  } 
+}
 
 .calcite .map-size-label {
   float: left;
@@ -1075,7 +1080,9 @@ img {
 
 @media only screen and (min-width: 720px) {
   .calcite .share-dialog-subheader {
-    display: block; } }
+    display: block; 
+  } 
+}
 
 .calcite .share-dialog-textarea {
   max-width: calc(100% - 8px) !important;
@@ -1508,6 +1515,7 @@ html, body {
     overflow-x: hidden;
     -webkit-margin-before: 0; 
     -webkit-margin-after: 0; 
+    pointer-events: all;
 }
 
 #featuresList li {
@@ -1570,6 +1578,7 @@ td, th {
     right: 46px;
     display: flex;
     flex-direction: column;
+    pointer-events: none; 
 }
 
 @media only screen and (min-width: 768px) {
