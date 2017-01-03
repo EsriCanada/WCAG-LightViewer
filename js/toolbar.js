@@ -153,6 +153,8 @@ on, mouse, query, Deferred) {
                             filtersOn.splice(tabIndex, 1);  
                         }                          
                     }
+                    var setIndicatorTab = query('#pageBody_filter > div.filterTabsZone > div')[message.id.split('_')[1]];
+                    var setIndicator = query('> label > img', setIndicatorTab)[0];
                     if(filtersOn.length>0) {
                         domStyle.set(setIndicator,'display','');
                         //domAttr.set(setIndicator, "title", this.config.i18n.tooltips.filtersApply || "Some Filters Apply");            

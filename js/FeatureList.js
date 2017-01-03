@@ -238,7 +238,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             } else {
                 domStyle.set(indicator,'display','none');
             }
-            connect.publish("featureSelected", [{id:'toolButton_features', show:show}]);
+            //connect.publish("featureSelected", [{id:'toolButton_features', show:show}]);
         },
 
         _createList: function(){
