@@ -785,8 +785,8 @@ img {
     max-height: calc(100% - 50px);
     clear: both;
     position: absolute;
-    overflow: hidden;
-    overflow-y: hidden;
+    /*overflow: hidden;
+    overflow-y: hidden;*/
   }
 
 @media only screen and (min-width: 720px) {
@@ -795,7 +795,7 @@ img {
     top: 54px;
     max-height: calc(100% - 66px);
     max-width: 42px;
-    overflow-y: none !important;
+    /*overflow-y: none !important;*/
   } 
 }
 
