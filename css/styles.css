@@ -25,9 +25,9 @@
 }
 
 label.checkbox{
-  padding: 3px 0px;
+  padding: 3px 0 0 0;
   margin: 0 !important;
-  border: 2px solid transparent;
+  /*border: 2px solid transparent;*/
   vertical-align: text-top;
   font-weight: bold;
   font-size: 16px;
@@ -476,9 +476,9 @@ input[type=checkbox].checkbox {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000,endColorstr=#33000000);
 }
 
-.esriBasemapGallery {
+/*.esriBasemapGallery {
   padding: 10px 0 10px 10px;
-}
+}*/
 
 .scalebar_bottom-left {
   left: 25px;
@@ -614,11 +614,12 @@ img {
   }
 }
 
-/*.pageHeader {
-  position: relative;
+.pageHeader {
+  /*position: relative;
   width: calc(100% + 2px);
-  height: 25px;
-}*/
+  height: 25px;*/
+  display: flex;
+}
 
 .pageTitle {
   font-size: 18px;
@@ -667,9 +668,8 @@ img {
   color: #000000;
   overflow: hidden;
   overflow-y: auto;
-  /*background-color: white;*/
-  display: inline-block;
-  position: absolute;
+  /*display: inline-block;*/
+  /*position: absolute;*/
 }
 
 .esriPrint {
@@ -1023,7 +1023,7 @@ img {
 }
 
 .calcite .share-map-url {
-  width: calc(100% - 0px) !important;
+  width: calc(100% - 8px) !important;
   height: 24px;
   font-size: 14px;
   color: #777;
@@ -1059,9 +1059,9 @@ img {
     display: block; } }
 
 .calcite .share-dialog-textarea {
-  max-width: calc(100% - 0px) !important;
+  max-width: calc(100% - 8px) !important;
   margin: 0 !important;
-  width: calc(100% - 0px) !important;
+  width: calc(100% - 8px) !important;
   height: 100px;
   font-size: 14px;
   color: #777;
@@ -1197,7 +1197,7 @@ input[type=checkbox]:checked.share-dialog-checkbox + .share-dialog-checkbox:befo
 }
 
 .esriBasemapGallery{
-  padding:10px 0 10px 10px;
+  /*padding:10px 0 10px 10px;*/
   background-color: white;
 }
 
@@ -1498,7 +1498,9 @@ html, body {
     /* padding-left: 10px; */
 }
 
-.showAttr {display: inherit;}
+.showAttr {
+  display: inherit;
+}
 
 .hideAttr {
     display:none;
@@ -1570,11 +1572,11 @@ td, th {
 }
 
 #instructionsDiv {
-  position: absolute;
-  bottom: 0;
+  /*position: absolute;*/
+  /*bottom: 0;*/
   /*width: calc(100% - 20px);*/
   /*margin: 0 10px;*/
-  padding: 0 10px;
+  /*padding: 0 10px;*/
   background: white;
 }
 
@@ -1615,8 +1617,7 @@ td, th {
 }
 
 .showLoading {
-    display: -webkit-inline-box;
-    display: inline-box;
+    display: inherit;
     vertical-align: -webkit-baseline-middle;
 }
 
@@ -1719,12 +1720,9 @@ td, th {
 }
 
 .esriOverviewMap {
-    /*margin: 4px;
-    width: calc(100% - 8px);
-    height: calc(100% - 8px);*/
-    border-color: gray;
+    border-color: silver;
     border-width: 1px;
-    border-style: solid;
+    border-style: outset;
     position: relative;
 }
 
@@ -1737,9 +1735,16 @@ td, th {
 }
 
 .legend, .ShareDialog, .PrintDialog {
-  padding: 10px;
   background-color: white;
 }
+
+.PrintDialog {
+  padding: 10px;
+}
+
+/*.legend {
+  position:absolute !important;
+}*/
 
 .legend table {
   width:100%;
@@ -1761,10 +1766,10 @@ td, th {
 #detailDiv {
   background: white;
     overflow-y: auto;
-    position: absolute;
+    /*position: absolute;*/
     color: black;
     width: calc(100% - 20px);
-    padding: 10px 10px 0 10px;
+    padding: 10px;
 }
 
 .detailFull {
@@ -1796,3 +1801,16 @@ main {
     width: calc(100% - 20px) !important; 
     padding: 10px 10px 0 10px;
 }*/
+
+.verticalScrollContainer {
+    overflow: hidden;
+    overflow-y: auto;
+    position: absolute !important;
+    /* display: block; */
+    height: calc(100% - 22px);
+    width:100%;
+}
+
+.dialog-content {
+  margin:4px;
+}

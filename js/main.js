@@ -385,7 +385,7 @@ define(["dojo/ready",
                     //to the toolbar panel, update the color theme and set the active tool.
                     this._updateTheme();
 
-                    toolbar._activateDefautTool();
+                    //toolbar._activateDefautTool();
 
                     on(toolbar, "updateTool", lang.hitch(this, function (name) {
                         if (name === "measure") {
@@ -415,7 +415,7 @@ define(["dojo/ready",
                         }
                     }));
 
-                    domStyle.set("panelPages", "visibility", "visible");
+                    //domStyle.set("panelPages", "visibility", "visible");
                 }));
             }));
 
@@ -629,7 +629,8 @@ define(["dojo/ready",
                     map: this.map,
                     showArcGISBasemaps: true,
                     portalUrl: this.config.sharinghost,
-                    basemapsGroup: this._getBasemapGroup()
+                    basemapsGroup: this._getBasemapGroup(),
+                    class:"verticalScrollContainer"
                 }, domConstruct.create("div", {}, basemapDiv));
 
                 basemap.startup();
@@ -739,10 +740,10 @@ define(["dojo/ready",
                     });
                     detailDiv.innerHTML = "<div tabindex=0 id='detailDiv'>"+description+"</div>";
                     var detailDiv = dojo.query("#detailDiv")[0];
-                    if(!has("instructions"))
+                    //if(!has("instructions"))
                         domClass.add(detailDiv, "detailFull");
-                    else
-                        domClass.add(detailDiv, "detailHalf");
+                    // else
+                    //     domClass.add(detailDiv, "detailHalf");
 
                     var detailBtn = dojo.query("#toolButton_details")[0];
                     domClass.add(detailBtn, "panelToolDefault");
@@ -762,8 +763,8 @@ define(["dojo/ready",
             } 
             else 
             { 
-                if(!has("details"))
-                {
+                // if(!has("details"))
+                // {
                     var instructionsDiv = toolbar.createTool(tool);
                     domConstruct.create('div',{
                         id:"instructionsDiv",
@@ -773,17 +774,17 @@ define(["dojo/ready",
 
                     var instructionsBtn = dojo.query("#toolButton_instructions")[0];
                     domClass.add(instructionsBtn, "panelToolDefault");
-                } 
-                else {
-                    deferedDetails.then(function(r) {
-                        var instructionsDiv = domConstruct.create('div',{
-                            id:"instructionsDiv",
-                            innerHTML: instructionsText,
-                            tabindex: 0
-                        }, dom.byId("pageBody_details"));
+                //} 
+                // else {
+                //     deferedDetails.then(function(r) {
+                //         var instructionsDiv = domConstruct.create('div',{
+                //             id:"instructionsDiv",
+                //             innerHTML: instructionsText,
+                //             tabindex: 0
+                //         }, dom.byId("pageBody_details"));
 
-                    });
-                }
+                //     });
+                // }
                 deferred.resolve(true);
             }
             return deferred.promise;
@@ -928,7 +929,7 @@ define(["dojo/ready",
                     var legend = new Legend({
                         map: this.map,
                         layerInfos: layers
-                    }, domConstruct.create("div", {role:'application'}, legendDiv));//Desc));
+                    }, domConstruct.create("div", {role:'application', class:'verticalScrollContainer'}, legendDiv));//Desc));
                     domClass.add(legend.domNode, "legend");
                     legend.startup();
 

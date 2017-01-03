@@ -224,11 +224,11 @@ on, mouse, query, Deferred) {
 
        _toolClick: function (name) {
             
-            var defaultBtns = dojo.query(".panelToolDefault");
-            var defaultBtn;
-            if(defaultBtns !== undefined && defaultBtns.length > 0) {
-                defaultBtn = defaultBtns[0].id.split("_")[1];
-            }
+            // var defaultBtns = dojo.query(".panelToolDefault");
+            // var defaultBtn;
+            // if(defaultBtns !== undefined && defaultBtns.length > 0) {
+            //     defaultBtn = defaultBtns[0].id.split("_")[1];
+            // }
 
             this._updateMap(); // ! out of place
             var active = false;
@@ -241,12 +241,14 @@ on, mouse, query, Deferred) {
                 }
             });
 
-            if(defaultBtns === undefined || (active || defaultBtn !== name)) {
+            //if(defaultBtns === undefined || (active || defaultBtn !== name)) {
+                //dom.byId('leftPanel').visible = false;
                 pages.forEach(function(p){
                     if(hidden && p === page) {
                         domClass.replace(p, "showAttr","hideAttr");
                     } else {
                         domClass.replace(p,"hideAttr","showAttr");
+                        //query('leftPanel').visible = true;
                     }
                 });
                 var tool = dom.byId("toolButton_"+name);
@@ -260,36 +262,16 @@ on, mouse, query, Deferred) {
                         domClass.remove(t,"panelToolActive");
                     }
                 }));
-
-                if(!active && defaultBtns !== undefined) {
-                    this._activateDefautTool();
-                }
-            }
+            //}
             
 
-            // var fixContent = dom.byId('fixContent');
-            // if(active) {
-            //     domClass.replace(fixContent, "hideAttr", "showAttr");
-            // } else {
-            //     domClass.replace(fixContent, "showAttr", "hideAttr");
-            // }
-        },
-
-        _activateDefautTool: function() {
-            var defaultBtns = dojo.query(".panelToolDefault");
-            var defaultBtn;
-            if(defaultBtns !== undefined && defaultBtns.length>0) {
-                defaultBtn = defaultBtns[0].id.split("_")[1];
-            }
-            if(defaultBtn !== undefined) {
-                this._toolClick(defaultBtn);
-            }
-            else if (this.config.activeTool !== "" && has(this.config.activeTool)) {
-                toolbar.activateTool(this.config.activeTool);
-            } 
-            // else {
-            //     toolbar._closePage();
-            // }
+            domStyle.set(query("#panelPages")[0], "visibility", active?'visible':'collapse');
+            domStyle.set(query("#leftPanel")[0], "display", active?'flex':'none');
+            // // if(active) {
+            // //     domClass.replace(fixContent, "hideAttr", "showAttr");
+            // // } else {
+            // //     domClass.replace(fixContent, "showAttr", "hideAttr");
+            // // }
         },
 
         _atachEnterKey: function(onButton, clickButton) {
