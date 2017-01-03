@@ -89,7 +89,6 @@ define([
         
         filterAdd: function(ev) {
             var fieldId = this.fieldsCombo.value;
-//             var fieldId = this.aComboBox.selectedValue;
             this._filterAdd(fieldId);
         },
 
@@ -150,14 +149,14 @@ define([
         },
 
         showBadge: function(show) {
-            var indicator = dom.byId('badge_somefilters');
-            if (show) {
-                domStyle.set(indicator,'display','');
-                domAttr.set(indicator, "title", "Some Filters Apply");
-                domAttr.set(indicator, "alt", "Some Filters Apply");
-            } else {
-                domStyle.set(indicator,'display','none');
-            }
+            // var indicator = dom.byId('badge_somefilters');
+            // if (show) {
+            //     domStyle.set(indicator,'display','');
+            //     domAttr.set(indicator, "title", "Some Filters Apply");
+            //     domAttr.set(indicator, "alt", "Some Filters Apply");
+            // } else {
+            //     domStyle.set(indicator,'display','none');
+            // }
             connect.publish("somefilters", [{id:this.id, show:show}]);
         },
     });

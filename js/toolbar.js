@@ -155,13 +155,22 @@ on, mouse, query, Deferred) {
                     }
                     var setIndicatorTab = query('#pageBody_filter > div.filterTabsZone > div')[message.id.split('_')[1]];
                     var setIndicator = query('> label > img', setIndicatorTab)[0];
-                    if(filtersOn.length>0) {
+                    if(message.show) {//filtersOn.length>0) {
                         domStyle.set(setIndicator,'display','');
                         //domAttr.set(setIndicator, "title", this.config.i18n.tooltips.filtersApply || "Some Filters Apply");            
 
                     } else {
                         domStyle.set(setIndicator,'display','none');
                         //domAttr.set(pTool, "title", tip); 
+                    }
+
+                    var indicator = dom.byId('badge_somefilters');
+                    if (filtersOn.length>0) {
+                        domStyle.set(indicator,'display','');
+                        domAttr.set(indicator, "title", "Some Filters Apply");
+                        domAttr.set(indicator, "alt", "Some Filters Apply");
+                    } else {
+                        domStyle.set(indicator,'display','none');
                     }
                 }));
             }

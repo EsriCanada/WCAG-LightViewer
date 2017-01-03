@@ -459,43 +459,43 @@ define(["dojo/ready",
                 }
             });
 
-            if(this.config.alt_keys) {
-                domConstruct.create("div", {
-                    class:'goThereHint',
-                    innerHTML: 'Alt + 1',
-                    style:'right:20px;'
-                }, dom.byId('panelTools'));
+            // if(this.config.alt_keys) {
+            //     domConstruct.create("div", {
+            //         class:'goThereHint',
+            //         innerHTML: 'Alt + 1',
+            //         style:'right:20px;'
+            //     }, dom.byId('panelTools'));
 
-                domConstruct.create("div", {
-                    class:'goThereHint',
-                    innerHTML: 'Alt + 2',
-                    style:'left:160px; top:20%;'
-                }, dom.byId('panelSearch'));
+            //     domConstruct.create("div", {
+            //         class:'goThereHint',
+            //         innerHTML: 'Alt + 2',
+            //         style:'left:160px; top:20%;'
+            //     }, dom.byId('panelSearch'));
 
-                domConstruct.create("div", {
-                    class:'goThereHint',
-                    innerHTML: 'Alt + 3',
-                    style:'left:20px; top:200px;'
-                }, dom.byId('panelPages'));
+            //     domConstruct.create("div", {
+            //         class:'goThereHint',
+            //         innerHTML: 'Alt + 3',
+            //         style:'left:20px; top:200px;'
+            //     }, dom.byId('panelPages'));
 
-                domConstruct.create("div", {
-                    class:'goThereHint',
-                    innerHTML: 'Alt + 4',
-                    style:'left:-8px; top:52%;'
-                }, dom.byId('dijit_layout_ContentPane_0_splitter'));
+            //     domConstruct.create("div", {
+            //         class:'goThereHint',
+            //         innerHTML: 'Alt + 4',
+            //         style:'left:-8px; top:52%;'
+            //     }, dom.byId('dijit_layout_ContentPane_0_splitter'));
 
-                domConstruct.create("div", {
-                    class:'goThereHint',
-                    innerHTML: 'Alt + 5',
-                    style:'left:20px; top:40px'
-                }, dom.byId('mapDiv'));
+            //     domConstruct.create("div", {
+            //         class:'goThereHint',
+            //         innerHTML: 'Alt + 5',
+            //         style:'left:20px; top:40px'
+            //     }, dom.byId('mapDiv'));
 
-                domConstruct.create("div", {
-                    class:'goThereHint',
-                    innerHTML: 'Alt + 6',
-                    style:'left:60%; top:-75%;'
-                }, dom.byId('panelBottom'));
-            }
+            //     domConstruct.create("div", {
+            //         class:'goThereHint',
+            //         innerHTML: 'Alt + 6',
+            //         style:'left:60%; top:-75%;'
+            //     }, dom.byId('panelBottom'));
+            // }
             
             query('.skip #skip-tools')[0].addEventListener('click', function (e) { skipToTools(); });
             query('.skip #skip-search')[0].addEventListener('click', function (e) { skipToSearch(); });
