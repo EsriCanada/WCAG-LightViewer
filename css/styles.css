@@ -681,12 +681,12 @@ img {
   #panelTop {
     width: 100%;
     display: none;
-    } 
-  }
+  } 
+}
 
 #panelTitle {
   width: 100%;
-  min-height: 44.8px;
+  min-height: 28px;
   }
 
 .no-search #panelText {
@@ -695,19 +695,38 @@ img {
 #panelLogo {
   overflow: hidden;
   float: left;
-  padding: 5px 4px 0 4px;
+  padding: 2px 1px 0 2px;
+}
+
+@media only screen and (min-width: 760px) {
+  #panelLogo {
+    padding: 5px 4px 0 4px;
+  }
+  #panelTitle {
+    min-height: 44.8px;
+  }
 }
 
 #panelLogo img {
-  max-height: 32px; 
+  max-height: 24px; 
 }
 
 #panelText {
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 28px; 
+  font-size: 18px; 
   overflow: hidden;
   display: block;
+}
+
+@media (min-width: 768px) {
+  #panelText {
+    font-size: 28px; 
+  }
+  #panelLogo img {
+    max-height: 32px; 
+  }
+
 }
 
 #panelText:focus {
@@ -1542,15 +1561,22 @@ td, th {
 }
 
 #leftPanel{
-    min-width: 400px;
+    min-width: 200px;
+    max-width: 90%;
     height: calc(100% - 64px);
     background-color: transparent;
     position: absolute;
     top: 54px;
     right: 46px;
-    max-width: 50%;
     display: flex;
     flex-direction: column;
+}
+
+@media only screen and (min-width: 768px) {
+  #leftPanel{
+    min-width: 400px;
+    max-width: 50%;
+  }
 }
 
 #panelBottom {
