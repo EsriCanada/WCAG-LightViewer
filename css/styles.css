@@ -1857,3 +1857,14 @@ main {
 .dialog-content {
   margin:4px;
 }
+
+.setIndicator {
+  width: 15px;
+  height: 15px;
+  top: -3px;
+  right: -6px;
+  position: absolute;
+  /*pointer-events: none;*/
+  z-index: 1000;
+}
+
