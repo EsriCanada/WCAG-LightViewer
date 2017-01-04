@@ -1,9 +1,9 @@
 define([
     "dojo/Evented", "dojo/_base/declare", "dojo/_base/window", "dojo/_base/fx", 
-    "dojo/_base/html", "dojo/_base/lang", "dojo/has", "dojo/dom", "dojo/_base/connect",
+    "dojo/_base/html", "dojo/_base/lang", "dojo/has", "dojo/dom", 
     "dojo/dom-class", "dojo/dom-style", "dojo/dom-attr", "dojo/dom-construct", "dojo/dom-geometry", 
     "dojo/on", "dojo/mouse", "dojo/query", "dojo/Deferred"], function (
-Evented, declare, win, fx, html, lang, has, dom, connect,
+Evented, declare, win, fx, html, lang, has, dom, 
 domClass, domStyle, domAttr, domConstruct, domGeometry, 
 on, mouse, query, Deferred) {
     return declare([Evented], {
@@ -138,43 +138,7 @@ on, mouse, query, Deferred) {
                     alt:""
                 });
                 domConstruct.place(setIndicator, panelTool);
-
-                filtersOn = [];
-                connect.subscribe(badgeEvName, lang.hitch(this, function(message){
-                    var tabIndex = filtersOn.indexOf(message.id);
-                    if(message.show) {
-                        if(tabIndex<0)
-                        {
-                            filtersOn.push(message.id);   
-                        }
-                    } else {
-                        if(tabIndex>=0)
-                        {
-                            filtersOn.splice(tabIndex, 1);  
-                        }                          
-                    }
-                    var setIndicatorTab = query('#pageBody_filter > div.filterTabsZone > div')[message.id.split('_')[1]];
-                    var setIndicator = query('> label > img', setIndicatorTab)[0];
-                    if(message.show) {//filtersOn.length>0) {
-                        domStyle.set(setIndicator,'display','');
-                        //domAttr.set(setIndicator, "title", this.config.i18n.tooltips.filtersApply || "Some Filters Apply");            
-
-                    } else {
-                        domStyle.set(setIndicator,'display','none');
-                        //domAttr.set(pTool, "title", tip); 
-                    }
-
-                    var indicator = dom.byId('badge_somefilters');
-                    if (filtersOn.length>0) {
-                        domStyle.set(indicator,'display','');
-                        domAttr.set(indicator, "title", "Some Filters Apply");
-                        domAttr.set(indicator, "alt", "Some Filters Apply");
-                    } else {
-                        domStyle.set(indicator,'display','none');
-                    }
-                }));
             }
-
 
             on(pTool, "click", lang.hitch(this, this._toolClick, name));
             this.tools.push(name);

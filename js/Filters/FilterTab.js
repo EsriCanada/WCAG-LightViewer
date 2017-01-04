@@ -1,18 +1,14 @@
 define([
     "dojo/Evented", "dojo/_base/declare", "dojo/dom-construct", "dojo/dom-class", "dojo/parser", "dojo/ready", 
-    "dojo/on", "dojo/_base/connect",
-    "esri/tasks/query", "esri/tasks/QueryTask", "esri/graphicsUtils",
+    "dojo/on", "esri/tasks/query", "esri/tasks/QueryTask", "esri/graphicsUtils",
     "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/_base/lang", "dojo/has", "esri/kernel", 
-    "dojo/dom", "dojo/dom-attr", "dojo/dom-style",
-    //"application/AComboBoxWidget/AComboBoxWidget",
+    "dojo/dom", "dojo/query", "dojo/dom-attr", "dojo/dom-style",
     "dojo/text!application/Filters/templates/FilterTab.html"
 ], function(
     Evented, declare, domConstruct, domClass, parser, ready, 
-    on, connect,
-    Query, QueryTask, graphicsUtils,
+    on, Query, QueryTask, graphicsUtils,
     _WidgetBase, _TemplatedMixin, lang, has, esriNS,
-    dom, domAttr, domStyle, 
-    //AComboBox,
+    dom, query, domAttr, domStyle, 
     FilterTab
     ){
     var Widget = declare("FilterTab", [_WidgetBase, _TemplatedMixin, Evented], {
@@ -30,6 +26,10 @@ define([
             this.set("filter_name", this.filter.layer.resourceInfo.name);
             // this.set("checked", defaults.checked);
             this.set("FilterItems", []);
+            //this.set("filtersOn", []);
+            if(window.filtersOn === undefined) {
+                window.filtersOn = [];
+            }
         },
         
         FilterItems: [],
@@ -149,15 +149,31 @@ define([
         },
 
         showBadge: function(show) {
-            // var indicator = dom.byId('badge_somefilters');
-            // if (show) {
-            //     domStyle.set(indicator,'display','');
-            //     domAttr.set(indicator, "title", "Some Filters Apply");
-            //     domAttr.set(indicator, "alt", "Some Filters Apply");
-            // } else {
-            //     domStyle.set(indicator,'display','none');
-            // }
-            connect.publish("somefilters", [{id:this.id, show:show}]);
+            var tabIndex = window.filtersOn.indexOf(this.id);
+            var tabIndicator = query('#'+this.id+"_img")[0];
+            if(show) {
+                domStyle.set(tabIndicator,'display','');
+                if(tabIndex<0)
+                {
+                    window.filtersOn.push(this.id);   
+                }
+            } else {
+                domStyle.set(tabIndicator,'display','none');
+                if(tabIndex>=0)
+                {
+                    window.filtersOn.splice(tabIndex, 1);  
+                }                          
+            }
+            
+            var badgeindicator = query('#badge_somefilters')[0];
+                if (window.filtersOn.length>0) {
+                    domStyle.set(badgeindicator,'display','');
+                    domAttr.set(badgeindicator, "title", "Some Filters Apply");
+                    domAttr.set(badgeindicator, "alt", "Some Filters Apply");
+                } else {
+                    domStyle.set(badgeindicator,'display','none');
+                }
+
         },
     });
 
