@@ -1827,10 +1827,10 @@ main {
     flex: 1;
 }
 
-/*#pageBody_details, #pageBody_instructions {
-    width: calc(100% - 20px) !important; 
-    padding: 10px 10px 0 10px;
-}*/
+#pageBody_details, #pageBody_instructions {
+    width: calc(100% - 22px) !important; 
+    padding: 0 10px;
+}
 
 .verticalScrollContainer {
     overflow: hidden;
