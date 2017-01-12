@@ -1,0 +1,80 @@
+.esriSimpleSlider div {
+  width: 30px;
+  height: 40px;
+  font-size: 24px;
+  font-family: verdana, helvetica;
+  font-weight: bold;
+  line-height: 40px;
+  -webkit-user-select: none;
+}
+
+.LocateButton .zoomLocateButton {
+  /*padding: 0;*/
+  width: 26px;
+  height: 26px;
+  /* font-size: 20px; */
+  /* line-height: 26px; */
+  background-color: transparent;
+  background-image: none;
+  cursor: pointer;
+  margin-left: 1px;
+  -webkit-border-radius: 0px;
+  -o-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+.navToolBar {
+    height: auto !important; 
+    border-radius: 5px; 
+}
+
+.navToolBar div {
+    display:block;
+}
+
+.navToolBar input[type="image"] {
+    width: 20px;
+    height: 20px;
+}
+
+.HomeButton .home:hover,
+.LocateButton .zoomLocateButton:hover {
+  background-color: transparent !important;
+}
+
+#extenderNav {
+    height: 12px;
+    font-size: 0;
+    line-height: 0;
+    padding: 1px 0;
+}
+
+#extenderNav input[type="checkbox"] {
+    display:none;
+}
+
+#extenderNav input[type="checkbox"] + label .extenderNavCollapse {
+    display:none !important;
+}
+
+#extenderNav input[type="checkbox"] + label .extenderNavExtend {
+    display:inline-block !important;
+}
+
+#extenderNav input[type="checkbox"]:checked + label .extenderNavCollapse {
+    display:inline-block !important;
+}
+
+#extenderNav input[type="checkbox"]:checked + label .extenderNavExtend {
+    display:none !important;
+}
+
+.disabledBtn {
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+}
+
+.disabledBtn:focus {
+    outline-style: none;
+}

@@ -26,7 +26,9 @@ define(["dojo/ready",
     "esri/dijit/HomeButton", "esri/dijit/LocateButton", 
     "esri/dijit/Legend", "esri/dijit/BasemapGallery", 
     "esri/dijit/Measurement", "esri/dijit/OverviewMap", "esri/geometry/Extent", 
-    "esri/layers/FeatureLayer",
+    "esri/layers/FeatureLayer", 
+    "application/NavToolBar/NavToolBar", 
+    "application/ShowFeatureTable/ShowFeatureTable", 
     "application/FeatureList", "application/Filters/Filters", "application/TableOfContents", 
     "application/ShareDialog", //"application/SearchSources",
     "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",
@@ -47,12 +49,13 @@ define(["dojo/ready",
     Legend, BasemapGallery, 
     Measurement, OverviewMap, Extent, 
     FeatureLayer, 
+    NavToolBar,
+    ShowFeatureTable,
     FeatureList, Filters, TableOfContents, 
     ShareDialog, //SearchSources,
     SimpleMarkerSymbol, PictureMarkerSymbol, Graphic,
     InfoWindow,
     instructionsText) {
-
     return declare(null, {
         config: {},
         color: null,
@@ -133,77 +136,14 @@ define(["dojo/ready",
         },
 
         _mapLoaded: function () {
-            this.map.resize();
-            this.map.reposition();
-
             query(".esriSimpleSlider").style("backgroundColor", this.theme.toString());
             // remove loading class from body
+            
             domClass.remove(document.body, "app-loading");
             on(window, "orientationchange", lang.hitch(this, this._adjustPopupSize));
             this._adjustPopupSize();
 
-            zoomSlider = dojo.query("#mapDiv_zoom_slider")[0];
-
-            esriSimpleSliderIncrementNode = dojo.query(".esriSimpleSliderIncrementButton")[0];
-            var zoomIn_click = esriSimpleSliderIncrementNode.OnClick;
-            dojo.empty(esriSimpleSliderIncrementNode);
-
-            plusbtn = domConstruct.create("input", {
-                className: "esriSimpleSliderIncrementButton",
-                type: "image",
-                "aria-label": "Zoom In",
-                src: 'images/icons_' + this.config.icons + '/plus' + (this.config.new_icons ? ".new" : "") + '.png',
-                alt: 'Zoom In',
-                title: 'Zoom In',
-            }, esriSimpleSliderIncrementNode);
-            on(plusbtn, "click", zoomIn_click);
-
-
-            if (has("home")) {
-                var panelHome = domConstruct.create("div", {
-                    id: "panelHome",
-                    className: "esriSimpleSliderHomeButton borderBottom",
-                    innerHTML: "<div id='btnHome'></div>"
-                });//, dom.byId("mapDiv_zoom_slider"), 2); 
-
-                domConstruct.place(panelHome, dojo.query(".esriSimpleSliderIncrementButton")[0], "after");
-
-                var home = new HomeButton({
-                    map: this.map
-                }, dom.byId("btnHome"));
-
-                home.startup();
-
-                var homeButton = dojo.query(".homeContainer")[0];
-                var homeNode = dojo.query(".home")[0];
-                dojo.empty(homeNode);
-                var homeHint = "Default Extent";//dojo.attr(homeButton, 'title');
-
-                var btnHome = domConstruct.create("input", {
-                    type: 'image',
-                    src: 'images/icons_' + this.config.icons + '/home.png',
-                    alt: homeHint,
-                    title: homeHint,
-                    //'aria-label': homeHint,
-                }, homeNode);
-            }
-
-
-
-            esriSimpleSliderDecrementNode = dojo.query(".esriSimpleSliderDecrementButton")[0];
-            var zoomOut_click = esriSimpleSliderDecrementNode.OnClick;
-            dojo.empty(esriSimpleSliderDecrementNode);
-
-            minusbtn = domConstruct.create("input", {
-                className: "esriSimpleSliderDecrementButton",
-                type: "image",
-                "aria-label": "Zoom Out",
-                src: 'images/icons_' + this.config.icons + '/minus' + (this.config.new_icons ? ".new" : "") + '.png',
-                alt: 'Zoom Out',
-                title: 'Zoom Out',
-            }, esriSimpleSliderDecrementNode);
-            on(minusbtn, "click", zoomOut_click);
-
+            var _map = this.map;
 
             on(this.map.infoWindow, "show", lang.hitch(this, function() {
                 this._initPopup(this.map.infoWindow.domNode);
@@ -311,7 +251,10 @@ define(["dojo/ready",
 
                 // set map so that it can be repositioned when page is scrolled
                 toolbar.map = this.map;
-                var toolList = [];
+                var toolList = [
+                    this._addNavigation(query("#mapDiv_zoom_slider")[0]),
+                    // this._addFeatureTable(query("#mapDiv")[0])
+                    ];
                 //this._addInfoTool(toolbar);
 
                 var deferredDetails = new Deferred();
@@ -591,6 +534,36 @@ define(["dojo/ready",
             return deferred.promise;
         },
         
+        _addNavigation: function (oldNaviagationToolBar) {
+            var deferred = new Deferred();
+            var navToolBar = domConstruct.create("div", {
+                id: "newNaviagationToolBar",
+            });
+            
+            var nav = new NavToolBar({
+                map: this.map,
+                navToolBar: oldNaviagationToolBar,
+                iconColor: this.config.icons,
+                newIcons: this.config.new_icons?'.new':'',
+                zoomColor: this.focusColor,
+            }, navToolBar);
+            nav.startup();
+            deferred.resolve(true);
+            return deferred.promise;
+        },
+
+        _addFeatureTable: function(mapDiv) {
+            var deferred = new Deferred();
+
+            var ft = new ShowFeatureTable({
+                map: this.map,
+            }, mapDiv);
+            ft.startup1();
+            this.featureTable = ft;
+            deferred.resolve(true);
+            return deferred.promise;
+        },
+
         _addFilter: function (tool, toolbar) {
             //Add the legend tool to the toolbar. Only activated if the web map has operational layers.
             var deferred = new Deferred();
@@ -1843,19 +1816,14 @@ define(["dojo/ready",
                     this.map.setExtent(this.initExt);
                 }
                 this.initExt = this.map.extent;
-                on.once(this.map, "extent-change", lang.hitch(this, function() {
-                    this._checkExtent();
-                    document.querySelector(".HomeButton input[type='image']").click();
-                }));
+                // on.once(this.map, "extent-change", lang.hitch(this, function() {
+                //     this._checkExtent();
+                //     document.querySelector(".HomeButton input[type='image']").click();
+                // }));
                 on(this.map, "extent-change", function() {
                     var imgs = this.container.querySelectorAll("img");
                     for(i=0; i<imgs.length; i++)
                         domAttr.set(imgs[i],'alt','');
-
-                    // // mapDiv_layers
-                    // var images = this.container.querySelectorAll("image");
-                    // for(i=0; i<images.length; i++)
-                    //     domAttr.set(images[i],'tabindex','0');
                 });
 
                 this._createMapUI();
