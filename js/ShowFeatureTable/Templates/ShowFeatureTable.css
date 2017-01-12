@@ -25,6 +25,13 @@
     font-size: 16px;
 }
 
+.dijitSplitterH {
+    height: 6px;
+    width: calc(100% - 2px);
+    cursor: row-resize;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .dijitSplitterH .dijitSplitterThumb {
     background: gray none;
     width: 10%;
