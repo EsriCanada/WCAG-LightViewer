@@ -565,11 +565,11 @@ define(["dojo/ready",
         _addFeatureTable: function(mapDiv) {
             var deferred = new Deferred();
 
-            var ft = new ShowFeatureTable({
-                map: this.map,
-            }, mapDiv);
-            ft.startup();
-            this.featureTable = ft;
+            // var ft = new ShowFeatureTable({
+            //     map: this.map,
+            // }, mapDiv);
+            // ft.startup();
+            // this.featureTable = ft;
             deferred.resolve(true);
             return deferred.promise;
         },

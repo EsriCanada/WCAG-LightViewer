@@ -1567,8 +1567,8 @@ text-align: left;
 }
 
 #mapDiv {
-/*    width: calc(100% - 0px) !important;
-    height: calc(100% - 0px) !important;*/
+    width: calc(100% - 0px) !important;
+    height: calc(100% - 0px) !important;
 }
 
 .splitterContent {
