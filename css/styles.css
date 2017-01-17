@@ -151,7 +151,7 @@ input[type=checkbox].checkbox {
   background-position: top center;
   background-image: url(../images/error.png);
   background-repeat: no-repeat;
-  padding-top: 60px;
+  padding-top: 100px;
   width: 100%;
   position: absolute;
   z-index: 2;

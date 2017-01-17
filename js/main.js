@@ -97,6 +97,8 @@ define(["dojo/ready",
                     }
                     this._createWebMap(itemInfo);
                 }));
+                document.querySelector("#borderContainer").startup();
+                
             } else {
                 var error = new Error("Main:: Config is not defined");
                 this.reportError(error);
