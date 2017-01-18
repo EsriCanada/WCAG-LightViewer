@@ -5,9 +5,9 @@ define([
     "esri/dijit/FeatureTable",
     "esri/geometry/webMercatorUtils",
     "esri/map",
-    //"dijit/_TemplatedMixin", 
+    "dijit/_TemplatedMixin", 
     "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
-    //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
+    "dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", 
     "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
     "dojo/dom-construct", "dojo/_base/event", 
@@ -17,9 +17,9 @@ define([
         Evented, declare, lang, has, dom, esriNS,
         _WidgetBase, 
         FeatureLayer, FeatureTable, webMercatorUtils, Map,
-        //_TemplatedMixin, 
+        _TemplatedMixin, 
         on, query, registry, aspect,
-        //ShowFeatureTableTemplate, 
+        ShowFeatureTableTemplate, 
         domClass, domAttr, domStyle,
         ContentPane, BorderContainer, 
         domConstruct, event
@@ -28,6 +28,8 @@ define([
         _WidgetBase, 
         //_TemplatedMixin, 
         Evented], {
+
+        //widgetsInTemplate: true, // ?
         //templateString: ShowFeatureTableTemplate,
 
         options: {
@@ -44,6 +46,7 @@ define([
             link.type = "text/css";
             link.rel = "stylesheet";
             document.getElementsByTagName("head")[0].appendChild(link);
+
         },
 
         startup: function () {
@@ -58,53 +61,29 @@ define([
         },
         
         _init: function () {
-            // var containerMapFeatureTable = domConstruct.create("div", {
-            //     id: "containerMapFeatureTable",
-            // });
-            // domConstruct.place(containerMapFeatureTable, this.domNode, "after");
 
-            if(query("#borderContainer1").length > 0) return;
-
-            var borderContainer1 = new BorderContainer({
-                design:'headline',
-                gutters:'true', 
-                liveSplitters:'true',
-                id:"borderContainer1"
+            this.mapDiv = document.querySelector("#mapDiv");
+            dojo.declare("MySplitterContainer",
+                [dijit._Widget, dijit._Templated, Evented], {
+                    widgetsInTemplate: true,
+                    templateString: ShowFeatureTableTemplate,
+                    //style: "height:100%; width:100%"
             });
-            domConstruct.place(borderContainer1.containerNode, this.domNode, "after");
-             
-            var contentPaneTop = new ContentPane({
-                region: "top",
-                splitter: "true",
-                gutters:'true', 
-                class: "splitterContent",
-                content: this.domNode,
-                id:"contentPaneTop",
-            });
-            borderContainer1.addChild(contentPaneTop);
-                // this.map.resize();
-                // this.map.reposition();
 
-            var contentPaneBottom = new ContentPane({
-                id:"contentPaneBottom",
-                region: "center",
-                gutters:'true', 
-                splitter: "true",
-                content: domConstruct.create("div", {
-                    id:"featureTableNode",
-                }),
-            });
-            borderContainer1.addChild(contentPaneBottom);
+            this.mySplitterContainer =  new MySplitterContainer( {}, dojo.create('DIV'));
+            this.mySplitterContainer.placeAt(dojo.byId('mapPlace'));
+            dojo.place(this.mapDiv, dojo.byId("mapSplitHolder"));
+            //domStyle.set(dojo.byId('mapDiv'), 'display', 'none');
+            //domStyle.set(dojo.byId('mapDiv'), 'height', '50%');
 
-            borderContainer1.startup();
-
-            this.map.resize();
-            this.map.reposition();
-
-            aspect.after(contentPaneBottom, "resize", lang.hitch(this, function() {
+            aspect.after(dojo.byId('mapSplitHolder'), "resize", lang.hitch(this, function() {
                 this.map.resize();
                 this.map.reposition();
             }));
+            this.mySplitterContainer.startup();
+
+            this.map.resize();
+            this.map.reposition();
         },
 
         loadTable: function(myFeatureLayer){

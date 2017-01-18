@@ -23,59 +23,48 @@
 		
 	</head>
 	<body>
-		<!-- <div class="loading-indicator" role="presentation">
+		<div class="loading-indicator" role="presentation">
 			<div class="loading-message" id="loading_message"></div>
 			<div id='loadingTitle'><h1>WCAG Viewer</h1></div>
-		</div> -->
-
-	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'sidebar', gutters:true, liveSplitters:true" id="borderContainer">
-
-	    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'center'">
-
-	        <div id="mapPlace">
-				<div id="mapDiv" dir="ltr" tabindex=0></div>
-			</div>
-			<div id="panelTitle" class="fc bg">
-				<h1 class="fc" id="panelText">WCAG Viewer</h1>
-
-				<div class="skip" role="banner">
-					<a accesskey="1" href="#" tabindex="0" id="skip-tools">1. Skip to Tools</a>
-					<a accesskey="2" href="#" tabindex="0" id="skip-search">2. Skip to Search</a>
-					<a accesskey="3" href="#" tabindex="0" id="skip-content">3. Skip to Content</a>
-					<a accesskey="4" href="#" tabindex="0" id="skip-splitter">4. Skip to Splitter</a>
-					<a accesskey="5" href="#" tabindex="0" id="skip-map">5. Skip to Map</a>
-					<a accesskey="6" href="#" tabindex="0" id="skip-instructions">6. Skip to Help</a>
-					<a accesskey="7" href="#" tabindex="0" id="skip-feature">7. Skip to Feature Details</a>
-			    </div>
-			    	<body class="calcite app-loading" style="margin: 0; height:100%; width:100%;">
-			<div id="google_translate_element" style="position: absolute;top: 10px; left: 50%;"></div>
-				<script type="text/javascript">
-					function googleTranslateElementInit() {
-					  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'ar,bg,bn,cy,da,de,el,en,eo,es,fa,fr,ga,haw,hi,hu,id,it,iw,ja,ko,ku,la,mk,nl,no,pa,pl,pt,ro,ru,so,sv,ta,th,tr,uk,vi,yi,zh-CN,zh-TW', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
-					}
-				</script>
-				<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-		        
-			    <div id="panelSearch" class="fc bg" >
-					<div class="searchLabel"><label for="panelGeocoder">Search: </label></div>
-					<div id="panelGeocoder"></div>
-				</div>
-			</div>
-
-			<div id="panelTools" class="fc bg" role="toolbar" tabindex="0">
-			</div>
-
-			<div id="leftPanel">
-				<main id="panelPages"></main>
-			</div>
-
 		</div>
 
-    	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'bottom'" style="width: 100px;">Hi, I'm bottom pane</div>
+        <div id="mapPlace">
+			<div id="mapDiv" dir="ltr" tabindex=0></div>
+		</div>
+		<div id="panelTitle" class="fc bg">
+			<h1 class="fc" id="panelText">WCAG Viewer</h1>
 
+			<div class="skip" role="banner">
+				<a accesskey="1" href="#" tabindex="0" id="skip-tools">1. Skip to Tools</a>
+				<a accesskey="2" href="#" tabindex="0" id="skip-search">2. Skip to Search</a>
+				<a accesskey="3" href="#" tabindex="0" id="skip-content">3. Skip to Content</a>
+				<a accesskey="4" href="#" tabindex="0" id="skip-splitter">4. Skip to Splitter</a>
+				<a accesskey="5" href="#" tabindex="0" id="skip-map">5. Skip to Map</a>
+				<a accesskey="6" href="#" tabindex="0" id="skip-instructions">6. Skip to Help</a>
+				<a accesskey="7" href="#" tabindex="0" id="skip-feature">7. Skip to Feature Details</a>
+		    </div>
+		    	<body class="calcite app-loading" style="margin: 0; height:100%; width:100%;">
+		<div id="google_translate_element" style="position: absolute;top: 10px; left: 50%;"></div>
+			<script type="text/javascript">
+				function googleTranslateElementInit() {
+				  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'ar,bg,bn,cy,da,de,el,en,eo,es,fa,fr,ga,haw,hi,hu,id,it,iw,ja,ko,ku,la,mk,nl,no,pa,pl,pt,ro,ru,so,sv,ta,th,tr,uk,vi,yi,zh-CN,zh-TW', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
+				}
+			</script>
+			<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	        
+		    <div id="panelSearch" class="fc bg" >
+				<div class="searchLabel"><label for="panelGeocoder">Search: </label></div>
+				<div id="panelGeocoder"></div>
+			</div>
+		</div>
 
-	</div>
-		
+		<div id="panelTools" class="fc bg" role="toolbar" tabindex="0">
+		</div>
+
+		<div id="leftPanel">
+			<main id="panelPages"></main>
+		</div>
+
 
 		<script type="text/javascript" src="js/utils.js"></script>
 		<script type="text/javascript">
