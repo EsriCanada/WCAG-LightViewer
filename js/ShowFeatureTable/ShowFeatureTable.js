@@ -5,7 +5,7 @@ define([
     "esri/dijit/FeatureTable",
     "esri/geometry/webMercatorUtils",
     "esri/map",
-    "dijit/_TemplatedMixin", 
+    //"dijit/_TemplatedMixin", 
     "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
     "dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", 
@@ -17,7 +17,7 @@ define([
         Evented, declare, lang, has, dom, esriNS,
         _WidgetBase, 
         FeatureLayer, FeatureTable, webMercatorUtils, Map,
-        _TemplatedMixin, 
+        //_TemplatedMixin, 
         on, query, registry, aspect,
         ShowFeatureTableTemplate, 
         domClass, domAttr, domStyle,
@@ -29,7 +29,7 @@ define([
         //_TemplatedMixin, 
         Evented], {
 
-        //widgetsInTemplate: true, // ?
+        widgetsInTemplate: true, // ?
         //templateString: ShowFeatureTableTemplate,
 
         options: {
@@ -63,25 +63,54 @@ define([
         
         _init: function () {
 
-            this.mapDiv = document.querySelector("#mapDiv");
-            dojo.declare("MySplitterContainer",
-                [dijit._Widget, dijit._Templated, Evented], {
-                    widgetsInTemplate: true,
-                    templateString: ShowFeatureTableTemplate,
-                    //style: "height:100%; width:100%"
+            // this.mapDiv = document.querySelector("#mapDiv");
+            // dojo.declare("MySplitterContainer",
+            //     [dijit._Widget, dijit._Templated, Evented], {
+            //         widgetsInTemplate: true,
+            //         templateString: ShowFeatureTableTemplate,
+            //         //style: "height:100%; width:100%"
+            // });
+
+            // this.mySplitterContainer =  new MySplitterContainer( {}, dojo.create('DIV'));
+            // this.mySplitterContainer.placeAt(dojo.byId('mapPlace'));
+            // dojo.place(this.mapDiv, dojo.byId("mapSplitHolder"));
+            // //domStyle.set(dojo.byId('mapDiv'), 'display', 'none');
+            // //domStyle.set(dojo.byId('mapDiv'), 'height', '50%');
+
+            var borderContainer = new BorderContainer({
+                design:'headline',
+                gutters:'false', 
+                liveSplitters:'false',
+                class:"myBorderContainer"
+
             });
+             
+            var contentPaneTop = new ContentPane({
+                region: "center",
+                splitter: 'true',
+                style: "height:500px; padding:0; overflow: none;",
+                content: dojo.byId("mapDiv"), //this.mapDiv.domNode,
+                class: "splitterContent",
+            });
+            borderContainer.addChild(contentPaneTop);
+              
+            var contentPaneBottom = new ContentPane({
+                region: "bottom",
+                splitter: "true",
+                class: "bg",
+                //content: dom.byId("mapDiv"),
+                content: domConstruct.create("div", { id: 'featureTableNode'}),
+            });
+            borderContainer.addChild(contentPaneBottom);
 
-            this.mySplitterContainer =  new MySplitterContainer( {}, dojo.create('DIV'));
-            this.mySplitterContainer.placeAt(dojo.byId('mapPlace'));
-            dojo.place(this.mapDiv, dojo.byId("mapSplitHolder"));
-            //domStyle.set(dojo.byId('mapDiv'), 'display', 'none');
-            //domStyle.set(dojo.byId('mapDiv'), 'height', '50%');
+            borderContainer.placeAt(dojo.byId('mapPlace'));//document.body);
+            borderContainer.startup();
 
-            aspect.after(dojo.byId('mapSplitHolder'), "resize", lang.hitch(this, function() {
+            aspect.after(contentPaneTop, "resize", lang.hitch(this, function() {
                 this.map.resize();
                 this.map.reposition();
             }));
-            this.mySplitterContainer.startup();
+            borderContainer.startup();
 
             this.map.resize();
             this.map.reposition();

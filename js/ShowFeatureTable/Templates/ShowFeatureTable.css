@@ -26,9 +26,10 @@
 }
 
 .dijitSplitterH {
-    height: 6px;
+    height: 8px;
     width: calc(100% - 2px);
     cursor: row-resize;
+    border-width: 1px;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -41,7 +42,7 @@
     overflow: hidden;
     position: absolute;
     left: 45%;
-    border-radius: 2px;
+    border-radius: 5px;
 }
 
 .calcite .dijitContentPane {
