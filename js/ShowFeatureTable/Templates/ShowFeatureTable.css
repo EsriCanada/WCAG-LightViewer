@@ -53,7 +53,7 @@
   background: #ccc;
 }
 #mapPlace {
-    /*height: calc(100% - 32px) !important;*/
+    height: calc(100% - 32px) !important;
     top: 32px;
     width: 100% !important;
     left: 0;
@@ -62,7 +62,7 @@
 
 @media only screen and (min-width: 720px) {
     #mapPlace {
-        /*height: calc(100% - 44px) !important;*/
+        height: calc(100% - 44px) !important;
         top: 44px;
     }
 }

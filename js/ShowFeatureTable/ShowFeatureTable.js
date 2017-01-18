@@ -39,6 +39,7 @@ define([
         constructor: function (options, srcRefNode) {
             var defaults = lang.mixin({}, this.options, options);
 
+            this.map = defaults.map;
             this.domNode = srcRefNode;
 
             var link = document.createElement("link");
