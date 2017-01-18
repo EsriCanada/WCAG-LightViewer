@@ -214,37 +214,6 @@ define(["dojo/ready",
 
         // Create UI
         _createUI: function () {
-            // var borderContainer = new BorderContainer({
-            //     design:'sidebar',
-            //     gutters:'true', 
-            //     liveSplitters:'false',
-            //     id:"borderContainer"
-            // });
-             
-            // var contentPaneLeft = new ContentPane({
-            //     region: "leading",
-            //     splitter: 'true',
-            //     style: "width:400px; padding:0; overflow: none;",
-            //     content: dom.byId("leftPanel"),
-            //     class: "splitterContent",
-            // });
-            // borderContainer.addChild(contentPaneLeft);
-              
-            // var contentPaneRight = new ContentPane({
-            //     region: "center",
-            //     splitter:'true',
-            //     content: dom.byId("mapDiv"),
-            // });
-            // borderContainer.addChild(contentPaneRight);
-
-            // borderContainer.placeAt(document.body);
-            // borderContainer.startup();
-
-            // aspect.after(contentPaneRight, "resize", lang.hitch(this, function() {
-            //     this.map.resize();
-            //     this.map.reposition();
-            // }));
-            
             domStyle.set("panelPages", "visibility", "hidden");
             //Add tools to the toolbar. The tools are listed in the defaults.js file
             var toolbar = new Toolbar(this.config);
@@ -1652,8 +1621,12 @@ define(["dojo/ready",
                             // rule.style.boxShadow = '0 0 12px '+this.theme;
                         }
                         //active
-                        if(rule.selectorText.indexOf('.activeMarker') >= 0) {
+                        if(rule.selectorText.indexOf('.activeMarker') >= 0 || 
+                            rule.selectorText.indexOf('dijitSplitterThumb') >= 0) {
                             rule.style.backgroundColor = this.activeColor;
+                            // rule.style.outlineStyle = 'none';
+                            // rule.style.outlineColor = 'transparent';
+                            // rule.style.boxShadow = '0 0 5px 5px '+this.activeColor+' inset';
                         }
                     }
                 }

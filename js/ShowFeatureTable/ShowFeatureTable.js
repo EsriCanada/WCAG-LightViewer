@@ -47,7 +47,6 @@ define([
             link.type = "text/css";
             link.rel = "stylesheet";
             document.getElementsByTagName("head")[0].appendChild(link);
-
         },
 
         startup: function () {
@@ -62,31 +61,16 @@ define([
         },
         
         _init: function () {
-
-            // this.mapDiv = document.querySelector("#mapDiv");
-            // dojo.declare("MySplitterContainer",
-            //     [dijit._Widget, dijit._Templated, Evented], {
-            //         widgetsInTemplate: true,
-            //         templateString: ShowFeatureTableTemplate,
-            //         //style: "height:100%; width:100%"
-            // });
-
-            // this.mySplitterContainer =  new MySplitterContainer( {}, dojo.create('DIV'));
-            // this.mySplitterContainer.placeAt(dojo.byId('mapPlace'));
-            // dojo.place(this.mapDiv, dojo.byId("mapSplitHolder"));
-            // //domStyle.set(dojo.byId('mapDiv'), 'display', 'none');
-            // //domStyle.set(dojo.byId('mapDiv'), 'height', '50%');
-
             var borderContainer = new BorderContainer({
                 design:'headline',
                 gutters:'false', 
-                liveSplitters:'false',
+                liveSplitters:'true',
                 class:"myBorderContainer",
                 widgetsInTemplate: true
             });
              
             var contentPaneTop = new ContentPane({
-                region: "center",
+                region: "top",
                 splitter: 'true',
                 style: "height:500px; padding:0; overflow: none;",
                 content: dojo.byId("mapDiv"), //this.mapDiv.domNode,
@@ -95,8 +79,8 @@ define([
             borderContainer.addChild(contentPaneTop);
               
             var contentPaneBottom = new ContentPane({
-                region: "bottom",
-                splitter: "true",
+                region: "center",
+                //splitter: "true",
                 class: "bg",
                 id: 'featureTableContainer',
                 content: domConstruct.create("div", { id: 'featureTableNode'}),
@@ -104,16 +88,14 @@ define([
             borderContainer.addChild(contentPaneBottom);
 
             borderContainer.placeAt(dojo.byId('mapPlace'));//document.body);
-            borderContainer.startup();
 
+            borderContainer.startup();
+            this.map.resize();
+            this.map.reposition();
             aspect.after(contentPaneTop, "resize", lang.hitch(this, function() {
                 this.map.resize();
                 this.map.reposition();
             }));
-            borderContainer.startup();
-
-            this.map.resize();
-            this.map.reposition();
         },
 
         loadTable: function(myFeatureLayer){
