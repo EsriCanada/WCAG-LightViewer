@@ -7,7 +7,7 @@ define([
     "esri/map",
     //"dijit/_TemplatedMixin", 
     "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
-    "dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
+    //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", 
     "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
     "dojo/dom-construct", "dojo/_base/event", 
@@ -19,7 +19,7 @@ define([
         FeatureLayer, FeatureTable, webMercatorUtils, Map,
         //_TemplatedMixin, 
         on, query, registry, aspect,
-        ShowFeatureTableTemplate, 
+        //ShowFeatureTableTemplate, 
         domClass, domAttr, domStyle,
         ContentPane, BorderContainer, 
         domConstruct, event
@@ -81,8 +81,8 @@ define([
                 design:'headline',
                 gutters:'false', 
                 liveSplitters:'false',
-                class:"myBorderContainer"
-
+                class:"myBorderContainer",
+                widgetsInTemplate: true
             });
              
             var contentPaneTop = new ContentPane({
@@ -98,7 +98,7 @@ define([
                 region: "bottom",
                 splitter: "true",
                 class: "bg",
-                //content: dom.byId("mapDiv"),
+                id: 'featureTableContainer',
                 content: domConstruct.create("div", { id: 'featureTableNode'}),
             });
             borderContainer.addChild(contentPaneBottom);
