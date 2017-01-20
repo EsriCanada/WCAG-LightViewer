@@ -61,41 +61,63 @@ define([
         },
         
         _init: function () {
-            var borderContainer = new BorderContainer({
-                design:'headline',
-                gutters:'false', 
-                liveSplitters:'true',
-                class:"myBorderContainer",
-                widgetsInTemplate: true
-            });
-             
-            var contentPaneTop = new ContentPane({
-                region: "top",
-                splitter: 'true',
-                style: "height:500px; padding:0; overflow: none;",
-                content: dojo.byId("mapDiv"), //this.mapDiv.domNode,
-                class: "splitterContent",
-            });
-            borderContainer.addChild(contentPaneTop);
-              
-            var contentPaneBottom = new ContentPane({
-                region: "center",
-                //splitter: "true",
-                class: "bg",
-                id: 'featureTableContainer',
-                content: domConstruct.create("div", { id: 'featureTableNode'}),
-            });
-            borderContainer.addChild(contentPaneBottom);
 
-            borderContainer.placeAt(dojo.byId('mapPlace'));//document.body);
+            this.hasSplitter = false;
 
-            borderContainer.startup();
-            this.map.resize();
-            this.map.reposition();
-            aspect.after(contentPaneTop, "resize", lang.hitch(this, function() {
+            var programaticExample = lang.hitch(this, function(){
+
+                if(this.hasSplitter) return;
+
+                var split = new dijit.layout.BorderContainer({
+                    design:'headline',
+                    gutters:'false', 
+                    liveSplitters:'true',
+                    class:"myBorderContainer",
+                    widgetsInTemplate: true
+                }, dojo.byId('mapPlace'));
+
+                var pane1 = split.domNode.appendChild(document.createElement('div'));
+                var pane2 = split.domNode.appendChild(document.createElement('div'));
+
+                //dojo.style(this.domNode,"border","1px solid #333");
+
+                // make them contentpanes
+                var cp1 = new dijit.layout.ContentPane({ 
+                    region: "center",
+                    id: "contentPaneTop",
+                    splitter: 'true',
+                    style: "height:500px; padding:0; overflow: none;",
+                    content: dojo.byId("mapDiv"), //this.mapDiv.domNode,
+                    class: "splitterContent",
+                }, pane1);
+                var cp2 = new dijit.layout.ContentPane({ 
+                    region: "bottom",
+                    splitter: "true",
+                    class: "bg",
+                    id: 'featureTableContainer',
+                    content: domConstruct.create("div", { id: 'featureTableNode', style:'min-height:100px; width:100%; background-color:gray;'}),
+                }, pane2);
+
+                // init the splitcontainer
+                split.startup();
+
+                this.hasSplitter = true;
+            });
+
+            dojo.ready(programaticExample);
+
+            var contentPaneTop = dojo.byId("contentPaneTop");
+            if(contentPaneTop)
+            {
+
                 this.map.resize();
                 this.map.reposition();
-            }));
+                aspect.after(dojo.byId("contentPaneTop"), "resize", lang.hitch(this, function() {
+                    this.map.resize();
+                    this.map.reposition();
+                }));
+            }
+
         },
 
         loadTable: function(myFeatureLayer){

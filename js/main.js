@@ -537,7 +537,7 @@ define(["dojo/ready",
 
             var ft = new ShowFeatureTable({
                 map: this.map,
-            }, document.querySelector("#mapPlace"));
+            }, dojo.byId("split"));
             ft.startup();
             this.featureTable = ft;
             deferred.resolve(true);
