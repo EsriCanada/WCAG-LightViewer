@@ -47,6 +47,8 @@ define([
             link.type = "text/css";
             link.rel = "stylesheet";
             document.getElementsByTagName("head")[0].appendChild(link);
+            
+            this.hasSplitter = false;
         },
 
         startup: function () {
@@ -62,49 +64,41 @@ define([
         
         _init: function () {
 
-            this.hasSplitter = false;
+            if(this.hasSplitter) return;
 
-            var programaticExample = lang.hitch(this, function(){
+            var split = new dijit.layout.BorderContainer({
+                design:'headline',
+                gutters:'false', 
+                liveSplitters:'true',
+                class:"myBorderContainer",
+                widgetsInTemplate: true
+            }, dojo.byId('mapPlace'));
 
-                if(this.hasSplitter) return;
+            var pane1 = domConstruct.create("div", {}, split.domNode);// split.domNode.appendChild(document.createElement('div'));
+            var pane2 = domConstruct.create("div", {}, split.domNode);//split.domNode.appendChild(document.createElement('div'));
+            this.featureTableNode = domConstruct.create("div", { id: 'featureTableNode', style:'min-height:100px; width:100%; background-color:gray;'}, pane2);
 
-                var split = new dijit.layout.BorderContainer({
-                    design:'headline',
-                    gutters:'false', 
-                    liveSplitters:'true',
-                    class:"myBorderContainer",
-                    widgetsInTemplate: true
-                }, dojo.byId('mapPlace'));
+            // make them contentpanes
+            var cp1 = new dijit.layout.ContentPane({ 
+                region: "center",
+                id: "contentPaneTop",
+                splitter: 'true',
+                style: "height:500px; padding:0; overflow: none;",
+                content: dojo.byId("mapDiv"), 
+                class: "splitterContent",
+            }, pane1);
+            var cp2 = new dijit.layout.ContentPane({ 
+                region: "bottom",
+                splitter: "true",
+                class: "bg",
+                id: 'featureTableContainer',
+                //content: this.featureTableNode,
+            }, pane2);
 
-                var pane1 = split.domNode.appendChild(document.createElement('div'));
-                var pane2 = split.domNode.appendChild(document.createElement('div'));
+            // init the splitcontainer
+            split.startup();
 
-                //dojo.style(this.domNode,"border","1px solid #333");
-
-                // make them contentpanes
-                var cp1 = new dijit.layout.ContentPane({ 
-                    region: "center",
-                    id: "contentPaneTop",
-                    splitter: 'true',
-                    style: "height:500px; padding:0; overflow: none;",
-                    content: dojo.byId("mapDiv"), //this.mapDiv.domNode,
-                    class: "splitterContent",
-                }, pane1);
-                var cp2 = new dijit.layout.ContentPane({ 
-                    region: "bottom",
-                    splitter: "true",
-                    class: "bg",
-                    id: 'featureTableContainer',
-                    content: domConstruct.create("div", { id: 'featureTableNode', style:'min-height:100px; width:100%; background-color:gray;'}),
-                }, pane2);
-
-                // init the splitcontainer
-                split.startup();
-
-                this.hasSplitter = true;
-            });
-
-            dojo.ready(programaticExample);
+            this.hasSplitter = true;
 
             var contentPaneTop = dojo.byId("contentPaneTop");
             if(contentPaneTop)
@@ -121,10 +115,12 @@ define([
         },
 
         loadTable: function(myFeatureLayer){
+
             var myFeatureTable = new FeatureTable({
                 "featureLayer" : myFeatureLayer.layerObject,
                 "map" : this.map
-            }, 'featureTableNode');
+            }, this.featureTableNode);
+
 
             on(myFeatureTable, "load", function(evt){
                 console.log("The load event - ", evt);

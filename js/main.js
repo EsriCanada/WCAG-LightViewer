@@ -222,8 +222,8 @@ define(["dojo/ready",
                 // set map so that it can be repositioned when page is scrolled
                 toolbar.map = this.map;
                 var toolList = [
-                    this._addNavigation(query("#mapDiv_zoom_slider")[0]),
-                    this._addFeatureTable(query("#mapDiv")[0])
+                    this._addNavigation(dojo.byId("mapDiv_zoom_slider")),
+                    this._addFeatureTable(dojo.byId("mapDiv"), deferedFeatureTable = new Deferred())
                     ];
                 //this._addInfoTool(toolbar);
 
@@ -328,11 +328,12 @@ define(["dojo/ready",
                         }
                     }));
 
-                    //test
-                    if(this.featureTable)
-                    {
-                        this.featureTable.loadTable(this.layers[1]);
-                    }
+                    deferedFeatureTable.then(lang.hitch(this, function() {
+                        if(this.featureTable)
+                        {
+                            this.featureTable.loadTable(this.layers[1]);
+                        }
+                    }));
 
 
                 }));
@@ -531,9 +532,10 @@ define(["dojo/ready",
 
         featureTable: null,
         layers:null,
+        deferedFeatureTable:null,
 
-        _addFeatureTable: function(mapDiv) {
-            var deferred = new Deferred();
+        _addFeatureTable: function(mapDiv, deferred) {
+            //var deferred = new Deferred();
 
             var ft = new ShowFeatureTable({
                 map: this.map,
