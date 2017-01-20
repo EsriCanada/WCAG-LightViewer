@@ -74,36 +74,41 @@ define([
                 widgetsInTemplate: true
             }, dojo.byId('mapPlace'));
 
-            var pane1 = domConstruct.create("div", {}, split.domNode);// split.domNode.appendChild(document.createElement('div'));
-            var pane2 = domConstruct.create("div", {}, split.domNode);//split.domNode.appendChild(document.createElement('div'));
-            this.featureTableNode = domConstruct.create("div", { id: 'featureTableNode', style:'min-height:100px; width:100%; background-color:gray;'}, pane2);
+            var pane1 = domConstruct.create("div", {}, split.domNode);
+            var pane2 = domConstruct.create("div", {}, split.domNode);
+
+            //this.featureTableNode = domConstruct.create("div", { id: 'featureTableNode'});//, pane2);
 
             // make them contentpanes
             var cp1 = new dijit.layout.ContentPane({ 
-                region: "center",
+                region: "top",
                 id: "contentPaneTop",
                 splitter: 'true',
                 style: "height:500px; padding:0; overflow: none;",
                 content: dojo.byId("mapDiv"), 
                 class: "splitterContent",
             }, pane1);
+            cp1.startup();
+
             var cp2 = new dijit.layout.ContentPane({ 
-                region: "bottom",
+                region: "center",
+                id: 'featureTableContainer',
                 splitter: "true",
                 class: "bg",
-                id: 'featureTableContainer',
                 //content: this.featureTableNode,
             }, pane2);
+            this.featureTableNode = domConstruct.create("div", { id: 'featureTableNode'}, cp2.domNode);//, pane2);
+            cp1.startup();
 
             // init the splitcontainer
             split.startup();
+
 
             this.hasSplitter = true;
 
             var contentPaneTop = dojo.byId("contentPaneTop");
             if(contentPaneTop)
             {
-
                 this.map.resize();
                 this.map.reposition();
                 aspect.after(dojo.byId("contentPaneTop"), "resize", lang.hitch(this, function() {
@@ -115,13 +120,17 @@ define([
         },
 
         loadTable: function(myFeatureLayer){
-
-            var myFeatureTable = new FeatureTable({
+            this.myFeatureTable = new FeatureTable({
+                id:'featureTable',
                 "featureLayer" : myFeatureLayer.layerObject,
                 "map" : this.map
             }, this.featureTableNode);
 
+            this.addTableEvents(this.myFeatureTable);
+            this.myFeatureTable.startup();
+        },
 
+        addTableEvents: function(myFeatureTable) {
             on(myFeatureTable, "load", function(evt){
                 console.log("The load event - ", evt);
             });
@@ -169,7 +178,7 @@ define([
                 console.log("filter event - ", evt);
             });
 
-            myFeatureTable.startup();
+            //myFeatureTable.startup();
 
             console.log("there...");
         },
