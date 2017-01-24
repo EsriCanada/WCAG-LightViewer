@@ -31,6 +31,7 @@
 
 .dijitSplitterH {
     height: 8px;
+    width:100%;
     /*margin-top: -7px;*/
     cursor: row-resize;
     border-width: 1px;
