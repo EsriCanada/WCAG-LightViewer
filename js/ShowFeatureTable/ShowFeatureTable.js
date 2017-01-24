@@ -1,6 +1,7 @@
 define([
     "dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "dojo/dom","esri/kernel", 
-    "dijit/_WidgetBase", 
+    //"dijit/_WidgetBase",
+    "dijit/layout/_LayoutWidget", 
     "esri/layers/FeatureLayer",
     "esri/dijit/FeatureTable",
     "esri/geometry/webMercatorUtils",
@@ -15,7 +16,8 @@ define([
     
     ], function (
         Evented, declare, lang, has, dom, esriNS,
-        _WidgetBase, 
+        //_WidgetBase, 
+        _LayoutWidget,
         FeatureLayer, FeatureTable, webMercatorUtils, Map,
         //_TemplatedMixin, 
         on, query, registry, aspect,
@@ -25,7 +27,8 @@ define([
         domConstruct, event
     ) {
     var Widget = declare("esri.dijit.ShowFeatureTable", [
-        _WidgetBase, 
+        //_WidgetBase, 
+        _LayoutWidget,
         //_TemplatedMixin, 
         Evented], {
 
@@ -40,65 +43,70 @@ define([
             var defaults = lang.mixin({}, this.options, options);
 
             this.map = defaults.map;
-            this.domNode = srcRefNode;
+            //this.domNode = srcRefNode;
+            //this.containerNode = srcRefNode;
+            baseClass = "ShowFeatureTable";
 
             var link = document.createElement("link");
             link.href = "js/ShowFeatureTable/Templates/ShowFeatureTable.css";
             link.type = "text/css";
             link.rel = "stylesheet";
             document.getElementsByTagName("head")[0].appendChild(link);
-        },
 
-        startup: function () {
-            if (this.map.loaded) {
-                this._init();
-            } else {
-                on.once(this.map, "load", lang.hitch(this, function () {
-                    this._init();
-                }));
-            }
-
-        },
-        
-        _init: function () {
-            var borderContainer = new BorderContainer({
+            this.borderContainer = new BorderContainer({
                 design:'headline',
                 gutters:'false', 
                 liveSplitters:'true',
                 class:"myBorderContainer",
+                id:'bc',
                 widgetsInTemplate: true
             });
              
-            var contentPaneTop = new ContentPane({
+            this.contentPaneTop = new ContentPane({
                 region: "top",
                 splitter: 'true',
                 style: "height:500px; padding:0; overflow: none;",
-                content: dojo.byId("mapDiv"), //this.mapDiv.domNode,
+                content: dojo.byId("mapDiv"), 
+                id: 'contentPaneTop',
                 class: "splitterContent",
             });
-            borderContainer.addChild(contentPaneTop);
+            this.borderContainer.addChild(this.contentPaneTop);
               
-            var contentPaneBottom = new ContentPane({
+            this.contentPaneBottom = new ContentPane({
                 region: "center",
-                //splitter: "true",
                 class: "bg",
                 id: 'featureTableContainer',
                 content: domConstruct.create("div", { id: 'featureTableNode'}),
             });
-            borderContainer.addChild(contentPaneBottom);
+            this.borderContainer.addChild(this.contentPaneBottom);
 
-            borderContainer.placeAt(dojo.byId('mapPlace'));//document.body);
+            this.borderContainer.placeAt(dojo.byId('mapPlace'));
 
-            borderContainer.startup();
+            this.borderContainer.startup();
+        },
+
+        postCreate: function() {
+            this.inherited(arguments);
+        },
+
+        layout:function() {
             this.map.resize();
             this.map.reposition();
-            aspect.after(contentPaneTop, "resize", lang.hitch(this, function() {
-                this.map.resize();
-                this.map.reposition();
+        },
+
+        startup: function () {
+            //registry.byId('bc').resize();
+
+            aspect.after(this.contentPaneTop, "resize", lang.hitch(this, function() {
+                this.resize();
             }));
+
+            this.resize();
         },
 
         loadTable: function(myFeatureLayer){
+            this.borderContainer.resize();
+
             var myFeatureTable = new FeatureTable({
                 "featureLayer" : myFeatureLayer.layerObject,
                 "map" : this.map
