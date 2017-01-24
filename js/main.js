@@ -223,7 +223,7 @@ define(["dojo/ready",
                 toolbar.map = this.map;
                 var toolList = [
                     this._addNavigation(dojo.byId("mapDiv_zoom_slider")),
-                    this._addFeatureTable(dojo.byId("mapDiv"), deferedFeatureTable = new Deferred())
+                    this._addFeatureTable(dojo.byId("split"), deferedFeatureTable = new Deferred())
                     ];
                 //this._addInfoTool(toolbar);
 

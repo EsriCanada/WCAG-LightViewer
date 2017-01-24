@@ -1,6 +1,6 @@
 define([
     "dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "dojo/dom","esri/kernel", 
-    "dijit/_WidgetBase", 
+    "dijit/_WidgetBase", "dijit/layout/_LayoutWidget",
     "esri/layers/FeatureLayer",
     "esri/dijit/FeatureTable",
     "esri/geometry/webMercatorUtils",
@@ -15,7 +15,7 @@ define([
     
     ], function (
         Evented, declare, lang, has, dom, esriNS,
-        _WidgetBase, 
+        _WidgetBase, _LayoutWidget,
         FeatureLayer, FeatureTable, webMercatorUtils, Map,
         //_TemplatedMixin, 
         on, query, registry, aspect,
@@ -26,6 +26,7 @@ define([
     ) {
     var Widget = declare("esri.dijit.ShowFeatureTable", [
         _WidgetBase, 
+        //_LayoutWidget,
         //_TemplatedMixin, 
         Evented], {
 
@@ -61,12 +62,17 @@ define([
             }
 
         },
+
+        resize: function () {
+            this.split.resize(arguments);//bc is the atttachpoint name of the BorderContainer
+            this.inherited(arguments);
+        },
         
         _init: function () {
 
             if(this.hasSplitter) return;
 
-            var split = new dijit.layout.BorderContainer({
+            var split = this.split = new dijit.layout.BorderContainer({
                 design:'headline',
                 gutters:'false', 
                 liveSplitters:'true',
@@ -97,7 +103,7 @@ define([
                 class: "bg",
                 //content: this.featureTableNode,
             }, pane2);
-            this.featureTableNode = domConstruct.create("div", { id: 'featureTableNode'}, cp2.domNode);//, pane2);
+            this.featureTableNode = domConstruct.create("div", { id: 'featureTableNode1'}, cp2.domNode);//, pane2);
             cp1.startup();
 
             // init the splitcontainer
@@ -117,11 +123,13 @@ define([
                 }));
             }
 
+            //this.resize();
+
         },
 
         loadTable: function(myFeatureLayer){
             this.myFeatureTable = new FeatureTable({
-                id:'featureTable',
+                id:'featureTable1',
                 "featureLayer" : myFeatureLayer.layerObject,
                 "map" : this.map
             }, this.featureTableNode);
