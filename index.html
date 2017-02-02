@@ -11,9 +11,10 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
-		<link rel="stylesheet" href="//js.arcgis.com/3.19/esri/css/claro/claro.css">
-    	
-        <link rel="stylesheet"  href="//js.arcgis.com/3.19/esri/css/esri.css">
+		
+		<link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/claro/claro.css">
+  		<link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
+		
 
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/styles1.css">
@@ -21,7 +22,7 @@
 		<link rel="stylesheet" href="css/filters.css">
 		<link rel="icon" type="image/png" href="images/favicon.png">
 	</head>
-	<body>
+	<body class="claro esri">
 		<div class="loading-indicator" role="presentation">
 			<div class="loading-message" id="loading_message"></div>
 			<div id='loadingTitle'><h1>WCAG Viewer</h1></div>
@@ -64,9 +65,6 @@
 			<main id="panelPages"></main>
 		</div>
 
-		<!-- <div id="featureTableNode"></div> -->
-
-
 		<script type="text/javascript" src="js/utils.js"></script>
 		<script type="text/javascript">
          var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
@@ -84,7 +82,8 @@
             }]
          };
 		</script>
-		<script type="text/javascript" src="//js.arcgis.com/3.19/" data-dojo-config="async:true, parseOnLoad:false"></script>
+		<script src="https://js.arcgis.com/3.19/" type="text/javascript" ></script> 
+		<!-- data-dojo-config="async:true, parseOnLoad:false" -->
 	
         <script type="text/javascript">
 	        require([

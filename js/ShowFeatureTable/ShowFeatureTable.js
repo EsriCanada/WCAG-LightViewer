@@ -125,43 +125,45 @@ define([
                 //id:"myFeatureTable0",
                 "featureLayer" : myFeatureLayer.layerObject,
                 "map" : this.map,
-                "outFields": outFields,
+                showAttachments: true,
                 syncSelection: true, 
                 zoomToSelection: true, 
                 gridOptions: {
                   allowSelectAll: true,
                   allowTextSelection: false,
                   //columnHider: true,
-                  selectionMode: "extended",
+                  //selectionMode: "extended",
                 },
-                editable: false,
+                editable: true,
                 dateOptions: {
                     datePattern: "MMMM d, y",
-                    timeEnabled: false
+                    //timeEnabled: false
                 },
-                showRelatedRecords: true,
-                showAttachments: true,
-                showDataTypes: true,
-                showFeatureCount:true,
-                showStatistics:true,
-                // menuFunctions: [
-                //    {
-                //       label: "Callback", 
-                //       callback: function(evt){
-                //          console.log(" -- evt: ", evt);
-                //       }
-                //    },
-                //    {
-                //       label: "Alert", 
-                //       callback: function(evt){
-                //          alert('Hi');
-                //       }
-                //    },
-                // ],
-                showColumnHeaderTooltips: true,
+                "outFields": outFields,
+                // showRelatedRecords: true,
+                // showDataTypes: true,
+                // showFeatureCount:true,
+                // showStatistics:true,
+                // // menuFunctions: [
+                // //    {
+                // //       label: "Callback", 
+                // //       callback: function(evt){
+                // //          console.log(" -- evt: ", evt);
+                // //       }
+                // //    },
+                // //    {
+                // //       label: "Alert", 
+                // //       callback: function(evt){
+                // //          alert('Hi');
+                // //       }
+                // //    },
+                // // ],
+                // showColumnHeaderTooltips: true,
             }, dojo.byId('featureTableNode'));
 
             this.myFeatureTable.startup();
+            this.borderContainer.resize();
+            // this.myFeatureTable.grid.resize();
             
 
 
@@ -220,8 +222,6 @@ define([
                 console.log("filter event - ", evt);
             });
 
-            this.borderContainer.resize();
-            this.myFeatureTable.grid.resize();
         },
     });
 

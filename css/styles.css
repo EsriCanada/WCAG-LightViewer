@@ -170,13 +170,13 @@ input[type=checkbox].checkbox {
   width: 100%; 
 }
 
-.layer-menu .dijitMenuItem:hover {
+/*.calcite .layer-menu .dijitMenuItem:hover {
   background: #d3d3d3; 
 }
 
-.layer-menu .dijitMenuItemSelected {
+.calcite .layer-menu .dijitMenuItemSelected {
   background: #d3d3d3; 
-}
+}*/
 
 /* Esri Javascript API*/
 .templatePicker {
@@ -261,17 +261,17 @@ input[type=checkbox].checkbox {
   height: 28px; 
 }
 
-.esriMeasurement .esriButtonHover .dijitButtonNode {
+/*.calcite .esriMeasurement .esriButtonHover .dijitButtonNode {
   background: #a9a9a9; 
 }
 
-.esriMeasurement .esriButtonChecked .dijitButtonNode {
+.calcite .esriMeasurement .esriButtonChecked .dijitButtonNode {
   background: #a9a9a9; 
 }
 
-.no-touch .esriMeasurement .esriButton .dijitButtonNode:hover {
+.calcite .no-touch .esriMeasurement .esriButton .dijitButtonNode:hover {
   background: #a9a9a9; 
-}
+}*/
 
 .locationIcon {
   width: 32px;
@@ -835,21 +835,21 @@ img {
 .calcite .esriPopup .title {
   font-weight: bold; }
 
-.dijitMenuItemIconChar.dijitCheckedMenuItemIconChar {
+/*.calcite .dijitMenuItemIconChar.dijitCheckedMenuItemIconChar {
   display: inline-block;
   visibility: hidden; }
 
 .calcite .dijitMenu {
   border: none; }
 
-.dijitMenuItemLabel {
+.calcite .dijitMenuItemLabel {
   padding: 0; }
 
-.dijitChecked .dijitMenuItemIconChar.dijitCheckedMenuItemIconChar {
+.calcite .dijitChecked .dijitMenuItemIconChar.dijitCheckedMenuItemIconChar {
   display: inline-block;
   visibility: visible; }
 
-.no-touch .dijitMenuItem:hover {
+.calcite .no-touch .dijitMenuItem:hover {
   --background-color: rgba(0, 0, 0, 0.8);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#665DADDD,endColorstr=#665DADDD);
   zoom: 1; }
@@ -857,21 +857,21 @@ img {
 .calcite .dijitMenuItemLabel {
   max-width: 250px; }
 
-.dijitButtonNode {
+.calcite .dijitButtonNode {
   margin: 0;
   line-height: normal;
   vertical-align: middle;
   text-align: center;
-  white-space: nowrap; }
+  white-space: nowrap; 
+}*/
 
 .esriAttributeInspector .atiButton {
   background-image: none; }
 
-.esriAttributeInspector .atiButton .dijitButtonNode {
+/*.calcite .esriAttributeInspector .atiButton .dijitButtonNode {
   padding: 1em !important;
   line-height: 16px;
   background: #d3d3d3;
-  /*#5daddd; calcite blue */
   color: #fff;
   padding: 0;
   border: none;
@@ -899,7 +899,7 @@ img {
   -ms-transition: all 0.5s linear;
   -o-transition: all 0.5s linear;
   transition: all 0.5s linear; }
-
+*/
 .esriPrintButton {
   padding: 0.5em 1em 0.5em !important;
   line-height: 32px;
@@ -942,14 +942,14 @@ img {
   /*#4997d2; calcite hover */ 
 }
 
-.calcite .dijitArrowButtonInner {
+/*.calcite .dijitArrowButtonInner {
   width: 16px;
   height: 16px;
   }
 
 .calcite .dijitPopup {
   border: solid 1px #d3d3d3; }
-
+*/
 .esriPopup .titlePane {
   font-size: 12px;
   line-height: 16px;
@@ -1307,13 +1307,13 @@ div[tabindex='0']:not(.pageClose):not(.pageUp):not(.pageDown):hover
   background-color: white;
 }
 
-.esriMeasurement .esriButtonChecked .dijitButtonNode,
+/*.calcite .esriMeasurement .esriButtonChecked .dijitButtonNode,
 .esriBasemapGallerySelectedNode 
 {
   background: transparent;
   border-radius: 5px;
   -webkit-border-radius: 5px;
-}
+}*/
 
 .pageClose, .pageUp, .pageDown {
   opacity: 0.2;
@@ -1358,10 +1358,10 @@ input[type='checkbox']:focus {
   color:white;
 }
 
-.esriMeasurement .esriToggleButton .dijitButtonNode{
+/*.calcite .esriMeasurement .esriToggleButton .dijitButtonNode{
   height: 32px;
   width: auto;
-}
+}*/
 
 .esriEditor .esriDrawingToolbar {
   top:0px;
@@ -1468,45 +1468,43 @@ html, body {
     height: 100%;
 }
 
-.dijitSplitterV, .dijitGutterV {
+/*.calcite .dijitSplitterV, .calcite .dijitGutterV {
     background: none;
     border: 0;
     width: 5px;
     margin: 0;
 }
-.dijitSplitterV .dijitSplitterThumb {
+.calcite .dijitSplitterV .dijitSplitterThumb {
     background: #90BBFF none;
     height: 10%;
-    /* left: 2px; */
     width: 100%;
     margin: 0;
     overflow: hidden;
     position: absolute;
     top: 45%;
     border-radius: 2px;
-}
+}*/
 
-.dj_a11y .dijitSplitterV {
+/*.calcite .dj_a11y .dijitSplitterV {
     border-left: 1px solid #d3d3d3 !important;
     border-right: 1px solid #d3d3d3 !important;
 }
-.dijitSplitterV {
+.calcite .dijitSplitterV {
     width: 6px;
     margin: 1px;
     cursor: col-resize;
     -webkit-tap-highlight-color: transparent;
-}
+}*/
 
-.dijitSplitter {
+/*.calcite .dijitSplitter {
     position: absolute;
-    /* overflow: hidden; */
     z-index: 10;
     background-color: #fff;
     border-color: gray;
     border-style: solid;
     border-width: 0;
 }
-
+*/
 #featuresList {
     list-style: none;
     margin: 0;
@@ -1707,19 +1705,20 @@ text-align: left;
 .dataInputBox {
   width:120px;
 }
-._filter._date .dijitArrowButtonInner {
+
+/*.calcite ._filter._date .dijitArrowButtonInner {
     padding-bottom: 6px !important;
 }
 
-._filter._date .dijitInputField {
+.calcite ._filter._date .dijitInputField {
   padding: 2px;
   width: 80px;
 }
 
-._filter._number .dijitInputField {
+.calcite ._filter._number .dijitInputField {
   padding: 0px;
   width: 100px;
-}
+}*/
 
 .esriBookmarkTable {
     width:100%;
