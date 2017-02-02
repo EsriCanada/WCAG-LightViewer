@@ -64,6 +64,7 @@ define([
              
             this.contentPaneTop = new ContentPane({
                 region: "center",
+                gutters:'false', 
                 splitter: 'true',
                 style: "height:50%; padding:0; overflow: none;",
                 content: dojo.byId("mapDiv"), 
@@ -74,6 +75,7 @@ define([
 
             this.contentPaneBottom = new ContentPane({
                 region: "bottom",
+                gutters:'false', 
                 splitter: 'true',
                 class: "bg",
                 style: "height:50%;",
@@ -137,13 +139,13 @@ define([
                 editable: true,
                 dateOptions: {
                     datePattern: "MMMM d, y",
-                    //timeEnabled: false
+                    timeEnabled: false
                 },
                 "outFields": outFields,
                 // showRelatedRecords: true,
                 // showDataTypes: true,
                 // showFeatureCount:true,
-                showStatistics:true,
+                // showStatistics:true,
                 menuFunctions: [
                     {
                         label: "Refresh", 
