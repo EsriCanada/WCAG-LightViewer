@@ -1761,9 +1761,9 @@ define(["dojo/ready",
 
                 var title;
                 if (this.config.title === null || this.config.title === "") {
-                    title = response.itemInfo.item.title + " - WCAG Viewer";
+                    title = response.itemInfo.item.title + " - Accessible Viewer";
                 } else {
-                    title = this.config.title+': '+response.itemInfo.item.title + " - WCAG Viewer";
+                    title = this.config.title+': '+response.itemInfo.item.title + " - Accessible Viewer";
                 }
                 
                 //Add a logo if provided

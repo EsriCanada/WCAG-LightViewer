@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>WCAG Viewer</title>	
+		<title>Accessible Viewer</title>	
     	
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta charset="utf-8">
@@ -13,6 +13,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		
 		<link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" href="css/theme.css">
   		<link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
 		
 
@@ -25,14 +26,14 @@
 	<body class="claro esri">
 		<div class="loading-indicator" role="presentation">
 			<div class="loading-message" id="loading_message"></div>
-			<div id='loadingTitle'><h1>WCAG Viewer</h1></div>
+			<!-- <div id='loadingTitle'><h1>Accessible Viewer</h1></div> -->
 		</div>
 
         <div id="mapPlace">
 			<div id="mapDiv" dir="ltr" tabindex=0></div>
 		</div>
 		<div id="panelTitle" class="fc bg">
-			<h1 class="fc" id="panelText">WCAG Viewer</h1>
+			<h1 class="fc" id="panelText"></h1>
 
 			<div class="skip" role="banner">
 				<a accesskey="1" href="#" tabindex="0" aria-hidden=true id="skip-tools">1. Skip to Tools</a>

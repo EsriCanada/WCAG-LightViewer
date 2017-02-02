@@ -143,22 +143,17 @@ define([
                 // showRelatedRecords: true,
                 // showDataTypes: true,
                 // showFeatureCount:true,
-                // showStatistics:true,
-                // // menuFunctions: [
-                // //    {
-                // //       label: "Callback", 
-                // //       callback: function(evt){
-                // //          console.log(" -- evt: ", evt);
-                // //       }
-                // //    },
-                // //    {
-                // //       label: "Alert", 
-                // //       callback: function(evt){
-                // //          alert('Hi');
-                // //       }
-                // //    },
-                // // ],
-                // showColumnHeaderTooltips: true,
+                showStatistics:true,
+                menuFunctions: [
+                    {
+                        label: "Refresh", 
+                        callback: lang.hitch(this, function(evt){
+                            // console.log(" Callback evt: ", evt);
+                            this.myFeatureTable.refresh();
+                        })
+                    },
+                ],
+                showColumnHeaderTooltips: false,
             }, dojo.byId('featureTableNode'));
 
             this.myFeatureTable.startup();
