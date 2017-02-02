@@ -64,3 +64,15 @@
 .esri-feature-table .ui-state-active {
     background-color: #B4DAF5;
 }
+
+.esri-feature-table-loading-indicator {
+    background-image: none;
+    height: 30px;
+    width: 30px;
+}
+
+.esri-feature-table-column-header-type {
+    color: black;
+    float: left;
+    font-size: xx-small;
+}

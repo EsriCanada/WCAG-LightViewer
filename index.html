@@ -2,6 +2,7 @@
 <html lang="en">
 	<head>
 		<title>Accessible Viewer</title>	
+		<link rel="icon" type="image/png" href="images/favicon.png">
     	
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta charset="utf-8">
@@ -12,21 +13,20 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		
-		<link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" href="//js.arcgis.com/3.19/dijit/themes/claro/claro.css">
 		<link rel="stylesheet" href="css/theme.css">
-  		<link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
+  		<link rel="stylesheet" href="//js.arcgis.com/3.19/esri/css/esri.css">
 		
 
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/styles1.css">
 		<link rel="stylesheet" href="css/tabs.css">
 		<link rel="stylesheet" href="css/filters.css">
-		<link rel="icon" type="image/png" href="images/favicon.png">
 	</head>
-	<body class="claro esri">
+	<body class="claro esri app-loading">
 		<div class="loading-indicator" role="presentation">
 			<div class="loading-message" id="loading_message"></div>
-			<!-- <div id='loadingTitle'><h1>Accessible Viewer</h1></div> -->
+			<div id='loadingTitle'></div>
 		</div>
 
         <div id="mapPlace">
@@ -83,7 +83,7 @@
             }]
          };
 		</script>
-		<script src="https://js.arcgis.com/3.19/" type="text/javascript" data-dojo-config="async:true, parseOnLoad:false"></script> 
+		<script src="//js.arcgis.com/3.19/" type="text/javascript" data-dojo-config="async:true, parseOnLoad:false"></script> 
 		
         <script type="text/javascript">
 	        require([

@@ -3,7 +3,7 @@ define([
     "dijit/_WidgetBase",
     "dijit/layout/_LayoutWidget", 
     "esri/layers/FeatureLayer",
-    "esri/dijit/FeatureTable",
+    "esri/dijit/FeatureTable", "dstore/RequestMemory",
     "esri/map",
     //"dijit/_TemplatedMixin", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
@@ -17,7 +17,7 @@ define([
         Evented, declare, lang, has, dom, esriNS,
         _WidgetBase, 
         _LayoutWidget,
-        FeatureLayer, FeatureTable, 
+        FeatureLayer, FeatureTable, RequestMemory,
         Map,
         //_TemplatedMixin, 
         //ShowFeatureTableTemplate, 
@@ -85,8 +85,6 @@ define([
             this.borderContainer.addChild(this.contentPaneBottom);
             this.borderContainer.placeAt(dojo.byId('mapPlace'));
 
-            // this.contentPaneTop.startup();
-            // this.contentPaneBottom.startup();
             this.borderContainer.startup();
         },
 
@@ -100,8 +98,6 @@ define([
         },
 
         startup: function () {
-            // this.contentPaneBottom.startup();
-            // this.borderContainer.startup();
 
             aspect.after(this.contentPaneTop, "resize", lang.hitch(this, function() {
                 this.resize();
@@ -131,10 +127,11 @@ define([
                 syncSelection: true, 
                 zoomToSelection: true, 
                 gridOptions: {
-                  allowSelectAll: true,
-                  allowTextSelection: false,
-                  //columnHider: true,
-                  //selectionMode: "extended",
+                    allowSelectAll: true,
+                    allowTextSelection: false,
+                    pagination: true,
+                    pagingDelay: 1000,
+                    pageSizeOptions: [50, 100, 500],
                 },
                 editable: true,
                 dateOptions: {
@@ -143,7 +140,7 @@ define([
                 },
                 "outFields": outFields,
                 // showRelatedRecords: true,
-                // showDataTypes: true,
+                showDataTypes: true,
                 // showFeatureCount:true,
                 // showStatistics:true,
                 menuFunctions: [
@@ -154,11 +151,52 @@ define([
                             this.myFeatureTable.refresh();
                         })
                     },
+                    {
+                        label: "Show Data Types", 
+                        callback: lang.hitch(this, function(evt){
+                            // console.log(" Callback evt: ", evt);
+                            var typeLabels = query('.esri-feature-table-column-header-type');
+                            if(typeLabels && typeLabels.length>0) {
+                                var show = domStyle.get(typeLabels[0], 'display') === 'none';
+                                var l = evt.toElement.innerText;
+                                if(show) {
+                                    typeLabels.forEach( function(label) { domStyle.set(label, 'display', '');});
+                                    evt.toElement.innerText = "Hide Data Types";
+                                }
+                                else {
+                                    typeLabels.forEach( function(label) { domStyle.set(label, 'display', 'none');});
+                                    evt.toElement.innerText = "Show Data Types";
+                                }
+                                this.myFeatureTable.resize();
+                            }
+                        })
+                    },
                 ],
                 showColumnHeaderTooltips: false,
             }, dojo.byId('featureTableNode'));
 
             this.myFeatureTable.startup();
+
+            dojo.create('img', {
+                src:'images/reload1.gif',
+                alt: 'Refresh',
+                title: 'Refresh',
+                style:'width:30px; height:30px;'
+            }, query('.esri-feature-table-menu-item.esri-feature-table-loading-indicator')[0]);
+
+            var typeLabels = query('.esri-feature-table-column-header-type');
+            if(typeLabels && typeLabels.length>0) {
+                //evt.toElement.innerText = "Show Data Types";
+                typeLabels.forEach( function(label) { domStyle.set(label, 'display', 'none');});
+            }
+
+            var dgridRowTable = query('.dgrid-row-table');
+            if(dgridRowTable && dgridRowTable.length>0) {
+                dgridRowTable.forEach(function(table) {
+                    domAttr.remove(table, 'role');
+                });
+            }
+
             this.borderContainer.resize();
             // this.myFeatureTable.grid.resize();
             
