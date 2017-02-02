@@ -29,7 +29,7 @@ define(["dojo/ready",
     "esri/layers/FeatureLayer", 
     "application/NavToolBar/NavToolBar", 
     "application/ShowFeatureTable/ShowFeatureTable", 
-    "application/FeatureList", "application/Filters/Filters", "application/TableOfContents", 
+    "application/FeatureList/FeatureList", "application/Filters/Filters", "application/TableOfContents", 
     "application/ShareDialog", //"application/SearchSources",
     "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",
     "esri/dijit/InfoWindow",
@@ -1546,24 +1546,31 @@ define(["dojo/ready",
                     domConstruct.place(search.domNode, "panelGeocoder");
             
                     esriIconDownArrowNode = dojo.query(".esriIconDownArrow")[0];
-                    domClass.remove(esriIconDownArrowNode, "esriIconDownArrow");
+                    if(esriIconDownArrowNode)
+                    {
+                        domClass.remove(esriIconDownArrowNode, "esriIconDownArrow");
 
-                    esriIconDownArrowNode.innerHTML = 
+                        esriIconDownArrowNode.innerHTML = 
                         '<img src="images\\downArrow.png" alt="Search in" width="20" height="20">';
+                    }
 
                     searchInput = dojo.query(".searchInput")[0];
                     dojo.setAttr(searchInput, 'role', 'search');
 
                     esriIconZoomNode = dojo.query(".esriIconZoom")[0];
-                    domClass.remove(esriIconZoomNode, "esriIconZoom");
-                    esriIconZoomNode.innerHTML = 
+                    if(esriIconZoomNode)
+                    {
+                        domClass.remove(esriIconZoomNode, "esriIconZoom");
+                        esriIconZoomNode.innerHTML = 
                         '<img src="images\\searchZoom.png" alt="Search" width="20" height="20">';
+                    }
 
                     esriIconCloseNode = dojo.query(".esriIconClose")[0]; 
-                    domClass.remove(esriIconCloseNode, "esriIconClose");
-                    esriIconCloseNode.innerHTML = 
-                        '<img src="images\\searchClear.png" alt="Clear search" width="16" height="16">';
-
+                    if(esriIconCloseNode) {
+                        domClass.remove(esriIconCloseNode, "esriIconClose");
+                        esriIconCloseNode.innerHTML = 
+                            '<img src="images\\searchClear.png" alt="Clear search" width="16" height="16">';
+                    }
                 }
 
             }));

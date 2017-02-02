@@ -22,11 +22,28 @@
 
 #featureTableContainer {
  /* min-height:150px;*/
+ overflow: hidden;
 }
+
+/*.featureTableNode_gridContainer {
+  top:40px !important;
+}
+
+.esriFeatureTable_menuItem.gridTitle {
+    background-color: aliceblue !important;
+}
+
+.dgrid-row.dgrid-row-odd.ui-state-default {
+    background-color: white !important;
+}
+
+.dgrid-row.dgrid-row-even.ui-state-default {
+    background-color: antiquewhite !important;
+}*/
 
 .esriFeatureTable {
     font-family: inherit;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .dijitSplitterH {

@@ -1,14 +1,13 @@
 define([
     "dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "dojo/dom","esri/kernel", 
-    //"dijit/_WidgetBase",
+    "dijit/_WidgetBase",
     "dijit/layout/_LayoutWidget", 
     "esri/layers/FeatureLayer",
     "esri/dijit/FeatureTable",
-    "esri/geometry/webMercatorUtils",
     "esri/map",
     //"dijit/_TemplatedMixin", 
-    "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
+    "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", 
     "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
     "dojo/dom-construct", "dojo/_base/event", 
@@ -16,18 +15,19 @@ define([
     
     ], function (
         Evented, declare, lang, has, dom, esriNS,
-        //_WidgetBase, 
+        _WidgetBase, 
         _LayoutWidget,
-        FeatureLayer, FeatureTable, webMercatorUtils, Map,
+        FeatureLayer, FeatureTable, 
+        Map,
         //_TemplatedMixin, 
-        on, query, registry, aspect,
         //ShowFeatureTableTemplate, 
+        on, query, registry, aspect,
         domClass, domAttr, domStyle,
         ContentPane, BorderContainer, 
         domConstruct, event
     ) {
     var Widget = declare("esri.dijit.ShowFeatureTable", [
-        //_WidgetBase, 
+        _WidgetBase, 
         _LayoutWidget,
         //_TemplatedMixin, 
         Evented], {
@@ -43,15 +43,15 @@ define([
             var defaults = lang.mixin({}, this.options, options);
 
             this.map = defaults.map;
-            //this.domNode = srcRefNode;
-            //this.containerNode = srcRefNode;
-            baseClass = "ShowFeatureTable";
+            this.domNode = srcRefNode;
+            this.containerNode = srcRefNode;
+            // baseClass = "ShowFeatureTable";
 
-            var link = document.createElement("link");
-            link.href = "js/ShowFeatureTable/Templates/ShowFeatureTable.css";
-            link.type = "text/css";
-            link.rel = "stylesheet";
-            document.getElementsByTagName("head")[0].appendChild(link);
+            dojo.create("link", {
+                href : "js/ShowFeatureTable/Templates/ShowFeatureTable.css",
+                type : "text/css",
+                rel : "stylesheet",
+            }, document.head);
 
             this.borderContainer = new BorderContainer({
                 design:'headline',
@@ -63,25 +63,28 @@ define([
             });
              
             this.contentPaneTop = new ContentPane({
-                region: "top",
+                region: "center",
                 splitter: 'true',
-                style: "height:500px; padding:0; overflow: none;",
+                style: "height:50%; padding:0; overflow: none;",
                 content: dojo.byId("mapDiv"), 
                 id: 'contentPaneTop',
                 class: "splitterContent",
             });
             this.borderContainer.addChild(this.contentPaneTop);
-              
+
             this.contentPaneBottom = new ContentPane({
-                region: "center",
+                region: "bottom",
+                splitter: 'true',
                 class: "bg",
+                style: "height:50%;",
                 id: 'featureTableContainer',
                 content: domConstruct.create("div", { id: 'featureTableNode'}),
             });
             this.borderContainer.addChild(this.contentPaneBottom);
-
             this.borderContainer.placeAt(dojo.byId('mapPlace'));
 
+            // this.contentPaneTop.startup();
+            // this.contentPaneBottom.startup();
             this.borderContainer.startup();
         },
 
@@ -95,7 +98,8 @@ define([
         },
 
         startup: function () {
-            //registry.byId('bc').resize();
+            // this.contentPaneBottom.startup();
+            // this.borderContainer.startup();
 
             aspect.after(this.contentPaneTop, "resize", lang.hitch(this, function() {
                 this.resize();
@@ -105,18 +109,67 @@ define([
         },
 
         loadTable: function(myFeatureLayer){
-            this.borderContainer.resize();
+            //return;
 
-            var myFeatureTable = new FeatureTable({
+            var outFields =[];
+            var fieldsMap = myFeatureLayer.layerObject.infoTemplate._fieldsMap;
+            for(var p in fieldsMap) {
+                if(fieldsMap.hasOwnProperty(p) && fieldsMap[p].visible)
+                {
+                    var pField = fieldsMap[p];
+                    outFields.push(pField.fieldName);
+                }
+            }
+
+            this.myFeatureTable = new FeatureTable({
+                //id:"myFeatureTable0",
                 "featureLayer" : myFeatureLayer.layerObject,
-                "map" : this.map
-            }, 'featureTableNode');
+                "map" : this.map,
+                "outFields": outFields,
+                syncSelection: true, 
+                zoomToSelection: true, 
+                gridOptions: {
+                  allowSelectAll: true,
+                  allowTextSelection: false,
+                  //columnHider: true,
+                  selectionMode: "extended",
+                },
+                editable: false,
+                dateOptions: {
+                    datePattern: "MMMM d, y",
+                    timeEnabled: false
+                },
+                showRelatedRecords: true,
+                showAttachments: true,
+                showDataTypes: true,
+                showFeatureCount:true,
+                showStatistics:true,
+                // menuFunctions: [
+                //    {
+                //       label: "Callback", 
+                //       callback: function(evt){
+                //          console.log(" -- evt: ", evt);
+                //       }
+                //    },
+                //    {
+                //       label: "Alert", 
+                //       callback: function(evt){
+                //          alert('Hi');
+                //       }
+                //    },
+                // ],
+                showColumnHeaderTooltips: true,
+            }, dojo.byId('featureTableNode'));
 
-            on(myFeatureTable, "load", function(evt){
+            this.myFeatureTable.startup();
+            
+
+
+            on(this.myFeatureTable, "load", lang.hitch(this, function(evt){
                 console.log("The load event - ", evt);
-            });
+            }));
 
-            on(myFeatureTable, "show-statistics", function(evt){
+            on(this.myFeatureTable, "show-statistics", function(evt){
                 console.log("show-statistics avgfield - ", evt.statistics.avgField);
                 console.log("show-statistics countfield - ", evt.statistics.countField);
                 console.log("show-statistics maxfield - ", evt.statistics.maxField);
@@ -125,43 +178,50 @@ define([
                 console.log("show-statistics sumfield - ", evt.statistics.sumField);
             });
 
-            on(myFeatureTable, "error", function(evt){
+            on(this.myFeatureTable, "error", function(evt){
                 console.log("error event - ", evt);
             });
 
-            on(myFeatureTable, "row-select", function(evt){
-                console.log("select event - ", evt.rows[0].data);
+            on(this.myFeatureTable, "row-select", function(evt){
+                console.log("select event: ", evt.rows.length);
+                evt.rows.forEach(function(row) {
+                    console.log(row.data);
+                });
             });
 
-            on(myFeatureTable, "row-deselect", function(evt){
-                console.log("deselect event - ", evt.rows[0].data);
+            on(this.myFeatureTable, "row-deselect", function(evt){
+                console.log("deselect event: ", evt.rows.length);
+                evt.rows.forEach(function(row) {
+                    console.log(row.data);
+                });
             });
 
-            on(myFeatureTable, "refresh", function(evt){
+            on(this.myFeatureTable, "refresh", function(evt){
                 console.log("refresh event - ", evt);
             });
 
-            on(myFeatureTable, "column-resize", function(evt){
+            on(this.myFeatureTable, "column-resize", lang.hitch(this, function(evt){
             //triggered by ColumnResizer extension
                 console.log("column-resize event - ", evt);
-            });
+                // this.myFeatureTable.selectRows([1,3], true);
+                // this.myFeatureTable.centerOnSelection();
+            }));
 
-            on(myFeatureTable, "column-state-change", function(evt){
+            on(this.myFeatureTable, "column-state-change", function(evt){
                 // triggered by ColumnHider extension
                 console.log("column-state-change event - ", evt);
             });
 
-            on(myFeatureTable, "sort", function(evt){
+            on(this.myFeatureTable, "sort", function(evt){
                 console.log("sort event - ", evt);
             });
 
-            on(myFeatureTable, "filter", function(evt){
+            on(this.myFeatureTable, "filter", function(evt){
                 console.log("filter event - ", evt);
             });
 
-            myFeatureTable.startup();
-
-            console.log("there...");
+            this.borderContainer.resize();
+            this.myFeatureTable.grid.resize();
         },
     });
 
