@@ -30,6 +30,7 @@ define(["dojo/ready",
     "application/NavToolBar/NavToolBar", 
     "application/ShowFeatureTable/ShowFeatureTable", 
     "application/FeatureList/FeatureList", "application/Filters/Filters", "application/TableOfContents", 
+    "application/LanguageSelect/LanguageSelect",
     "application/ShareDialog", //"application/SearchSources",
     "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",
     "esri/dijit/InfoWindow",
@@ -52,6 +53,7 @@ define(["dojo/ready",
     NavToolBar,
     ShowFeatureTable,
     FeatureList, Filters, TableOfContents, 
+    LanguageSelect,
     ShareDialog, //SearchSources,
     SimpleMarkerSymbol, PictureMarkerSymbol, Graphic,
     InfoWindow,
@@ -102,6 +104,38 @@ define(["dojo/ready",
                 var error = new Error("Main:: Config is not defined");
                 this.reportError(error);
             }
+
+                        var languages = [
+                {
+                    code:this.config.lang1code,
+                    img:this.config.lang1imageSrc,
+                    shortName:this.config.lang1shortName,
+                    name:this.config.lang1name,
+                    appId:this.config.lang1appId 
+                },
+                {
+                    code:this.config.lang2code,
+                    img:this.config.lang2imageSrc,
+                    shortName:this.config.lang2shortName,
+                    name:this.config.lang2name,
+                    appId:this.config.lang2appId
+                },
+                {
+                    code:this.config.lang3code,
+                    img:this.config.lang3imageSrc,
+                    shortName:this.config.lang3shortName,
+                    name:this.config.lang3name,
+                    appId:this.config.lang3appId
+                }
+            ];
+            new LanguageSelect({
+                locale: document.documentElement.lang,
+                //location: window.location,
+                languages:languages,
+                textColor:this.activeColor,
+                showLabel:false
+            }, dojo.byId('languageSelectNode')).startup();
+
         },
 
         reportError: function (error) {
@@ -331,7 +365,7 @@ define(["dojo/ready",
                     //test
                     if(this.featureTable)
                     {
-                        this.featureTable.loadTable(this.layers[1]);
+                        this.featureTable.loadTable(this.layers[0]);
                     }
 
 
@@ -1631,14 +1665,10 @@ define(["dojo/ready",
                         if(rule.selectorText.indexOf('.activeMarker') >= 0 || 
                             rule.selectorText.indexOf('dijitSplitterThumb') >= 0) {
                             rule.style.backgroundColor = this.activeColor;
-                            // rule.style.outlineStyle = 'none';
-                            // rule.style.outlineColor = 'transparent';
-                            // rule.style.boxShadow = '0 0 5px 5px '+this.activeColor+' inset';
                         }
                     }
                 }
             }
-            //debugger;
         },
 
         _checkExtent: function () {
