@@ -365,7 +365,7 @@ define(["dojo/ready",
                     //test
                     if(this.featureTable)
                     {
-                        this.featureTable.loadTable(this.layers[0]);
+                        this.featureTable.status.layer = this.layers[0];
                     }
 
 

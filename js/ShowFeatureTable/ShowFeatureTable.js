@@ -72,6 +72,16 @@ define([
                         break;
                 }
             },
+            Layer : null,
+            get layer() {
+                return this.Layer;
+            },
+            set layer(_layer) {
+                if(this.Layer) {
+                    this._this.destroy();
+                }
+                this._this.loadTable(_layer);
+            }
         },
 
         constructor: function (options, srcRefNode) {
@@ -196,6 +206,7 @@ define([
 
         loadTable: function(myFeatureLayer){
             //return;
+            status.Layer = myFeatureLayer;
 
             var outFields =[];
             var fieldsMap = myFeatureLayer.layerObject.infoTemplate._fieldsMap;
