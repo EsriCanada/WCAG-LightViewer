@@ -10,7 +10,7 @@
 
 @media only screen and (min-width: 720px) {
     #languageSelectNode {
-        padding: 12px;
+        padding: 9px;
     }
 
     #languageSelectNode label {
@@ -19,7 +19,7 @@
     }
 }
 
-#languageSelectNode .dijitDropDownButton {
+.claro #languageSelectNode .dijitDropDownButton {
     margin:0;
     padding:0;
     width:100%;
@@ -30,9 +30,10 @@
   display:none;
 }
 
-#languageSelectNode .dijitButtonText{
+.claro #languageSelectNode .dijitButtonText{
     vertical-align: middle;
     padding: 3px 0px;
+    margin: 0;
 }
 
 .langMenuItemIcon {
@@ -56,5 +57,21 @@
     right: 0;
     top: 1px;
     display: inline-block;
+}
+
+.claro #languageSelectNode .dijitDropDownButton .dijitButtonNode {
+    background-color: transparent;
+}
+
+.claro #languageSelectNode .dijitArrowButtonInner {
+    display:none;
+}
+
+.claro #languageSelectNode .dijitDropDownButton .dijitButtonNode {
+    border: none;
+    box-sizing: none; 
+    border-width: 0; 
+    border-style: none; 
+    border-color: transparent; 
 }
 
