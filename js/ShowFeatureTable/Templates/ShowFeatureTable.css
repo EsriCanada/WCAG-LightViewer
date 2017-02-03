@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Ubuntu+Mono');
 
+blockquote {
+    display: inherit;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    font-style: italic; 
+}
+
 .myBorderContainer {
   width: 100% !important;
   height: 100% !important; 

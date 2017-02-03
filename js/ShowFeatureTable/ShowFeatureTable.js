@@ -8,10 +8,16 @@ define([
     //"dijit/_TemplatedMixin", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
     "dojo/i18n!application/nls/ShowFeatureTable",
-    "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
+    "dojo/on", "dojo/query", 
+    "esri/tasks/query", "esri/tasks/QueryTask",
+    "dijit/registry", "dojo/aspect", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", 
     "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
     "dojo/dom-construct", "dojo/_base/event", 
+    "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", 
+    "esri/symbols/CartographicLineSymbol", 
+    "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleLineSymbol",
+    "esri/graphic", "esri/Color", 
     "dojo/NodeList-dom", "dojo/NodeList-traverse"
     
     ], function (
@@ -23,10 +29,16 @@ define([
         //_TemplatedMixin, 
         //ShowFeatureTableTemplate, 
         i18n,
-        on, query, registry, aspect,
+        on, query, 
+        Query, QueryTask,
+        registry, aspect,
         domClass, domAttr, domStyle,
         ContentPane, BorderContainer, 
-        domConstruct, event
+        domConstruct, event,
+        SimpleMarkerSymbol, PictureMarkerSymbol, 
+        CartographicLineSymbol, 
+        SimpleFillSymbol, SimpleLineSymbol,
+        Graphic, Color
     ) {
     var Widget = declare("esri.dijit.ShowFeatureTable", [
         //_WidgetBase, 
@@ -53,6 +65,35 @@ define([
                 type : "text/css",
                 rel : "stylesheet",
             }, document.head);
+
+            //if(options.animatedMarker) {
+                this.markerSymbol = new esri.symbol.PictureMarkerSymbol({
+                    "angle": 0,
+                    "xoffset": 0,
+                    "yoffset": 0,
+                    "type": "esriPMS",
+                    "url": require.toUrl("./images/SelectPointMarker.gif"),
+                    "contentType": "image/gif",
+                    "width": 33,
+                    "height": 33
+                });
+            // } else {
+            //     this.markerSymbol = new SimpleMarkerSymbol({
+            //           "color": [3,126,175,20],
+            //           "size": options.markerSize,
+            //           "xoffset": 0,
+            //           "yoffset": 0,
+            //           "type": "esriSMS",
+            //           "style": "esriSMSCircle",
+            //           "outline": {
+            //             "color": [3,26,255,220],
+            //             "width": 2,
+            //             "type": "esriSLS",
+            //             "style": "esriSLSSolid"
+            //           }
+            //         });
+            // }
+
 
             this.borderContainer = new BorderContainer({
                 design:'headline',
@@ -120,6 +161,7 @@ define([
                 }
             }
 
+            this.layer = myFeatureLayer;
             this.myFeatureTable = new FeatureTable({
                 //id:"myFeatureTable0",
                 "featureLayer" : myFeatureLayer.layerObject,
@@ -199,64 +241,107 @@ define([
             }
 
             this.borderContainer.resize();
-            // this.myFeatureTable.grid.resize();
-            
 
+            // on(this.myFeatureTable, "load", lang.hitch(this, function(evt){
+            //     console.log("The load event - ", evt);
+            // }));
 
-            on(this.myFeatureTable, "load", lang.hitch(this, function(evt){
-                console.log("The load event - ", evt);
-            }));
-
-            on(this.myFeatureTable, "show-statistics", function(evt){
-                console.log("show-statistics avgfield - ", evt.statistics.avgField);
-                console.log("show-statistics countfield - ", evt.statistics.countField);
-                console.log("show-statistics maxfield - ", evt.statistics.maxField);
-                console.log("show-statistics minfield - ", evt.statistics.minField);
-                console.log("show-statistics stddevfield - ", evt.statistics.stddevField);
-                console.log("show-statistics sumfield - ", evt.statistics.sumField);
-            });
+            // on(this.myFeatureTable, "show-statistics", function(evt){
+            //     console.log("show-statistics avgfield - ", evt.statistics.avgField);
+            //     console.log("show-statistics countfield - ", evt.statistics.countField);
+            //     console.log("show-statistics maxfield - ", evt.statistics.maxField);
+            //     console.log("show-statistics minfield - ", evt.statistics.minField);
+            //     console.log("show-statistics stddevfield - ", evt.statistics.stddevField);
+            //     console.log("show-statistics sumfield - ", evt.statistics.sumField);
+            // });
 
             on(this.myFeatureTable, "error", function(evt){
                 console.log("error event - ", evt);
             });
 
-            on(this.myFeatureTable, "row-select", function(evt){
-                console.log("select event: ", evt.rows.length);
-                evt.rows.forEach(function(row) {
-                    console.log(row.data);
-                });
-            });
+            on(this.myFeatureTable, "row-select", lang.hitch(this, function(evt){
+                //console.log("select event: ", evt.rows.length);
+                evt.rows.forEach(lang.hitch(this, function(row) {
 
-            on(this.myFeatureTable, "row-deselect", function(evt){
-                console.log("deselect event: ", evt.rows.length);
-                evt.rows.forEach(function(row) {
-                    console.log(row.data);
-                });
-            });
+                    var objectIdFieldName = this.layer.layerObject.objectIdField;
+                    q = new Query();
+                    q.where = objectIdFieldName+"="+row.id;
+                    q.outFields = [objectIdFieldName];
+                    q.returnGeometry = true;
+                    new QueryTask(this.layer.layerObject.url).execute(q).then(lang.hitch(this,function(ev) {
+                        var graphic = ev.features[0];
+                        //console.log(ev, graphic);
+                        var markerGeometry;
+                        var marker;
 
-            on(this.myFeatureTable, "refresh", function(evt){
-                console.log("refresh event - ", evt);
-            });
+                    //     switch (graphic.geometry.type) {
+                    //         case "point":
+                                markerGeometry = graphic.geometry;
+                                marker = this.markerSymbol;
+                    //            break;
+                    //     case "extent":
+                    //         markerGeometry = graphic.getCenter();
+                    //         // marker = new SimpleMarkerSymbol
+                    //         break;
+                    //     case "polyline" :
+                    //         markerGeometry = graphic.geometry;
+                    //         marker = new CartographicLineSymbol(
+                    //             CartographicLineSymbol.STYLE_SOLID, new Color([0, 127, 255]), 10, 
+                    //             CartographicLineSymbol.CAP_ROUND,
+                    //             CartographicLineSymbol.JOIN_ROUND, 5);
+                    //         break;
+                    //     default:
+                    //         // if the graphic is a polygon
+                    //         markerGeometry = graphic.geometry;
+                    //         marker = new SimpleFillSymbol(
+                    //             SimpleFillSymbol.STYLE_SOLID, 
+                    //             new SimpleLineSymbol(
+                    //                 SimpleLineSymbol.STYLE_SOLID,
+                    //                 new Color([0, 127, 255]), 3),
+                    //                 new Color([0, 127, 255, 0.25]));
+                    //         break;
+                    //     }
 
-            on(this.myFeatureTable, "column-resize", lang.hitch(this, function(evt){
-            //triggered by ColumnResizer extension
-                console.log("column-resize event - ", evt);
-                // this.myFeatureTable.selectRows([1,3], true);
-                // this.myFeatureTable.centerOnSelection();
+                         var gr = new Graphic(markerGeometry, marker);
+                         gr.tag = row.id;
+                         this.layer.layerObject._map.graphics.add(gr);
+                    }));
+                }));
             }));
 
-            on(this.myFeatureTable, "column-state-change", function(evt){
-                // triggered by ColumnHider extension
-                console.log("column-state-change event - ", evt);
-            });
+            on(this.myFeatureTable, "row-deselect", lang.hitch(this, function(evt){
+                console.log("deselect event: ", evt.rows.length);
+                evt.rows.forEach(lang.hitch(this, function(row) {
+                    this.layer.layerObject._map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
+                        if(gr.tag && gr.tag === row.id) {
+                            this.layer.layerObject._map.graphics.remove(gr);
+                        }
+                    }));
+                }));
+            }));
 
-            on(this.myFeatureTable, "sort", function(evt){
-                console.log("sort event - ", evt);
-            });
+            on(this.myFeatureTable, "refresh", lang.hitch(this, function(evt){
+                //console.log("refresh event - ", evt);
+                this.layer.layerObject._map.graphics.clear();
+            }));
 
-            on(this.myFeatureTable, "filter", function(evt){
-                console.log("filter event - ", evt);
-            });
+            // on(this.myFeatureTable, "column-resize", lang.hitch(this, function(evt){
+            // //triggered by ColumnResizer extension
+            //     console.log("column-resize event - ", evt);
+            // }));
+
+            // on(this.myFeatureTable, "column-state-change", function(evt){
+            //     // triggered by ColumnHider extension
+            //     console.log("column-state-change event - ", evt);
+            // });
+
+            // on(this.myFeatureTable, "sort", function(evt){
+            //     console.log("sort event - ", evt);
+            // });
+
+            // on(this.myFeatureTable, "filter", function(evt){
+            //     console.log("filter event - ", evt);
+            // });
 
         },
     });
