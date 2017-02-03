@@ -1,6 +1,6 @@
 define([
     "dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "dojo/dom","esri/kernel", 
-    "dijit/_WidgetBase",
+    //"dijit/_WidgetBase",
     "dijit/layout/_LayoutWidget", 
     "esri/layers/FeatureLayer",
     "esri/dijit/FeatureTable", "dstore/RequestMemory",
@@ -15,7 +15,7 @@ define([
     
     ], function (
         Evented, declare, lang, has, dom, esriNS,
-        _WidgetBase, 
+        //_WidgetBase, 
         _LayoutWidget,
         FeatureLayer, FeatureTable, RequestMemory,
         Map,
@@ -27,7 +27,7 @@ define([
         domConstruct, event
     ) {
     var Widget = declare("esri.dijit.ShowFeatureTable", [
-        _WidgetBase, 
+        //_WidgetBase, 
         _LayoutWidget,
         //_TemplatedMixin, 
         Evented], {
@@ -45,7 +45,6 @@ define([
             this.map = defaults.map;
             this.domNode = srcRefNode;
             this.containerNode = srcRefNode;
-            // baseClass = "ShowFeatureTable";
 
             dojo.create("link", {
                 href : "js/ShowFeatureTable/Templates/ShowFeatureTable.css",
