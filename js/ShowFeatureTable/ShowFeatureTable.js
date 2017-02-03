@@ -53,6 +53,27 @@ define([
             map: null,
         },
 
+        status: {
+            get show() {
+                if (!dojo.byId('featureTableContainer_splitter')) return false;
+                return domStyle.get(dojo.byId('featureTableContainer_splitter'), "display") !== "none";
+            },
+            set show(visible) {
+                switch(visible){
+                    case true:
+                        domStyle.set(dojo.byId('featureTableContainer'), "height","50%");
+                        domStyle.set(dojo.byId('featureTableContainer_splitter'), "display", "initial");
+                        this._this.borderContainer.resize();
+                        break;
+                    case false:
+                        domStyle.set(dojo.byId('featureTableContainer'), "height",0);
+                        domStyle.set(dojo.byId('featureTableContainer_splitter'), "display", "none");
+                        this._this.borderContainer.resize();
+                        break;
+                }
+            },
+        },
+
         constructor: function (options, srcRefNode) {
             var defaults = lang.mixin({}, this.options, options);
 
@@ -128,10 +149,16 @@ define([
             this.borderContainer.placeAt(dojo.byId('mapPlace'));
 
             this.borderContainer.startup();
+
+            //this.hide();
+            //this.status.show = false;
+
         },
 
         postCreate: function() {
             this.inherited(arguments);
+            this.status._this = this;
+            this.status.show = false;
         },
 
         layout:function() {
@@ -146,6 +173,25 @@ define([
             }));
 
             this.resize();
+        },
+
+        // show: function() {
+        //     domStyle.set(dojo.byId('featureTableContainer'), "height","50%");
+        //     domStyle.set(dojo.byId('featureTableContainer_splitter'), "display", "initial");
+        //     this.borderContainer.resize();
+        // },
+
+        // hide: function() {
+        //     domStyle.set(dojo.byId('featureTableContainer'), "height",0);
+        //     domStyle.set(dojo.byId('featureTableContainer_splitter'), "display", "none");
+        //     this.borderContainer.resize();
+        // },
+
+        destroy: function() {
+            if(this.myFeatureTable)
+                this.myFeatureTable.destroy();
+            //this.hide();
+            this.status.show = false;
         },
 
         loadTable: function(myFeatureLayer){
@@ -172,9 +218,9 @@ define([
                 gridOptions: {
                     allowSelectAll: true,
                     allowTextSelection: false,
-                    pagination: true,
-                    pagingDelay: 1000,
-                    pageSizeOptions: [50, 100, 500],
+                    // pagination: true,
+                    // pagingDelay: 1000,
+                    // pageSizeOptions: [50, 100, 500],
                 },
                 editable: true,
                 dateOptions: {
@@ -214,11 +260,24 @@ define([
                             this.myFeatureTable.refresh();
                         })
                     },
+                    {
+                        label: i18n.widgets.showFeatureTable.close, 
+                        callback: lang.hitch(this, function(evt){
+                            this.destroy();
+                            // // console.log(" Callback evt: ", evt);
+                            // this.myFeatureTable.destroy();
+                            // domStyle.set(dojo.byId('featureTableContainer'), "height",0);
+                            // domStyle.set(dojo.byId('featureTableContainer_splitter'), "display", "none");
+                            // this.borderContainer.resize();
+                        })
+                    },
                 ],
                 showColumnHeaderTooltips: false,
             }, dojo.byId('featureTableNode'));
 
             this.myFeatureTable.startup();
+
+            this.status.show = true;
 
             dojo.create('img', {
                 src:'images/reload1.gif',
@@ -240,7 +299,7 @@ define([
                 });
             }
 
-            this.borderContainer.resize();
+            //this.borderContainer.resize();
 
             // on(this.myFeatureTable, "load", lang.hitch(this, function(evt){
             //     console.log("The load event - ", evt);

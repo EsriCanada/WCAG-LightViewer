@@ -4,7 +4,8 @@ define({
             showFeatureTable: ({
                 showTypes: "Show Data Types",
                 hideTypes: "Hide Data Types",
-                refresh: "Refresh"
+                refresh: "Refresh",
+                close: "Close",
             })
         })
     }),

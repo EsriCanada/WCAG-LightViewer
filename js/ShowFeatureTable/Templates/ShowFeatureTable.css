@@ -120,3 +120,7 @@ blockquote {
 .esri-feature-table-title {
     color: white;
 }
+
+.esri-feature-table .esri-feature-table-menu .dijitDropDownButton .dijitButtonContents {
+    margin: 1px;
+}
