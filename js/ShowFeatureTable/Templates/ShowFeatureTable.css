@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
 .myBorderContainer {
   width: 100% !important;
   height: 100% !important; 
@@ -44,9 +46,16 @@
 }
 
 .esri-feature-table {
-    font-family: arial;
-    font-size: 14px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 12px;
     font-stretch: condensed;
+    color:black;
+}
+
+.esri-feature-table-menu-item .dijitMenuItemLabel {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 12px;
+    color:black;
 }
 
 .esri-feature-table .dgrid-header .dgrid-cell {
@@ -62,7 +71,7 @@
 }
 
 .esri-feature-table .ui-state-active {
-    background-color: #B4DAF5;
+    background-color: rgba(196, 230, 255, 0.68);
 }
 
 .esri-feature-table-loading-indicator {
@@ -75,4 +84,14 @@
     color: black;
     float: left;
     font-size: xx-small;
+}
+
+.dgrid-pagination .dgrid-page-disabled, .has-ie-6-7 .dgrid-navigation .dgrid-page-disabled, .has-ie.has-quirks .dgrid-navigation .dgrid-page-disabled {
+    color: #6c6c6c;
+}
+
+.dgrid-no-data {
+    color: white;
+    padding: 10px;
+    font-size: 20px;
 }
