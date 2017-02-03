@@ -227,17 +227,21 @@ define([
                 syncSelection: true, 
                 zoomToSelection: true, 
                 gridOptions: {
-                    allowSelectAll: true,
-                    allowTextSelection: false,
+                    allowSelectAll: false,
+                    allowTextSelection: true,
                     // pagination: true,
                     // pagingDelay: 1000,
                     // pageSizeOptions: [50, 100, 500],
                 },
                 editable: true,
                 dateOptions: {
-                    datePattern: "MMMM d, y",
+                    datePattern: i18n.widgets.showFeatureTable.datePattern,
                     timeEnabled: false
                 },
+                // timeOptions: {
+                //     datePattern: i18n.widgets.showFeatureTable.datePattern,
+                //     timeEnabled: true
+                // },
                 "outFields": outFields,
                 // showRelatedRecords: true,
                 showDataTypes: true,

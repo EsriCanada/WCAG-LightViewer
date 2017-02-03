@@ -5,6 +5,7 @@ define({
             hideTypes: "Masquer les types de données",
             refresh: "Rafraîchir",
             close: "Fermer",
+            datePattern: "d MMMM y"
         })
     })
 });

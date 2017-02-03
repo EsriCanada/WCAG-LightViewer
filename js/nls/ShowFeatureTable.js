@@ -6,6 +6,7 @@ define({
                 hideTypes: "Hide Data Types",
                 refresh: "Refresh",
                 close: "Close",
+                datePattern: "MMMM d, y"
             })
         })
     }),
