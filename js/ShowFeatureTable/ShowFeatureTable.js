@@ -7,6 +7,7 @@ define([
     "esri/map",
     //"dijit/_TemplatedMixin", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
+    "dojo/i18n!application/nls/ShowFeatureTable",
     "dojo/on", "dojo/query", "dijit/registry", "dojo/aspect", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", 
     "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
@@ -21,6 +22,7 @@ define([
         Map,
         //_TemplatedMixin, 
         //ShowFeatureTableTemplate, 
+        i18n,
         on, query, registry, aspect,
         domClass, domAttr, domStyle,
         ContentPane, BorderContainer, 
@@ -144,7 +146,7 @@ define([
                 // showStatistics:true,
                 menuFunctions: [
                     {
-                        label: "Show Data Types", 
+                        label: i18n.widgets.showFeatureTable.showTypes, 
                         callback: lang.hitch(this, function(evt){
                             // console.log(" Callback evt: ", evt);
                             var typeLabels = query('.esri-feature-table-column-header-type');
@@ -153,18 +155,18 @@ define([
                                 var l = evt.toElement.innerText;
                                 if(show) {
                                     typeLabels.forEach( function(label) { domStyle.set(label, 'display', '');});
-                                    evt.toElement.innerText = "Hide Data Types";
+                                    evt.toElement.innerText = i18n.widgets.showFeatureTable.hideTypes;
                                 }
                                 else {
                                     typeLabels.forEach( function(label) { domStyle.set(label, 'display', 'none');});
-                                    evt.toElement.innerText = "Show Data Types";
+                                    evt.toElement.innerText = i18n.widgets.showFeatureTable.showTypes;
                                 }
                                 this.myFeatureTable.resize();
                             }
                         })
                     },
                     {
-                        label: "Refresh", 
+                        label: i18n.widgets.showFeatureTable.refresh, 
                         callback: lang.hitch(this, function(evt){
                             // console.log(" Callback evt: ", evt);
                             this.myFeatureTable.refresh();
@@ -185,7 +187,7 @@ define([
 
             var typeLabels = query('.esri-feature-table-column-header-type');
             if(typeLabels && typeLabels.length>0) {
-                //evt.toElement.innerText = "Show Data Types";
+                //evt.toElement.innerText = i18n.widgets.showFeatureTable.showTypes;
                 typeLabels.forEach( function(label) { domStyle.set(label, 'display', 'none');});
             }
 
