@@ -144,13 +144,6 @@ define([
                 // showStatistics:true,
                 menuFunctions: [
                     {
-                        label: "Refresh", 
-                        callback: lang.hitch(this, function(evt){
-                            // console.log(" Callback evt: ", evt);
-                            this.myFeatureTable.refresh();
-                        })
-                    },
-                    {
                         label: "Show Data Types", 
                         callback: lang.hitch(this, function(evt){
                             // console.log(" Callback evt: ", evt);
@@ -168,6 +161,13 @@ define([
                                 }
                                 this.myFeatureTable.resize();
                             }
+                        })
+                    },
+                    {
+                        label: "Refresh", 
+                        callback: lang.hitch(this, function(evt){
+                            // console.log(" Callback evt: ", evt);
+                            this.myFeatureTable.refresh();
                         })
                     },
                 ],
