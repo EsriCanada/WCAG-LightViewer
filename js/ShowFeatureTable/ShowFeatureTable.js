@@ -140,7 +140,7 @@ define([
                 region: "center",
                 gutters:'false', 
                 splitter: 'true',
-                style: "height:50%; padding:0; overflow: none;",
+                style: "height:100%; padding:0; overflow: none;",
                 content: dojo.byId("mapDiv"), 
                 id: 'contentPaneTop',
                 class: "splitterContent",

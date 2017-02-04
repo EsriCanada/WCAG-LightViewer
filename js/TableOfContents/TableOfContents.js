@@ -1,6 +1,6 @@
 define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "esri/kernel", 
     "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on",
-    "esri/dijit/Legend", 
+    "esri/dijit/Legend", "application/ShowFeatureTable/ShowFeatureTable", 
     "dojo/text!application/TableOfContents/Templates/TableOfContents.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/event", 
     "dojo/_base/array",
@@ -8,7 +8,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     ], function (
         Evented, declare, lang, has, esriNS,
         _WidgetBase, _TemplatedMixin, on, 
-        Legend, 
+        Legend, ShowFeatureTable,
         dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
         array,
@@ -70,6 +70,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 account: "toc-account",
                 clear: "clear"
             };
+
         },
 
         // start widget. called by user
@@ -198,31 +199,33 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, titleText);
                     }
 
-                    settingsDiv = domConstruct.create("div", {
-                        className: "toc-settings",
-                        //id: layer.settings
-                    }, titleText);//titleContainerDiv);
+                    if(this.defaults.hasFeatureTable) {
+                        settingsDiv = domConstruct.create("div", {
+                            className: "toc-settings",
+                            //id: layer.settings
+                        }, titleText);//titleContainerDiv);
 
-                    domConstruct.create("input",{
-                        type:"radio",
-                        name:"showFeatureTable",
-                        value:layer.id,
-                        class:"tableRadio",
-                        id:"radio_"+layer.id,
-                        style:"display:none;"
-                    }, settingsDiv);
+                        var tableNode = domConstruct.create("input",{
+                            type:"radio",
+                            name:"showFeatureTable",
+                            value:layer.id,
+                            class:"tableRadio",
+                            id:"radio_"+layer.id,
+                            style:"display:none;",
+                        }, settingsDiv);
+                        on(tableNode, "change", lang.hitch(this, this._layerShowTableChanged));
 
-                    domConstruct.create("img", {
-                        src: 'images/table.18.png',
-                        class: 'tableBtn',
-                        alt:'Table',
-                        role: "button,",
-                        tabindex:0,
-                        title: 'Feature Table',
-                    }, domConstruct.create("label",{
-                        for:"radio_"+layer.id,
-                    },settingsDiv));
-
+                        domConstruct.create("img", {
+                            src: 'images/table.18.png',
+                            class: 'tableBtn',
+                            alt:'Table',
+                            role: "button,",
+                            tabindex:0,
+                            title: 'Feature Table',
+                        }, domConstruct.create("label",{
+                            for:"radio_"+layer.id,
+                        },settingsDiv));
+                    }
 
                     // settings
                     var settingsDiv, settingsIcon;
@@ -242,20 +245,21 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         className: this.css.clear
                     }, titleContainerDiv);
 
-                    // legend?
-                    var legend = new Legend({
-                        map: this.map,
-                        layerInfos: [{
-                            defaultSymbol:true,
-                            layer: layer.layerObject
-                        }],
-                    }, domConstruct.create("div", {
-                        role:'application', 
-                        class:'legend',//'verticalScrollContainer',
-                        //style:"height:100px;"
-                    }, titleContainerDiv));//Desc));
-                    //domClass.add(legend.domNode, "legend");
-                    legend.startup();
+                    if(this.defaults.hasLegend) {
+                        var legend = new Legend({
+                            map: this.map,
+                            layerInfos: [{
+                                defaultSymbol:true,
+                                layer: layer.layerObject
+                            }],
+                        }, domConstruct.create("div", {
+                            role:'application', 
+                            class:'legend',//'verticalScrollContainer',
+                            //style:"height:100px;"
+                        }, titleContainerDiv));//Desc));
+                        //domClass.add(legend.domNode, "legend");
+                        legend.startup();
+                    }
                     
                     // lets save all the nodes for events
                     var nodesObj = {
@@ -273,6 +277,24 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     this._checkboxEvent(i);
                 }
                 this._setLayerEvents();
+            }
+        },
+
+        _layerShowTableChanged: function(arg)  {
+            var checked = arg.currentTarget.checked;
+            if(checked) {
+                var layerId = arg.currentTarget.defaultValue;
+                for(var i = 0, m = null; i < this.layers.length; ++i) {
+                    if(this.layers[i].id == layerId) {
+                        if(this.featureTable) {
+                            this.featureTable.destroy();
+                            domConstruct.create("div", { id: 'featureTableNode'}, dojo.byId('featureTableContainer'));
+                        }
+                        this.featureTable.loadTable(this.layers[i]);
+                        //this.featureTable.status.show = true;
+                        break;
+                    }
+                }
             }
         },
 
@@ -456,6 +478,15 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         _init: function () {
             this._visible();
             this._createList();
+
+            if(this.defaults.hasFeatureTable) {
+                var ft = new ShowFeatureTable({
+                    map: this.map,
+                }, dojo.byId("mapPlace"));
+                ft.startup();
+                this.featureTable = ft;
+            }
+
             this.set("loaded", true);
             this.emit("load", {});
         },

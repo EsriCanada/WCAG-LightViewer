@@ -28,7 +28,7 @@ define(["dojo/ready",
     "esri/dijit/Measurement", "esri/dijit/OverviewMap", "esri/geometry/Extent", 
     "esri/layers/FeatureLayer", 
     "application/NavToolBar/NavToolBar", 
-    "application/ShowFeatureTable/ShowFeatureTable", 
+    //"application/ShowFeatureTable/ShowFeatureTable", 
     "application/FeatureList/FeatureList", "application/Filters/Filters", "application/TableOfContents/TableOfContents", 
     "application/LanguageSelect/LanguageSelect",
     "application/ShareDialog", //"application/SearchSources",
@@ -51,7 +51,7 @@ define(["dojo/ready",
     Measurement, OverviewMap, Extent, 
     FeatureLayer, 
     NavToolBar,
-    ShowFeatureTable,
+    //ShowFeatureTable,
     FeatureList, Filters, TableOfContents, 
     LanguageSelect,
     ShareDialog, //SearchSources,
@@ -256,8 +256,8 @@ define(["dojo/ready",
                 // set map so that it can be repositioned when page is scrolled
                 toolbar.map = this.map;
                 var toolList = [
-                    this._addNavigation(query("#mapDiv_zoom_slider")[0]),
-                    this._addFeatureTable(query("#mapDiv")[0])
+                    this._addNavigation(dojo.byId("mapDiv_zoom_slider")),
+                    //this._addFeatureTable(dojo.byId("mapDiv"))
                     ];
                 //this._addInfoTool(toolbar);
 
@@ -362,11 +362,11 @@ define(["dojo/ready",
                         }
                     }));
 
-                    //test
-                    if(this.featureTable)
-                    {
-                        this.featureTable.status.layer = this.layers[0];
-                    }
+                    // //test
+                    // if(this.featureTable)
+                    // {
+                    //     this.featureTable.status.layer = this.layers[0];
+                    // }
 
 
                 }));
@@ -566,17 +566,17 @@ define(["dojo/ready",
         featureTable: null,
         layers:null,
 
-        _addFeatureTable: function(mapDiv) {
-            var deferred = new Deferred();
+        // _addFeatureTable: function(mapDiv) {
+        //     var deferred = new Deferred();
 
-            var ft = new ShowFeatureTable({
-                map: this.map,
-            }, document.querySelector("#mapPlace"));
-            ft.startup();
-            this.featureTable = ft;
-            deferred.resolve(true);
-            return deferred.promise;
-        },
+        //     var ft = new ShowFeatureTable({
+        //         map: this.map,
+        //     }, dojo.byId("mapPlace"));
+        //     ft.startup();
+        //     this.featureTable = ft;
+        //     deferred.resolve(true);
+        //     return deferred.promise;
+        // },
 
         _addFilter: function (tool, toolbar) {
             //Add the legend tool to the toolbar. Only activated if the web map has operational layers.

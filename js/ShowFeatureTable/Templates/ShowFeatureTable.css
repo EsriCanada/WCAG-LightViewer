@@ -16,25 +16,6 @@ blockquote {
   padding:0px;
 }
 
-#mapPlace {
-    top: 32px;
-    width: 100% !important;
-    left: 0;
-    position: absolute;
-}
-
-@media only screen and (min-width: 720px) {
-    #mapPlace {
-        height: calc(100% - 44px) !important;
-        top: 44px;
-    }
-}
-
-#mapDiv {
-    height:100% !important;
-    width:100% !important;
-}
-
 .esri-feature-table .dgrid-row-even {
     background-color: #dadada;
 }
