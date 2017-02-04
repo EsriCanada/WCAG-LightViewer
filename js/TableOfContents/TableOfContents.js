@@ -71,7 +71,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             // map not defined
             if (!this.map) {
                 this.destroy();
-                console.log("TableOfContents::map required");
+                console.log("Error: TableOfContents, map required");
             }
             // when map is loaded
             if (this.map.loaded) {
@@ -174,11 +174,12 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     }, titleContainerDiv);
 
                     var titleText = domConstruct.create("label", {
-                        "for": "layer_ck_"+i,
-                        "className": this.css.titleText,
-                        "innerHTML": layer.title,
-                        role: "presentation",
-                        //"title" : layer.title
+                        for: "layer_ck_"+i,
+                        className: this.css.titleText,
+                        innerHTML: '<div style="width: calc(100% - 28px); display: inline;">'+layer.title+'</div>',
+                        // role: "presentation",
+                        title : layer.title,
+                        tabindex:0,
                     }, titleContainerDiv);
 
                     this._atachSpaceKey(titleContainerDiv, titleCheckbox);
@@ -191,17 +192,27 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, titleText);
                     }
 
+                    settingsDiv = domConstruct.create("div", {
+                        className: "toc-settings",
+                        //id: layer.settings
+                    }, titleText);//titleContainerDiv);
+
+
+                    settingsIcon = domConstruct.create("img", {
+                        src: 'images/table.18.png',
+                        class: 'tableBtn',
+                        alt:'Table',
+                        role: "button,",
+                        tabindex:0,
+                        title: 'Feature Table',
+                    }, settingsDiv);
+
+
                     // settings
                     var settingsDiv, settingsIcon;
-                    if (layer.layerObject &&
-                        dojo.exists("settings", layer) &&
-                        layer.layerObject.isEditable()) 
+                    if (layer.layerObject && dojo.exists("settings", layer) && layer.layerObject.isEditable()
+                        ) 
                     { 
-                        settingsDiv = domConstruct.create("div", {
-                            className: this.css.settings,
-                            id: layer.settings
-                        }, titleContainerDiv);
-
                         settingsIcon = domConstruct.create("img", {
                             'src' : 'images/icon-cog.png',
                             alt:'Configuration',

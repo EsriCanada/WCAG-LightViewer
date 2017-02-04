@@ -9,7 +9,8 @@ label.checkbox{
 }
 
 .esriRTL label.checkbox {
-  float: right; }
+  float: right; 
+}
 
 input[type=checkbox].checkbox {
   height: 20px;
@@ -24,45 +25,6 @@ input[type=checkbox].checkbox {
 .esriRTL .checkbox {
   float: right; 
 }
-
-.toc-settings {
-  cursor: pointer;
-  float: right;
-  margin-top: 5px;
-  opacity: 0.15;
-  position: absolute;
-  margin-left: 264px;
-}
-
-.toc-settings img{
-  width:16px;
-  height:16px;
-}
-
-.toc-title label.checkbox{
-  width: calc(100% - 40px);
-}
-
-.toc-settings:hover {
-  opacity: 1;
-}
-
-.toc-settings:active {
-  color: #97cbec; }
-
-.esriRTL .toc-settings {
-  margin-right: 0;
-  float: left;
-  margin-left: 15px; }
-
-.toc-account {
-  margin-left: 4px;
-  cursor: pointer;
-  text-decoration: none; }
-
-.esriRTL .toc-account {
-  margin-left: 0;
-  margin-right: 4px; }
 
 .clear {
   clear: both; }
