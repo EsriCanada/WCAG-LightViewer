@@ -78,6 +78,7 @@ define([
             },
             set layer(_layer) {
                 if(this.Layer) {
+                    this.Layer.layerObject._map.graphics.clear();
                     this._this.destroy();
                 }
                 this._this.loadTable(_layer);
@@ -159,10 +160,6 @@ define([
             this.borderContainer.placeAt(dojo.byId('mapPlace'));
 
             this.borderContainer.startup();
-
-            //this.hide();
-            //this.status.show = false;
-
         },
 
         postCreate: function() {
@@ -198,6 +195,9 @@ define([
         // },
 
         destroy: function() {
+            if(this.status.Layer) {
+                this.status.Layer.layerObject._map.graphics.clear();
+            }
             if(this.myFeatureTable)
                 this.myFeatureTable.destroy();
             //this.hide();
@@ -206,7 +206,7 @@ define([
 
         loadTable: function(myFeatureLayer){
             //return;
-            status.Layer = myFeatureLayer;
+            this.status.Layer = myFeatureLayer;
 
             var outFields =[];
             var fieldsMap = myFeatureLayer.layerObject.infoTemplate._fieldsMap;
@@ -279,11 +279,6 @@ define([
                         label: i18n.widgets.showFeatureTable.close, 
                         callback: lang.hitch(this, function(evt){
                             this.destroy();
-                            // // console.log(" Callback evt: ", evt);
-                            // this.myFeatureTable.destroy();
-                            // domStyle.set(dojo.byId('featureTableContainer'), "height",0);
-                            // domStyle.set(dojo.byId('featureTableContainer_splitter'), "display", "none");
-                            // this.borderContainer.resize();
                         })
                     },
                 ],
