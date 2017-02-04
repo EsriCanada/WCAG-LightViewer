@@ -137,3 +137,15 @@
 	box-shadow: 2px 2px 4px black;
     opacity:1;
 }
+
+.TableOfContents .esriLegendServiceLabel {
+    display: none;
+}
+
+.TableOfContents .esriLegendMsg {
+    display: none;
+}
+
+.TableOfContents .esriLegendService {
+     padding-bottom: 0; 
+}

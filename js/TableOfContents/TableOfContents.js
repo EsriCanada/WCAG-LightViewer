@@ -238,20 +238,20 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         className: this.css.clear
                     }, titleContainerDiv);
 
-                    // // legend?
-                    // var legend = new Legend({
-                    //     map: this.map,
-                    //     layerInfos: [{
-                    //         defaultSymbol:true,
-                    //         layer: layer.layerObject
-                    //     }],
-                    // }, domConstruct.create("div", {
-                    //     role:'application', 
-                    //     class:'legend',//'verticalScrollContainer',
-                    //     //style:"height:100px;"
-                    // }, titleContainerDiv));//Desc));
-                    // //domClass.add(legend.domNode, "legend");
-                    // legend.startup();
+                    // legend?
+                    var legend = new Legend({
+                        map: this.map,
+                        layerInfos: [{
+                            defaultSymbol:true,
+                            layer: layer.layerObject
+                        }],
+                    }, domConstruct.create("div", {
+                        role:'application', 
+                        class:'legend',//'verticalScrollContainer',
+                        //style:"height:100px;"
+                    }, titleContainerDiv));//Desc));
+                    //domClass.add(legend.domNode, "legend");
+                    legend.startup();
                     
                     // lets save all the nodes for events
                     var nodesObj = {
