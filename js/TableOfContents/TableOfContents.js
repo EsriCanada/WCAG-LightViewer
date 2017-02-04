@@ -197,15 +197,25 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         //id: layer.settings
                     }, titleText);//titleContainerDiv);
 
+                    domConstruct.create("input",{
+                        type:"radio",
+                        name:"showFeatureTable",
+                        value:layer.id,
+                        class:"tableRadio",
+                        id:"radio_"+layer.id,
+                        style:"display:none;"
+                    }, settingsDiv);
 
-                    settingsIcon = domConstruct.create("img", {
+                    domConstruct.create("img", {
                         src: 'images/table.18.png',
                         class: 'tableBtn',
                         alt:'Table',
                         role: "button,",
                         tabindex:0,
                         title: 'Feature Table',
-                    }, settingsDiv);
+                    }, domConstruct.create("label",{
+                        for:"radio_"+layer.id,
+                    },settingsDiv));
 
 
                     // settings

@@ -124,3 +124,16 @@
 .TableOfContents input[type=checkbox].checkbox {
     display: none;
 }
+
+.TableOfContents .tableBtn {
+	opacity:0.25;
+}
+
+.TableOfContents .tableBtn:hover, .TableOfContents .tableBtn:focus {
+	opacity:1;
+}
+
+.TableOfContents input[type="radio"]:checked + label .tableBtn {
+	box-shadow: 2px 2px 4px black;
+    opacity:1;
+}
