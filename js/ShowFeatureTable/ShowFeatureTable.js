@@ -4,7 +4,7 @@ define([
     "dijit/layout/_LayoutWidget", 
     "esri/layers/FeatureLayer",
     "esri/dijit/FeatureTable", "dstore/RequestMemory",
-    "esri/map",
+    "esri/map", 
     //"dijit/_TemplatedMixin", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
     "dojo/i18n!application/nls/ShowFeatureTable",

@@ -907,8 +907,11 @@ define(["dojo/ready",
                     var legend = new Legend({
                         map: this.map,
                         layerInfos: layers
-                    }, domConstruct.create("div", {role:'application', class:'verticalScrollContainer'}, legendDiv));//Desc));
-                    domClass.add(legend.domNode, "legend");
+                    }, domConstruct.create("div", {
+                        role:'application', 
+                        class:'legend verticalScrollContainer'
+                        }, legendDiv));//Desc));
+                    //domClass.add(legend.domNode, "legend");
                     legend.startup();
 
                     on(toolbar, 'updateTool_legend', lang.hitch(this, function(name) {

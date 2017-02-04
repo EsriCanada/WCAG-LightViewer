@@ -1,5 +1,6 @@
 define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "esri/kernel", 
     "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on",
+    "esri/dijit/Legend", 
     "dojo/text!application/TableOfContents/Templates/TableOfContents.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/event", 
     "dojo/_base/array",
@@ -7,6 +8,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     ], function (
         Evented, declare, lang, has, esriNS,
         _WidgetBase, _TemplatedMixin, on, 
+        Legend, 
         dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
         array,
@@ -235,6 +237,21 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     var clearCSS = domConstruct.create("div", {
                         className: this.css.clear
                     }, titleContainerDiv);
+
+                    // // legend?
+                    // var legend = new Legend({
+                    //     map: this.map,
+                    //     layerInfos: [{
+                    //         defaultSymbol:true,
+                    //         layer: layer.layerObject
+                    //     }],
+                    // }, domConstruct.create("div", {
+                    //     role:'application', 
+                    //     class:'legend',//'verticalScrollContainer',
+                    //     //style:"height:100px;"
+                    // }, titleContainerDiv));//Desc));
+                    // //domClass.add(legend.domNode, "legend");
+                    // legend.startup();
                     
                     // lets save all the nodes for events
                     var nodesObj = {
