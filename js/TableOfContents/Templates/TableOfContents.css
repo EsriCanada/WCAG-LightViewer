@@ -38,6 +38,12 @@
     display: inline-block;
 }
 
+.TableOfContents .labelText {
+	width: calc(100% - 28px); 
+	display: inline-block;
+	padding: 0 0 4px 2px;
+}
+
 @media screen and (max-width: 300px) {
   .TableOfContents {
     width: auto; }
@@ -65,16 +71,16 @@
 
 .TableOfContents .toc-title label.checkbox{
   	width: calc(100% - 2px);
-  	padding: 4px 2px;
+  	/*padding: 4px 2px;*/
 }
 
-.TableOfContents input[type="checkbox"] + label  {
+.TableOfContents input[type="checkbox"] + label .labelText {
     font-weight: normal;
     font-size: smaller;
     text-decoration: line-through;
 }
 
-.TableOfContents input[type="checkbox"]:checked + label  {
+.TableOfContents input[type="checkbox"]:checked + label .labelText {
     font-weight: bold;
     font-size: initial;
     text-decoration: initial;

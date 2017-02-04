@@ -176,7 +176,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     var titleText = domConstruct.create("label", {
                         for: "layer_ck_"+i,
                         className: this.css.titleText,
-                        innerHTML: '<div style="width: calc(100% - 28px); display: inline;">'+layer.title+'</div>',
+                        innerHTML: '<div class="labelText">'+layer.title+'</div>',
                         // role: "presentation",
                         title : layer.title,
                         tabindex:0,
