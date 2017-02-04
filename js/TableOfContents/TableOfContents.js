@@ -28,6 +28,13 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             var defaults = lang.mixin({}, this.options, options);
             // widget node
             this.domNode = srcRefNode;
+
+            dojo.create("link", {
+                href : "js/TableOfContents/Templates/TableOfContents.css",
+                type : "text/css",
+                rel : "stylesheet",
+            }, document.head);
+
             // properties
             this.set("map", defaults.map);
             this.set("layers", defaults.layers);
