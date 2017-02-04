@@ -29,7 +29,7 @@ define(["dojo/ready",
     "esri/layers/FeatureLayer", 
     "application/NavToolBar/NavToolBar", 
     "application/ShowFeatureTable/ShowFeatureTable", 
-    "application/FeatureList/FeatureList", "application/Filters/Filters", "application/TableOfContents", 
+    "application/FeatureList/FeatureList", "application/Filters/Filters", "application/TableOfContents/TableOfContents", 
     "application/LanguageSelect/LanguageSelect",
     "application/ShareDialog", //"application/SearchSources",
     "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/graphic",
@@ -750,28 +750,19 @@ define(["dojo/ready",
             } 
             else 
             { 
-                // if(!has("details"))
-                // {
-                    var instructionsDiv = toolbar.createTool(tool);
+                var instructionsDiv = toolbar.createTool(tool);
+                require(["dojo/text!application/dijit/templates/"+this.config.i18n.instructions+".html"], 
+                    function(instructionsText){
                     domConstruct.create('div',{
                         id:"instructionsDiv",
                         innerHTML: instructionsText,
                         tabindex: 0
                     }, domConstruct.create("div", {}, instructionsDiv));
-
-                    var instructionsBtn = dojo.query("#toolButton_instructions")[0];
-                    domClass.add(instructionsBtn, "panelToolDefault");
-                //} 
-                // else {
-                //     deferedDetails.then(function(r) {
-                //         var instructionsDiv = domConstruct.create('div',{
-                //             id:"instructionsDiv",
-                //             innerHTML: instructionsText,
-                //             tabindex: 0
-                //         }, dom.byId("pageBody_details"));
-
-                //     });
-                // }
+                });
+                
+                var instructionsBtn = dojo.query("#toolButton_instructions")[0];
+                domClass.add(instructionsBtn, "panelToolDefault");
+                
                 deferred.resolve(true);
             }
             return deferred.promise;
