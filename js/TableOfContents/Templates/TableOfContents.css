@@ -3,7 +3,7 @@
 .TableOfContents .toc-title {
   border-top: 1px solid gray;
   font-size: 16px;
-  line-height: 16px;
+  /*line-height: 16px;*/
   -webkit-user-select: none;
   -moz-user-select: none;
   margin: 1px 2px;
@@ -17,6 +17,7 @@
   background: none;
   color: black;
   position: relative;
+  padding: 8px;
 }
 
 .TableOfContents {
@@ -41,7 +42,7 @@
 .TableOfContents .labelText {
 	width: calc(100% - 28px); 
 	display: inline-block;
-	padding: 0 0 4px 2px;
+	padding-left: 4px;
 }
 
 @media screen and (max-width: 300px) {
@@ -60,6 +61,7 @@
 .TableOfContents .toc-settings {
   	float: right;
     margin-right: 4px;
+    margin-top: 1px;
 }
 
 .TableOfContents .toc-settings img{
@@ -74,23 +76,23 @@
   	/*padding: 4px 2px;*/
 }
 
-.TableOfContents input[type="checkbox"] + label .labelText {
+.TableOfContents input[type="checkbox"] + div .labelText {
     font-weight: normal;
     font-size: smaller;
     text-decoration: line-through;
 }
 
-.TableOfContents input[type="checkbox"]:checked + label .labelText {
+.TableOfContents input[type="checkbox"]:checked + div .labelText {
     font-weight: bold;
     font-size: initial;
     text-decoration: initial;
 }
 
-.TableOfContents input[type="checkbox"] + label .toc-settings {
+.TableOfContents input[type="checkbox"] + div .toc-settings {
     display:none;
 }
 
-.TableOfContents input[type="checkbox"]:checked + label .toc-settings {
+.TableOfContents input[type="checkbox"]:checked + div .toc-settings {
     display:initial;
 }
 

@@ -173,10 +173,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         checked: layer.visibility,
                     }, titleContainerDiv);
 
-                    var titleText = domConstruct.create("label", {
-                        for: "layer_ck_"+i,
+                    var titleText = domConstruct.create("div", {
+                        //for: "layer_ck_"+i,
                         className: this.css.titleText,
-                        innerHTML: '<div class="labelText">'+layer.title+'</div>',
+                        innerHTML: '<label for="layer_ck_'+i+'" class="labelText">'+layer.title+'</div>',
                         // role: "presentation",
                         title : layer.title,
                         tabindex:0,

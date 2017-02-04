@@ -1159,10 +1159,10 @@ input[type=checkbox]:checked.share-dialog-checkbox + .share-dialog-checkbox:befo
   background-color: white;
 }
 
-.toc-title-container {
+/*.toc-title-container {
   padding: 8px;
 }
-
+*/
 .esriBasemapGalleryNode
 {
   margin: 1px 8px !important;
