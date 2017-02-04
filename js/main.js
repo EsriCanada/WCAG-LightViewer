@@ -878,7 +878,9 @@ define(["dojo/ready",
 
                     var toc = new TableOfContents({
                         map: this.map,
-                        layers: layers
+                        layers: layers,
+                        hasLegend: has("legend"),
+                        hasFeatureTable: has("featureTable"),
                     }, domConstruct.create("div", {}, layersDivDesc));
                     toc.startup();
 

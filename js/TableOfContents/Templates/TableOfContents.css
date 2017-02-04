@@ -149,3 +149,8 @@
 .TableOfContents .esriLegendService {
      padding-bottom: 0; 
 }
+
+.TableOfContents .legend {
+     background-color: transparent; 
+    /* margin-top: 1px; */
+}

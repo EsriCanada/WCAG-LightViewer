@@ -21,7 +21,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             theme: "TableOfContents",
             map: null,
             layers: null,
-            visible: true
+            visible: true,
+            hasLegend:true,
+            hasFeatureTable:false
         },
 
         // lifecycle: 1
@@ -38,6 +40,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             }, document.head);
 
             // properties
+            this.set("defaults", defaults);
+
             this.set("map", defaults.map);
             this.set("layers", defaults.layers);
             this.set("theme", defaults.theme);
