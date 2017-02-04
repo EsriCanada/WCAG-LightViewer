@@ -23,7 +23,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             layers: null,
             visible: true,
             hasLegend:true,
-            hasFeatureTable:false
+            hasFeatureTable:false,
+            operationalLayers:null,
+            mapNode: dojo.byId('mapPlace')
         },
 
         // lifecycle: 1
@@ -245,7 +247,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         className: this.css.clear
                     }, titleContainerDiv);
 
-                    if(this.defaults.hasLegend) {
+                    // legend ?
+                    if(this.defaults.hasLegend && this._showLegend(layer)) {
                         var legend = new Legend({
                             map: this.map,
                             layerInfos: [{
@@ -254,10 +257,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             }],
                         }, domConstruct.create("div", {
                             role:'application', 
-                            class:'legend',//'verticalScrollContainer',
-                            //style:"height:100px;"
-                        }, titleContainerDiv));//Desc));
-                        //domClass.add(legend.domNode, "legend");
+                            class:'legend',
+                        }, titleContainerDiv));
                         legend.startup();
                     }
                     
@@ -280,6 +281,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             }
         },
 
+        _showLegend : function(layer) {
+            if(!this.defaults.operationalLayers) return true; // ???
+            for(var il=0; il < this.defaults.operationalLayers.length; il++) {
+                if(this.defaults.operationalLayers[il].id === layer.id && 
+                    (!layer.hasOwnProperty("showLegend") || layer.showLegend))
+                    return true;
+            }
+            return false;
+        },
+
         _layerShowTableChanged: function(arg)  {
             var checked = arg.currentTarget.checked;
             if(checked) {
@@ -291,7 +302,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             domConstruct.create("div", { id: 'featureTableNode'}, dojo.byId('featureTableContainer'));
                         }
                         this.featureTable.loadTable(this.layers[i]);
-                        //this.featureTable.status.show = true;
                         break;
                     }
                 }
@@ -482,7 +492,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             if(this.defaults.hasFeatureTable) {
                 var ft = new ShowFeatureTable({
                     map: this.map,
-                }, dojo.byId("mapPlace"));
+                }, this.defaults.mapNode);
                 ft.startup();
                 this.featureTable = ft;
             }

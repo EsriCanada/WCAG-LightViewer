@@ -277,7 +277,7 @@ define(["dojo/ready",
                             toolList.push(this._addFilter(this.config.tools[i], toolbar));
                             break;
                         case "legend":
-                            toolList.push(this._addLegend(this.config.tools[i], toolbar));
+                            //toolList.push(this._addLegend(this.config.tools[i], toolbar));
                             break;
                         case "layers":
                             toolList.push(this._addLayers(this.config.tools[i], toolbar));
@@ -881,6 +881,8 @@ define(["dojo/ready",
                         layers: layers,
                         hasLegend: has("legend"),
                         hasFeatureTable: has("featureTable"),
+                        operationalLayers: this.config.response.itemInfo.itemData.operationalLayers,
+                        mapNode: dojo.byId('mapPlace'),
                     }, domConstruct.create("div", {}, layersDivDesc));
                     toc.startup();
 
