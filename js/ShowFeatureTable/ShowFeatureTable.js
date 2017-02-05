@@ -228,7 +228,7 @@ define([
                 zoomToSelection: true, 
                 gridOptions: {
                     allowSelectAll: false,
-                    allowTextSelection: true,
+                    allowTextSelection: false,
                     // pagination: true,
                     // pagingDelay: 1000,
                     // pageSizeOptions: [50, 100, 500],

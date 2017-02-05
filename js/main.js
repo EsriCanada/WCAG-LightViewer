@@ -516,7 +516,10 @@ define(["dojo/ready",
             //Add the legend tool to the toolbar. Only activated if the web map has operational layers.
             var deferred = new Deferred();
             if (has("features")) {
-                var featuresDiv = toolbar.createTool(tool, "", "reload1.gif", "featureSelected");
+                var featuresDiv = toolbar.createTool(tool, {
+                    showLoading:true,
+                    badgeName:"featureSelected"
+                });//"", "reload1.gif", "featureSelected");
 
                 var layers = 
                 this.layers = this.config.response.itemInfo.itemData.operationalLayers;
@@ -582,7 +585,9 @@ define(["dojo/ready",
             //Add the legend tool to the toolbar. Only activated if the web map has operational layers.
             var deferred = new Deferred();
             if (has("filter")) {
-                var filterDiv = toolbar.createTool(tool, "", "", "somefilters");
+                var filterDiv = toolbar.createTool(tool, {
+                    badgeName:"somefilters"
+                });//, "", "", "somefilters");
 
                 var layers = this.config.response.itemInfo.itemData.operationalLayers;
                 
@@ -726,9 +731,9 @@ define(["dojo/ready",
                         tabindex:0
                     });
                     detailDiv.innerHTML = "<div tabindex=0 id='detailDiv'>"+description+"</div>";
-                    var detailDiv = dojo.query("#detailDiv")[0];
+                    //var detailDiv = dojo.query("#detailDiv")[0];
                     //if(!has("instructions"))
-                        domClass.add(detailDiv, "detailFull");
+                        domClass.add(detailDiv, "detailFull"); // ?
                     // else
                     //     domClass.add(detailDiv, "detailHalf");
 
@@ -873,7 +878,16 @@ define(["dojo/ready",
                 if (has("layers")) {
                     panelClass = "";
 
-                    var layersDivDesc = toolbar.createTool(tool);
+                    var layersDivDesc = toolbar.createTool(tool, {
+                        badgeName:"featureTableSelected",
+                        badgeIcon: "images/table.18.png",
+                        buttons: [
+                            {
+                                title: "Legend",
+                                icon: 'images/icons_' + this.config.icons + '/legend.png',
+                            }
+                        ]
+                    });
                     // var layersDivDesc = domConstruct.create("div", {class:'margin'}, layersDiv);
 
                     var toc = new TableOfContents({
@@ -907,7 +921,7 @@ define(["dojo/ready",
                 deferred.resolve(false);
             } else {
                 if (has("legend")) {
-                    var legendDiv = toolbar.createTool(tool, "");
+                    var legendDiv = toolbar.createTool(tool);
                     var legend = new Legend({
                         map: this.map,
                         layerInfos: layers

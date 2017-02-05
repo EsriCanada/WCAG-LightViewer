@@ -326,6 +326,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             domConstruct.create("div", { id: 'featureTableNode'}, dojo.byId('featureTableContainer'));
                         }
                         this.featureTable.loadTable(this.layers[i]);
+
+                        this.showBadge(true);
                         break;
                     }
                 }
@@ -538,7 +540,19 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             } else {
                 domStyle.set(this.domNode, "display", "none");
             }
-        }
+        },
+
+        showBadge: function(show) {
+            var indicator = dojo.byId('badge_featureTableSelected'); // !
+            if (show) {
+                domStyle.set(indicator,'display','');
+                // domAttr.set(indicator, "title", i18n.widgets.featureList.featureSelected);
+                // domAttr.set(indicator, "alt", i18n.widgets.featureList.featureSelected);
+            } else {
+                domStyle.set(indicator,'display','none');
+            }
+        },    
+
     });
     if (has("extend-esri")) {
         lang.setObject("dijit.TableOfContents", Widget, esriNS);

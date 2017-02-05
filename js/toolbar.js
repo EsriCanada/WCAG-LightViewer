@@ -104,7 +104,13 @@ on, mouse, query, Deferred) {
         },
 
         //Create a tool and return the div where you can place content
-        createTool: function (tool, panelClass, loaderImg, badgeEvName) {
+        createTool: function (tool, options) { 
+            var settings = lang.mixin({}, {
+                badgeName: '',
+                badgeIcon: null,
+                showLoading: false,
+                panelClass: '',
+            }, options);
             var name = tool.name;
 
             // add tool
@@ -127,14 +133,14 @@ on, mouse, query, Deferred) {
                 domAttr.set(pTool, "title", tip);
             }
 
-
-            if(badgeEvName && badgeEvName !== '') {
+            if(settings && settings.badgeName !== '') {
+                var src = settings.badgeIcon ? settings.badgeIcon :"images/"+settings.badgeName+".png";
                 var setIndicator = domConstruct.create("img", {
-                    src:"images/"+badgeEvName+".png",
+                    src: src,
                     class:"setIndicator",
                     style:"display:none;",
                     tabindex:0,
-                    id: 'badge_'+badgeEvName,
+                    id: 'badge_'+settings.badgeName,
                     alt:""
                 });
                 domConstruct.place(setIndicator, panelTool);
@@ -171,7 +177,7 @@ on, mouse, query, Deferred) {
                 id: "pagetitle_" + name
             }, pageHeader);
 
-            if(loaderImg && loaderImg !=="") {
+            if(settings.showLoading) {
                 domConstruct.create("div", {
                     id: "loading_" + name,
                     class: 'hideLoading small-loading'
@@ -189,7 +195,11 @@ on, mouse, query, Deferred) {
                 id: "pageBody_" + name,
             }, 
             pageContent);
-            domClass.add(pageBody, panelClass);
+
+            //var page = query(this.domNode).closest('.pageBody')[0]
+
+            if(settings.panelClass !== '')
+                domClass.add(pageBody, settings.panelClass);
 
             on(this, "updateTool_" + name, lang.hitch(this, function(name) {
                 pageBody.focus();

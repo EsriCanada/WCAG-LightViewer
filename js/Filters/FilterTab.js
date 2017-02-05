@@ -38,6 +38,8 @@ define([
             this._init();
         },
 
+
+
         fieldSelect:null,
 
         _init: function () {
@@ -150,7 +152,7 @@ define([
 
         showBadge: function(show) {
             var tabIndex = window.filtersOn.indexOf(this.id);
-            var tabIndicator = query('#'+this.id+"_img")[0];
+            var tabIndicator = dojo.byId(this.id+"_img");
             if(show) {
                 domStyle.set(tabIndicator,'display','');
                 if(tabIndex<0)
@@ -165,7 +167,7 @@ define([
                 }                          
             }
             
-            var badgeindicator = query('#badge_somefilters')[0];
+            var badgeindicator = dojo.byId('badge_somefilters');
                 if (window.filtersOn.length>0) {
                     domStyle.set(badgeindicator,'display','');
                     domAttr.set(badgeindicator, "title", "Some Filters Apply");
