@@ -264,7 +264,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         
 
                         domConstruct.create('img',{
-                            src:'images/icons_black/up.png',
+                            src:'images/icons_black/down.png',
                             alt:'Show Legend',
                             class: 'flipper',
                             tabindex: 0,
