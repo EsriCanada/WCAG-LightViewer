@@ -242,13 +242,37 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, settingsDiv);
                     }
 
-                    // clear css
-                    var clearCSS = domConstruct.create("div", {
-                        className: this.css.clear
-                    }, titleContainerDiv);
+                    // // clear css
+                    // var clearCSS = domConstruct.create("div", {
+                    //     className: this.css.clear
+                    // }, titleContainerDiv);
 
                     // legend ?
                     if(this.defaults.hasLegend && this._showLegend(layer)) {
+                        var divWrapLegend = domConstruct.create('div', {
+                            class:'showLegendBtn',
+                            title:'Show Legend',
+                            tabindex:0
+                        },
+                        titleContainerDiv);
+
+                        domConstruct.create('input',{
+                            type:'checkbox',
+                            id: 'cbLegend_'+layer.id,
+                            class: 'cbLegend',
+                        }, divWrapLegend);
+                        
+
+                        domConstruct.create('img',{
+                            src:'images/icons_black/up.png',
+                            alt:'Show Legend',
+                            class: 'flipper',
+                            tabindex: 0,
+                        }, domConstruct.create('label',{
+                            for: 'cbLegend_'+layer.id,
+                            class: 'cbLegendLabel',
+                        }, divWrapLegend));
+
                         var legend = new Legend({
                             map: this.map,
                             layerInfos: [{
@@ -258,7 +282,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, domConstruct.create("div", {
                             role:'application', 
                             class:'legend',
-                        }, titleContainerDiv));
+                        }, divWrapLegend));//titleContainerDiv));
                         legend.startup();
                     }
                     

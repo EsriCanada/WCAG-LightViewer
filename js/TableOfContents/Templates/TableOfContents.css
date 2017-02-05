@@ -40,17 +40,19 @@
 }
 
 .TableOfContents .labelText {
-	width: calc(100% - 28px); 
+	width: calc(100% - 40px); 
 	display: inline-block;
 	padding-left: 4px;
 }
 
 @media screen and (max-width: 300px) {
-  .TableOfContents {
-    width: auto; }
-  label.checkbox {
-    width: 60%; } 
-  }
+  	.TableOfContents {
+    	width: auto; 
+	}
+	label.checkbox {
+	    width: 60%; 
+	} 
+}
 
 .TableOfContents .toc-settings{
 	/*width:18px;*/
@@ -88,21 +90,13 @@
     text-decoration: initial;
 }
 
-.TableOfContents input[type="checkbox"] + div .toc-settings {
+.TableOfContents input[type="checkbox"].checkbox + div .toc-settings {
     display:none;
 }
 
-.TableOfContents input[type="checkbox"]:checked + div .toc-settings {
+.TableOfContents input[type="checkbox"].checkbox:checked + div .toc-settings {
     display:initial;
 }
-
-/*.TableOfContents .toc-settings:hover {
-  opacity: 1;
-}*/
-
-/*.TableOfContents .toc-settings:active {
-  color: #97cbec; 
-}*/
 
 .esriRTL .TableOfContents .toc-settings {
   margin-right: 0;
@@ -153,4 +147,49 @@
 .TableOfContents .legend {
      background-color: transparent; 
     /* margin-top: 1px; */
+}
+
+.showLegendBtn {
+    cursor: pointer;
+    background-color: white;
+	display:table;
+}
+
+.showLegendBtn img {
+	width:18px;
+	display: block;
+    cursor: pointer;
+}
+
+.cbLegend {
+	display:none;
+}
+
+.esriLegendLayerLabel {
+	padding-top:0;
+}
+
+.flipper {
+	transition: 0.9s;
+	transform-style: preserve-3d;
+}	
+
+.TableOfContents input[type="checkbox"]:checked + label.cbLegendLabel .flipper {
+	transform: rotateX(180deg);
+}
+
+.TableOfContents input[type="checkbox"] + div + div .cbLegendLabel {
+    display:none;
+}
+
+.TableOfContents input[type="checkbox"]:checked + div + div .cbLegendLabel {
+    display:initial;
+}
+
+.TableOfContents input[type="checkbox"].cbLegend + label + div {
+    display:none;
+}
+
+.TableOfContents input[type="checkbox"].cbLegend:checked + label + div {
+    display:initial;
 }
