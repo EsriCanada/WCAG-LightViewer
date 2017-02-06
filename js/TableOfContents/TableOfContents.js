@@ -145,11 +145,24 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 var toolsDiv = dojo.byId('tools_layers');
                 //var iconset = toolsDiv.dataset.iconset;
                 if(this.defaults.hasLegend) {
-                    domConstruct.create('img', {
+                    var expandCollapseLegends = domConstruct.create('img', {
+                        id: 'expandCollapseLegends',
                         src: 'images/icons_' + this.iconset + '/legend.png',
                         alt: 'Legend',
-                        style:'width:20px; height:20px;'
+                        role: 'button',
+                        tabindex:0,
+                        style:'width:20px; height:20px;',
+                        title: "Expand or Collapse Legends"
                     },toolsDiv);
+                    on(expandCollapseLegends, 'click', lang.hitch(this, function(evt) {
+                        var flippers = dojo.query('.cbLegend');
+                        if(flippers && flippers.length>0) {
+                            var action = !flippers[0].checked;
+                            for(var i=0; i<flippers.length; i++) {
+                                flippers[i].checked = action;
+                            }
+                        }
+                    }));
                 }
 
                 if(this.defaults.hasFeatureTable) {
