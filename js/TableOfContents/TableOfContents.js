@@ -78,6 +78,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 clear: "clear"
             };
 
+            this.toolsDiv = dojo.byId('tools_layers');
+            this.iconset = this.toolsDiv.dataset.iconset;
         },
 
         // start widget. called by user
@@ -141,10 +143,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             // if we got layers
             if (layers && layers.length) {
                 var toolsDiv = dojo.byId('tools_layers');
-                var iconset = toolsDiv.dataset.iconset;
+                //var iconset = toolsDiv.dataset.iconset;
                 if(this.defaults.hasLegend) {
                     domConstruct.create('img', {
-                        src: 'images/icons_' + iconset + '/legend.png',
+                        src: 'images/icons_' + this.iconset + '/legend.png',
                         alt: 'Legend',
                         style:'width:20px; height:20px;'
                     },toolsDiv);
@@ -164,7 +166,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     var closeTableBtn = domConstruct.create("img", {
                         id: 'radio_tableCloseImg',
-                        src: 'images/icons_' + iconset + '/tableClose.png',
+                        src: 'images/icons_' + this.iconset + '/tableClose.png',
                         alt:'Close Feature Table',
                         role: "button",
                         tabindex:0,
@@ -398,7 +400,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             console.log(arg);
             var tableCloseImg = dojo.byId('radio_tableCloseImg');
             var toolsDiv = dojo.byId('tools_layers');
-            var iconset = toolsDiv.dataset.iconset;
+            //var iconset = toolsDiv.dataset.iconset;
         
             //if(checked) {
             if(arg.target.id !== 'radio_tableClose') {
@@ -413,13 +415,13 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                         this.showBadge(true);
 
-                        tableCloseImg.src = 'images/icons_' + iconset + '/tableClose.red.png';
+                        tableCloseImg.src = 'images/icons_' + this.iconset + '/tableClose.red.png';
                         break;
                     }
                 }
             }
             else {
-                tableCloseImg.src = 'images/icons_' + iconset + '/tableClose.png';
+                tableCloseImg.src = 'images/icons_' + this.iconset + '/tableClose.png';
 
                 this.featureTable.destroy();
             }
@@ -612,6 +614,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 }, this.defaults.mapNode);
                 ft.startup();
                 this.featureTable = ft;
+                on(ft, "destroy", lang.hitch(this, function(evt) {
+                    dojo.byId('radio_tableClose').click();
+                }));
             }
 
             this.set("loaded", true);

@@ -202,6 +202,8 @@ define([
                 this.myFeatureTable.destroy();
             //this.hide();
             this.status.show = false;
+
+            this.emit("destroied", {});
         },
 
         loadTable: function(myFeatureLayer){
@@ -275,12 +277,13 @@ define([
                             this.myFeatureTable.refresh();
                         })
                     },
-                    // {
-                    //     label: i18n.widgets.showFeatureTable.close, 
-                    //     callback: lang.hitch(this, function(evt){
-                    //         this.destroy();
-                    //     })
-                    // },
+                    {
+                        label: i18n.widgets.showFeatureTable.close, 
+                        callback: lang.hitch(this, function(evt){
+                            //this.destroy();
+                            this.emit("destroy", {});
+                        })
+                    },
                 ],
                 showColumnHeaderTooltips: false,
             }, dojo.byId('featureTableNode'));
