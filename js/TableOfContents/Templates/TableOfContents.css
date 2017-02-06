@@ -206,7 +206,7 @@
 .layerOpacitySlider {
 	position: absolute;
     top: 27px;
-	left: 32px;
-    width: 40%;
+	right: 36px;
+    width: 20%;
 }
 

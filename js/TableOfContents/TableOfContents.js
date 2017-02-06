@@ -190,20 +190,25 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     titleCheckbox = domConstruct.create("input", 
                     {
                         id: "layer_ck_"+i,
-                        className: titleCheckBoxClass, //this.css.titleCheckbox,
+                        className: titleCheckBoxClass, 
                         type: "checkbox",
                         tabindex: 0,
                         checked: layer.visibility,
                     }, titleContainerDiv);
 
                     var titleText = domConstruct.create("div", {
-                        //for: "layer_ck_"+i,
                         className: this.css.titleText,
-                        innerHTML: '<label for="layer_ck_'+i+'" class="labelText">'+layer.title+'</div>',
-                        // role: "presentation",
                         title : layer.title,
-                        tabindex:0,
+                        // role: "presentation",
+                        // tabindex:0,
                     }, titleContainerDiv);
+
+                    domConstruct.create('label',{
+                        for: 'layer_ck_'+i,
+                        class: 'labelText',
+                        tabindex: 0,
+                        innerHTML: layer.title
+                    }, titleText);
 
                     this._atachSpaceKey(titleContainerDiv, titleCheckbox);
 
@@ -276,23 +281,24 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, divWrapLegend);
                         
 
+                        var expandLegendBtn = domConstruct.create('label',{
+                            for: 'cbLegend_'+layer.id,
+                            class: 'cbLegendLabel',
+                        }, divWrapLegend);
                         domConstruct.create('img',{
                             src:'images/icons_black/down.png',
                             alt:'Show Legend',
                             class: 'flipper',
                             tabindex: 0,
-                        }, domConstruct.create('label',{
-                            for: 'cbLegend_'+layer.id,
-                            class: 'cbLegendLabel',
-                        }, divWrapLegend));
+                        }, expandLegendBtn);
 
                         var slider = domConstruct.create('input', {
                             type:'range',
                             class:'layerOpacitySlider',
                             value:100,
                             'data-layerid':layer.id,
-                        }, divWrapLegend);
-
+                        });
+                        dojo.place(slider, expandLegendBtn, 'after');
                         on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
 
                         var legend = new Legend({

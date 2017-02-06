@@ -15,7 +15,8 @@ input[type=range] {
   width: 100%;*/
 }
 input[type=range]:focus {
-  outline: none;
+  /*outline: none;*/
+  outline-offset: 4px;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
