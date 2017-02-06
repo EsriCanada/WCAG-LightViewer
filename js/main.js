@@ -882,27 +882,17 @@ define(["dojo/ready",
                         badgeName:"featureTableSelected",
                         badgeIcon: "images/table.18.png",
                         iconsSet:this.config.icons,
-                        // buttons: [
-                        //     {
-                        //         title: "Legend",
-                        //         icon: 'images/icons_' + this.config.icons + '/legend.png',
-                        //     }
-                        // ]
                     });
-                    // var layersDivDesc = domConstruct.create("div", {class:'margin'}, layersDiv);
 
                     var toc = new TableOfContents({
                         map: this.map,
                         layers: layers,
+                        dataItems: this.config.response.itemInfo.itemData,
                         hasLegend: has("legend"),
                         hasFeatureTable: has("featureTable"),
                         mapNode: dojo.byId('mapPlace'),
                     }, domConstruct.create("div", {}, layersDivDesc));
                     toc.startup();
-
-                    // on(toolbar, 'updateTool_layers', lang.hitch(this, function(name) {
-                    //     dom.byId('pageBody_layers').focus();
-                    // }));
 
                     deferred.resolve(true);
                 } else {
