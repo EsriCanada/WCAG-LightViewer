@@ -159,7 +159,11 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         if(flippers && flippers.length>0) {
                             var action = !flippers[0].checked;
                             for(var i=0; i<flippers.length; i++) {
-                                flippers[i].checked = action;
+                                var label = dojo.query('label[for="'+flippers[i].id+'"]')[0];
+                                if(domStyle.get(label ,'display') !== 'none')
+                                    flippers[i].checked = action;
+                                else 
+                                    flippers[i].checked = false;
                             }
                         }
                     }));
