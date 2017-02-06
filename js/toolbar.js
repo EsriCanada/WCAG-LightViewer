@@ -110,6 +110,7 @@ on, mouse, query, Deferred) {
                 badgeIcon: null,
                 showLoading: false,
                 panelClass: '',
+                iconSet: 'white'
             }, options);
             var name = tool.name;
 
@@ -183,6 +184,12 @@ on, mouse, query, Deferred) {
                     class: 'hideLoading small-loading'
                 }, pageHeader);
             }
+
+            domConstruct.create('div', {
+                class: 'pageHeaderTools',
+                id: 'tools_'+name,
+                'data-iconset': settings.iconSet
+            }, pageHeader);
 
             // domConstruct.create("div", {
             //     className: "pageHeaderImg",

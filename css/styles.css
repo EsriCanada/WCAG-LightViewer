@@ -1777,3 +1777,8 @@ main {
   margin:4px;
 }
 
+.pageHeaderTools {
+    padding: 1px;
+    display: inline-block;
+    line-height: 8px;
+}

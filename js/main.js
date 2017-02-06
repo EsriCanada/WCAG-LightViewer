@@ -881,12 +881,13 @@ define(["dojo/ready",
                     var layersDivDesc = toolbar.createTool(tool, {
                         badgeName:"featureTableSelected",
                         badgeIcon: "images/table.18.png",
-                        buttons: [
-                            {
-                                title: "Legend",
-                                icon: 'images/icons_' + this.config.icons + '/legend.png',
-                            }
-                        ]
+                        iconsSet:this.config.icons,
+                        // buttons: [
+                        //     {
+                        //         title: "Legend",
+                        //         icon: 'images/icons_' + this.config.icons + '/legend.png',
+                        //     }
+                        // ]
                     });
                     // var layersDivDesc = domConstruct.create("div", {class:'margin'}, layersDiv);
 
