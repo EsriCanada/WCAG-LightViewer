@@ -630,6 +630,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 on(ft, "destroy", lang.hitch(this, function(evt) {
                     dojo.byId('radio_tableClose').click();
                 }));
+                on(ft, "destroied", lang.hitch(this, function(evt) {
+                    this.showBadge(false);
+                }));
             }
 
             this.set("loaded", true);
