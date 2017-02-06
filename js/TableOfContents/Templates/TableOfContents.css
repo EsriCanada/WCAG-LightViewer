@@ -123,7 +123,14 @@
 	opacity:0.25;
 }
 
-.TableOfContents .tableBtn:hover, .TableOfContents .tableBtn:focus {
+.TableOfContents .VectorTilesBtn {
+	opacity:0.5;
+	cursor:default !important;
+}
+
+.TableOfContents .tableBtn:hover, .TableOfContents .tableBtn:focus,
+.TableOfContents .VectorTilesBtn:hover, .TableOfContents .VectorTilesBtn:focus
+{
 	opacity:1;
 }
 
@@ -208,5 +215,9 @@
     top: 27px;
 	right: 36px;
     width: 20%;
+}
+
+.pageHeaderTools img {
+    margin-left: 5px;
 }
 

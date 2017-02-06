@@ -140,14 +140,38 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             domAttr.set(this._layersNode, "role", "list");
             // if we got layers
             if (layers && layers.length) {
+                var toolsDiv = dojo.byId('tools_layers');
+                var iconset = toolsDiv.dataset.iconset;
                 if(this.defaults.hasLegend) {
-                    var toolsDiv = dojo.byId('tools_layers');
-                    var iconset = toolsDiv.dataset.iconset;
                     domConstruct.create('img', {
                         src: 'images/icons_' + iconset + '/legend.png',
                         alt: 'Legend',
                         style:'width:20px; height:20px;'
                     },toolsDiv);
+                }
+
+                if(this.defaults.hasFeatureTable) {
+                    var tableCloseNode = domConstruct.create("input",{
+                        type:"radio",
+                        name:"showFeatureTable",
+                        //value:layer.id,
+                        class:"tableRadio",
+                        id:"radio_tableClose",
+                        style:"display:none;",
+                    }, toolsDiv);
+                    tableCloseNode.checked= true;
+                    on(tableCloseNode, "change", lang.hitch(this, this._layerShowTableChanged));
+
+                    var closeTableBtn = domConstruct.create("img", {
+                        id: 'radio_tableCloseImg',
+                        src: 'images/icons_' + iconset + '/tableClose.png',
+                        alt:'Close Feature Table',
+                        role: "button",
+                        tabindex:0,
+                        title: 'Close Feature Table',
+                    }, domConstruct.create("label",{
+                        for:"radio_tableClose",
+                    },toolsDiv));
                 }
 
                 for (var i = 0; i < layers.length; i++) {
@@ -226,26 +250,41 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             //id: layer.settings
                         }, titleText);//titleContainerDiv);
 
-                        var tableNode = domConstruct.create("input",{
-                            type:"radio",
-                            name:"showFeatureTable",
-                            value:layer.id,
-                            class:"tableRadio",
-                            id:"radio_"+layer.id,
-                            style:"display:none;",
-                        }, settingsDiv);
-                        on(tableNode, "change", lang.hitch(this, this._layerShowTableChanged));
+                        if(layer.layerType === "VectorTileLayer")
+                        {
+                            domConstruct.create("img", {
+                                src: 'images/icons_black/VectorTiles.png',
+                                class: 'VectorTilesBtn',
+                                alt:'Vector Tiles',
+                                //role: "button",
+                                //tabindex:0,
+                                title: 'Vector Tiles',
+                            }, settingsDiv);
 
-                        domConstruct.create("img", {
-                            src: 'images/table.18.png',
-                            class: 'tableBtn',
-                            alt:'Table',
-                            role: "button,",
-                            tabindex:0,
-                            title: 'Feature Table',
-                        }, domConstruct.create("label",{
-                            for:"radio_"+layer.id,
-                        },settingsDiv));
+                        }
+                        else 
+                        {
+                            var tableNode = domConstruct.create("input",{
+                                type:"radio",
+                                name:"showFeatureTable",
+                                value:layer.id,
+                                class:"tableRadio",
+                                id:"radio_"+layer.id,
+                                style:"display:none;",
+                            }, settingsDiv);
+                            on(tableNode, "change", lang.hitch(this, this._layerShowTableChanged));
+
+                            domConstruct.create("img", {
+                                src: 'images/table.18.png',
+                                class: 'tableBtn',
+                                alt:'Table',
+                                role: "button",
+                                tabindex:0,
+                                title: 'Feature Table',
+                            }, domConstruct.create("label",{
+                                for:"radio_"+layer.id,
+                            },settingsDiv));
+                        }
                     }
 
                     // settings
@@ -255,7 +294,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         settingsIcon = domConstruct.create("img", {
                             'src' : 'images/icon-cog.png',
                             alt:'Configuration',
-                            role: "button,",
+                            role: "button",
                             tabindex:0,
                         }, settingsDiv);
                     }
@@ -297,6 +336,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             class:'layerOpacitySlider',
                             value:100,
                             'data-layerid':layer.id,
+                            title:'Opacity',
                         });
                         dojo.place(slider, expandLegendBtn, 'after');
                         on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
@@ -354,11 +394,17 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         },
 
         _layerShowTableChanged: function(arg)  {
-            var checked = arg.currentTarget.checked;
-            if(checked) {
+            //var checked = arg.currentTarget.checked;
+            console.log(arg);
+            var tableCloseImg = dojo.byId('radio_tableCloseImg');
+            var toolsDiv = dojo.byId('tools_layers');
+            var iconset = toolsDiv.dataset.iconset;
+        
+            //if(checked) {
+            if(arg.target.id !== 'radio_tableClose') {
                 var layerId = arg.currentTarget.defaultValue;
                 for(var i = 0, m = null; i < this.layers.length; ++i) {
-                    if(this.layers[i].id == layerId) {
+                    if(this.layers[i].id === layerId) {
                         if(this.featureTable) {
                             this.featureTable.destroy();
                             domConstruct.create("div", { id: 'featureTableNode'}, dojo.byId('featureTableContainer'));
@@ -366,9 +412,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         this.featureTable.loadTable(this.layers[i]);
 
                         this.showBadge(true);
+
+                        tableCloseImg.src = 'images/icons_' + iconset + '/tableClose.red.png';
                         break;
                     }
                 }
+            }
+            else {
+                tableCloseImg.src = 'images/icons_' + iconset + '/tableClose.png';
+
+                this.featureTable.destroy();
             }
         },
 

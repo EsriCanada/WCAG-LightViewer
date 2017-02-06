@@ -275,12 +275,12 @@ define([
                             this.myFeatureTable.refresh();
                         })
                     },
-                    {
-                        label: i18n.widgets.showFeatureTable.close, 
-                        callback: lang.hitch(this, function(evt){
-                            this.destroy();
-                        })
-                    },
+                    // {
+                    //     label: i18n.widgets.showFeatureTable.close, 
+                    //     callback: lang.hitch(this, function(evt){
+                    //         this.destroy();
+                    //     })
+                    // },
                 ],
                 showColumnHeaderTooltips: false,
             }, dojo.byId('featureTableNode'));
