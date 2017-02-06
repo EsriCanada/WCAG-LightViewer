@@ -188,10 +188,25 @@
     display:initial;
 }
 
-.TableOfContents input[type="checkbox"].cbLegend + label + div {
+.TableOfContents input[type="checkbox"].cbLegend + label + input[type="range"] + div {
     display:none;
 }
 
-.TableOfContents input[type="checkbox"].cbLegend:checked + label + div {
+.TableOfContents input[type="checkbox"].cbLegend:checked + label + input[type="range"] + div {
     display:initial;
 }
+.TableOfContents input[type="checkbox"].cbLegend + label + input[type="range"] {
+    display:none;
+}
+
+.TableOfContents input[type="checkbox"].cbLegend:checked + label + input[type="range"] {
+    display:initial;
+}
+
+.layerOpacitySlider {
+	position: absolute;
+    top: 27px;
+	left: 32px;
+    width: 40%;
+}
+

@@ -36,6 +36,12 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             this.domNode = srcRefNode;
 
             dojo.create("link", {
+                href : "js/TableOfContents/Templates/Slider.css",
+                type : "text/css",
+                rel : "stylesheet",
+            }, document.head);
+
+            dojo.create("link", {
                 href : "js/TableOfContents/Templates/TableOfContents.css",
                 type : "text/css",
                 rel : "stylesheet",
@@ -231,8 +237,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     // settings
                     var settingsDiv, settingsIcon;
-                    if (layer.layerObject && dojo.exists("settings", layer) && layer.layerObject.isEditable()
-                        ) 
+                    if (layer.layerObject && dojo.exists("settings", layer) && layer.layerObject.isEditable()) 
                     { 
                         settingsIcon = domConstruct.create("img", {
                             'src' : 'images/icon-cog.png',
@@ -272,6 +277,15 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             for: 'cbLegend_'+layer.id,
                             class: 'cbLegendLabel',
                         }, divWrapLegend));
+
+                        var slider = domConstruct.create('input', {
+                            type:'range',
+                            class:'layerOpacitySlider',
+                            value:100,
+                            'data-layerid':layer.id,
+                        }, divWrapLegend);
+
+                        on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
 
                         var legend = new Legend({
                             map: this.map,
@@ -313,6 +327,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     return true;
             }
             return false;
+        },
+
+        _layerSliderChanged: function(evt) {
+            console.log(evt.target.value, evt.target.dataset.layerid, evt);
         },
 
         _layerShowTableChanged: function(arg)  {
