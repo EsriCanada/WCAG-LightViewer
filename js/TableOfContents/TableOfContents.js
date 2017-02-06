@@ -24,7 +24,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             visible: true,
             hasLegend:true,
             hasFeatureTable:false,
-            operationalLayers:null,
             mapNode: dojo.byId('mapPlace')
         },
 
@@ -320,9 +319,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         },
 
         _showLegend : function(layer) {
-            if(!this.defaults.operationalLayers) return true; // ???
-            for(var il=0; il < this.defaults.operationalLayers.length; il++) {
-                if(this.defaults.operationalLayers[il].id === layer.id && 
+            for(var il=0; il < this.defaults.layers.length; il++) {
+                if(this.defaults.layers[il].id === layer.id && 
                     (!layer.hasOwnProperty("showLegend") || layer.showLegend))
                     return true;
             }
@@ -330,7 +328,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         },
 
         _layerSliderChanged: function(evt) {
-            console.log(evt.target.value, evt.target.dataset.layerid, evt);
+            for(var il=0; il < this.defaults.layers.length; il++) {
+                var layer = this.defaults.layers[il];
+                if(layer.id === evt.target.dataset.layerid) {
+                    console.log(evt.target.value, layer, evt);
+                    layer.layerObject.setOpacity(evt.target.value / 100.0);
+                    break;
+                }
+            }
         },
 
         _layerShowTableChanged: function(arg)  {
