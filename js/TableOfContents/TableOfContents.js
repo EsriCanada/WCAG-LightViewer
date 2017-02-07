@@ -467,8 +467,31 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     type:'checkbox',
                     id: 'cbBasemapGallery',
                     class: 'cbLegend',
+                }, titleBaseContainerDiv);
+                var expandBasemapGallery = domConstruct.create('label',{
+                    for: 'cbBasemapGallery',
+                    class: 'cbLegendLabel showLegendBtn',
+                }, titleBaseContainerDiv);
+                domConstruct.create('img',{
+                    src:'images/icons_black/down.png',
+                    alt:'Show BasemapGallery',
+                    class: 'flipper',
+                    tabindex: 0,
+                }, expandBasemapGallery);
+
+                var basemapSlider = domConstruct.create('input', {
+                    type:'range',
+                    class:'layerOpacitySlider',
+                    value:100,
+                    //'data-layerid':layer.id,
+                    title:'Opacity',
+                    style: 'display:none; top: auto; margin: -10px 0 0 0; background-color: transparent;',
                 }, layerBaseDiv);
-                
+
+                on(cbBasemapGallery, 'click', lang.hitch(basemapSlider, function(evt) {
+                    var expand = evt.target.checked;
+                    domStyle.set(this, 'display', expand?'inherit':'none');
+                }));
 
                 if(this.defaults.hasBasemapGallery) {
 
@@ -479,33 +502,17 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     },
                     layerBaseDiv);
 
-                    var expandBasemapGallery = domConstruct.create('label',{
-                        for: 'cbBasemapGallery',
-                        class: 'cbLegendLabel',
-                    }, divWrapBaseMapGallery);
-                    domConstruct.create('img',{
-                        src:'images/icons_black/down.png',
-                        alt:'Show BasemapGallery',
-                        class: 'flipper',
-                        tabindex: 0,
-                    }, divWrapBaseMapGallery);
-
-                    var basemapSlider = domConstruct.create('input', {
-                        type:'range',
-                        class:'layerOpacitySlider',
-                        value:100,
-                        //'data-layerid':layer.id,
-                        title:'Opacity',
-                        style: 'top: auto; margin: -10px 0 0 0; background-color: transparent;',
-                    }, layerBaseDiv);
-
-
-
                     var baseMapDiv = domConstruct.create('div', {
                         id : 'baseMapDiv',
+                        style: 'display:none;'
                     }, layerBaseDiv);
 
-                    //dojo.place(slider, expandLegendBtn, 'after');
+                    on(cbBasemapGallery, 'click', lang.hitch(baseMapDiv, function(evt) {
+                        //console.log(this, evt);
+                        var expand = evt.target.checked;
+                        domStyle.set(this, 'display', expand?'inherit':'none');
+                    }));
+
                     //on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
 
 
