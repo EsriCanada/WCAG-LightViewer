@@ -283,7 +283,7 @@ define(["dojo/ready",
                             toolList.push(this._addLayers(this.config.tools[i], toolbar));
                             break;
                         case "basemap":
-                            toolList.push(this._addBasemapGallery(this.config.tools[i], toolbar));
+                            //toolList.push(this._addBasemapGallery(this.config.tools[i], toolbar));
                             break;
                         case "overview":
                             toolList.push(this._addOverviewMap(this.config.tools[i], toolbar));

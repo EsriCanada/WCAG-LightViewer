@@ -1,6 +1,7 @@
 define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "esri/kernel", 
     "dijit/_WidgetBase", 
     //"dijit/_TemplatedMixin", 
+    "dojo/i18n!application/nls/resources",
     "dojo/i18n!application/nls/BaseMapLabels",
     "dojo/on", "dojo/Deferred", 
     "esri/dijit/Legend", "esri/dijit/BasemapGallery", 
@@ -13,7 +14,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         Evented, declare, lang, has, esriNS,
         _WidgetBase, 
         //_TemplatedMixin, 
-        i18n_BaseMapLabels,
+        i18n, i18n_BaseMapLabels,
         on, Deferred,
         Legend, BasemapGallery, ShowFeatureTable,
         dijitTemplate, 
@@ -97,61 +98,75 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 var flowContainer = dojo.query('div[dojoattachpoint="flowContainer"]', basemap.domNode)[0];
                 domAttr.set(flowContainer, 'class', 'basemapFlowContainer');
 
-                on(basemap, "load", lang.hitch(basemap, function () {
+                on(basemap, "load", 
+                lang.hitch(basemap, function () {
                     var list = this.domNode.querySelector("div");
                     domAttr.set(list, "role", "list");
 
                     var nodes = this.domNode.querySelectorAll(".esriBasemapGalleryNode");
+                    var galleryNodeObserver = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            //console.log(mutation);
+                            var node = mutation.target;
+                            var aSpan = node.querySelector("a span");
+                            var l = aSpan.innerText;
+                            if(dojo.hasClass(node, "esriBasemapGallerySelectedNode"))
+                            {
+                                l += ' '+this.config.i18n.tools.basemapGallery.selected;
+                            }       
+                            l += '.';                          
+                            domAttr.set(aSpan, 'aria-label', l);
+                        });    
+                    });
+                    var observerCfg = { attributes: true, childList: false, characterData: false };
+
                     array.forEach(nodes, function(node){
                         domAttr.set(node, "role", "listitem");
+                        //domAttr.set(node, "aria-hidden", "true");
 
-                        var galleryNodeObserver = new MutationObserver(function(mutations) {
-                            mutations.forEach(function(mutation) {
-                                //console.log(mutation);
-                                var node = mutation.target;
-                                var aSpan = node.querySelector("a span");
-                                var l = aSpan.innerText;
-                                if(dojo.hasClass(node, "esriBasemapGallerySelectedNode"))
-                                {
-                                    //l += ' '+this.config.i18n.tools.basemapGallery.selected;
-                                }       
-                                l += '.';                          
-                                //node.querySelector('a').focus();
-                                domAttr.set(aSpan, 'aria-label', l);
-                                //aSpan.focus();
-                            });    
-                        });
+                        galleryNodeObserver.observe(node, observerCfg);
 
-                        var observerCfg = { attributes: true, childList: false, characterData: false };
-
-                    
                         var img = node.querySelector("img");
                         img.alt='';
-                        //domAttr.set(img, "tabindex", -1);
+                        domAttr.set(img, "aria-hidden", true);
                         domAttr.remove(img, "title");
                         domAttr.remove(img, "tabindex");
 
                         var aNode = node.querySelector("a");
-                        domAttr.set(aNode, "tabindex", 0);
+                        domAttr.set(aNode, "tabindex", -1);
                         var labelNode = node.querySelector(".esriBasemapGalleryLabelContainer");
                         domAttr.remove(labelNode.firstChild, "alt");
                         domAttr.remove(labelNode.firstChild, "title");
                         dojo.place(labelNode, aNode, "last");
-                        //domStyle.set(labelNode, "width", img.width);
-                        //domAttr.set(node, "tabindex", 0);   
-                        //domAttr.set(labelNode, "tabindex", 0);   
-                        //on(aNode, "focus", function() { node.focus();});
+
+                        var aSpan = node.querySelector("a span");
+                        var aSpanLabel = aSpan.innerHTML.toLowerCase().replace(/\s/g, '_');
+                        try {
+                            var localizedLabel = i18n_BaseMapLabels.baseMapLabels[aSpanLabel];
+                            if(localizedLabel && localizedLabel !== undefined)
+                                aSpan.innerText = localizedLabel;
+                            var l = aSpan.innerText;
+                            if(dojo.hasClass(node, "esriBasemapGallerySelectedNode"))
+                            {
+                                l += ' '+this.config.i18n.tools.basemapGallery.selected;
+                            }       
+                            l += '.';                          
+                            domAttr.set(aSpan, 'aria-label', l);
+                            //img.alt=aSpan.innerText;
+                        } catch(e) {}
+                        
+                        domAttr.set(labelNode, "tabindex", 0);   
                         on(img, "click", function() { node.focus();});
                         on(node,"keydown", function(ev) {
-                            if(ev.code === "Enter" || ev.code === "Space") {
+                            if(ev.key === "Enter" || ev.key === " " || ev.char === " ") {
                                 aNode.click();  
-                            } else if(ev.code === "Tab" && !ev.shiftKey) {
+                            } else if(ev.key === "Tab" && !ev.shiftKey) {
                                 if(node.nextElementSibling.nodeName != "BR") {
                                     node.nextElementSibling.focus();
                                 } else {
                                    document.querySelector('#dijit_layout_ContentPane_0_splitter').focus();
                                 }
-                            } else if(ev.code === "Tab" && ev.shiftKey) {
+                            } else if(ev.key === "Tab" && ev.shiftKey) {
                                 node.focus();
                             }
                         });

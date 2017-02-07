@@ -412,6 +412,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                 // layer node
                 var layerBaseDiv = domConstruct.create("div", {
+                    id:'layerBaseDiv',
                     className: layerBaseClass,
                     role: "listitem",
                     style:"background-color: silver;"
@@ -462,10 +463,52 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }
                 }));
 
+                domConstruct.create('input',{
+                    type:'checkbox',
+                    id: 'cbBasemapGallery',
+                    class: 'cbLegend',
+                }, layerBaseDiv);
+                
+
                 if(this.defaults.hasBasemapGallery) {
+
+                    var divWrapBaseMapGallery = domConstruct.create('div', {
+                        class:'showLegendBtn',
+                        title:'Show Legend',
+                        tabindex:0
+                    },
+                    layerBaseDiv);
+
+                    var expandBasemapGallery = domConstruct.create('label',{
+                        for: 'cbBasemapGallery',
+                        class: 'cbLegendLabel',
+                    }, divWrapBaseMapGallery);
+                    domConstruct.create('img',{
+                        src:'images/icons_black/down.png',
+                        alt:'Show BasemapGallery',
+                        class: 'flipper',
+                        tabindex: 0,
+                    }, divWrapBaseMapGallery);
+
+                    var basemapSlider = domConstruct.create('input', {
+                        type:'range',
+                        class:'layerOpacitySlider',
+                        value:100,
+                        //'data-layerid':layer.id,
+                        title:'Opacity',
+                        style: 'top: auto; margin: -10px 0 0 0; background-color: transparent;',
+                    }, layerBaseDiv);
+
+
+
                     var baseMapDiv = domConstruct.create('div', {
                         id : 'baseMapDiv',
                     }, layerBaseDiv);
+
+                    //dojo.place(slider, expandLegendBtn, 'after');
+                    //on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
+
+
                     var basemapGalley = new ShowBasemapGallery({
                         map: this.map,
                         basemapHost:{
