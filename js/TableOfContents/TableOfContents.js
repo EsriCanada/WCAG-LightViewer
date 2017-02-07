@@ -430,7 +430,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     tabindex: -1,
                 }, titleBaseDiv);
                 
-                titleCheckbox = domConstruct.create("input", 
+                var titleCheckbox = domConstruct.create("input", 
                 {
                     id: "layer_ck_baseMap",
                     className: titleBaseCheckBoxClass, 
@@ -491,6 +491,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 on(cbBasemapGallery, 'click', lang.hitch(basemapSlider, function(evt) {
                     var expand = evt.target.checked;
                     domStyle.set(this, 'display', expand?'inherit':'none');
+                }));
+
+                on(titleCheckbox, 'click', lang.hitch(cbBasemapGallery, function(evt) {
+                    var expand = evt.target.checked;
+                    if(!expand && this.checked) {
+                        this.click();
+                    }
+                    domStyle.set(this.labels[0], 'display', expand?'inherit':'none');
                 }));
 
                 if(this.defaults.hasBasemapGallery) {
