@@ -1,0 +1,17 @@
+.basemapFlowContainer {
+	display: inline-flex;
+	overflow-x: auto;
+    width: calc(100% - 20px);
+    padding: 10px;
+}
+
+.basemapFlowContainer .esriBasemapGalleryThumbnail {
+    height: 40px;
+    width: auto;
+}
+
+.basemapFlowContainer .esriBasemapGalleryLabelContainer {
+    height: auto;
+    overflow: hidden;
+    font-size: 12px;
+}

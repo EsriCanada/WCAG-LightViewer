@@ -1,6 +1,7 @@
 define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "esri/kernel", 
     "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on",
     "esri/dijit/Legend", "application/ShowFeatureTable/ShowFeatureTable", 
+    "application/ShowBasemapGallery/ShowBasemapGallery",
     "dojo/text!application/TableOfContents/Templates/TableOfContents.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/event", 
     "dojo/_base/array",
@@ -8,7 +9,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     ], function (
         Evented, declare, lang, has, esriNS,
         _WidgetBase, _TemplatedMixin, on, 
-        Legend, ShowFeatureTable,
+        Legend, ShowFeatureTable, ShowBasemapGallery,
         dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
         array,
@@ -25,6 +26,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             visible: true,
             hasLegend:true,
             hasFeatureTable:false,
+            hasBasemapGallery:true,
             mapNode: dojo.byId('mapPlace')
         },
 
@@ -393,71 +395,86 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 this._setLayerEvents();
             }
 
+
             this.baseMap = this.dataItems.baseMap;
             if(this.baseMap) {
 
                 var titleBaseCheckBoxClass = this.css.titleCheckbox;
-                    // layer class
-                    var layerBaseClass = this.css.layer;
-                    // first layer
-                    if (this.baseMap.visibility) {
-                        layerBaseClass += " ";
-                        layerBaseClass += this.css.visible;
-                        titleBaseCheckBoxClass += " ";
-                        titleBaseCheckBoxClass += this.css.checkboxCheck;
-                    }
+                // layer class
+                var layerBaseClass = this.css.layer;
+                // first layer
+                if (this.baseMap.visibility) {
+                    layerBaseClass += " ";
+                    layerBaseClass += this.css.visible;
+                    titleBaseCheckBoxClass += " ";
+                    titleBaseCheckBoxClass += this.css.checkboxCheck;
+                }
 
-                    // layer node
-                    var layerBaseDiv = domConstruct.create("div", {
-                        className: layerBaseClass,
-                        role: "listitem",
-                        style:"background-color: silver;"
-                    });
-                    domConstruct.place(layerBaseDiv, this._layersNode, "last");
+                // layer node
+                var layerBaseDiv = domConstruct.create("div", {
+                    className: layerBaseClass,
+                    role: "listitem",
+                    style:"background-color: silver;"
+                });
+                domConstruct.place(layerBaseDiv, this._layersNode, "last");
 
-                    // title of layer
-                    var titleBaseDiv = domConstruct.create("div", {
-                        className: this.css.title,
+                // title of layer
+                var titleBaseDiv = domConstruct.create("div", {
+                    className: this.css.title,
+                }, layerBaseDiv);
+                
+                // title container
+                var titleBaseContainerDiv = domConstruct.create("div", {
+                    className: this.css.titleContainer,
+                    tabindex: -1,
+                }, titleBaseDiv);
+                
+                titleCheckbox = domConstruct.create("input", 
+                {
+                    id: "layer_ck_baseMap",
+                    className: titleBaseCheckBoxClass, 
+                    type: "checkbox",
+                    tabindex: 0,
+                    checked: this.baseMap.baseMapLayers[0].visibility,
+                }, titleBaseContainerDiv);
+
+                var titleBaseText = domConstruct.create("div", {
+                    className: this.css.titleText,
+                    title : "BaseMap: "+this.baseMap.title,
+                    // role: "presentation",
+                    // tabindex:0,
+                }, titleBaseContainerDiv);
+
+                var baseMapLabel = domConstruct.create('label',{
+                    for: 'layer_ck_baseMap',
+                    class: 'labelText',
+                    style: 'font-style: italic;',
+                    tabindex: 0,
+                    innerHTML: this.baseMap.title
+                }, titleBaseText);
+
+                on(baseMapLabel, "click", lang.hitch(this, 
+                    function (evt) {
+                        var cb = dojo.byId('layer_ck_baseMap');
+                        var action = !cb.checked;
+                        for(var ib=0; ib<this.baseMap.baseMapLayers.length; ib++) {
+                            this.baseMap.baseMapLayers[ib].layerObject.setVisibility(action);
+                        }
+                }));
+
+                if(this.defaults.hasBasemapGallery) {
+                    var baseMapDiv = domConstruct.create('div', {
+                        id : 'baseMapDiv',
                     }, layerBaseDiv);
-                    
-                    // title container
-                    var titleBaseContainerDiv = domConstruct.create("div", {
-                        className: this.css.titleContainer,
-                        tabindex: -1,
-                    }, titleBaseDiv);
-                    
-                    titleCheckbox = domConstruct.create("input", 
-                    {
-                        id: "layer_ck_baseMap",
-                        className: titleBaseCheckBoxClass, 
-                        type: "checkbox",
-                        tabindex: 0,
-                        checked: this.baseMap.baseMapLayers[0].visibility,
-                    }, titleBaseContainerDiv);
-
-                    var titleBaseText = domConstruct.create("div", {
-                        className: this.css.titleText,
-                        title : "BaseMap: "+this.baseMap.title,
-                        // role: "presentation",
-                        // tabindex:0,
-                    }, titleBaseContainerDiv);
-
-                    var baseMapLabel = domConstruct.create('label',{
-                        for: 'layer_ck_baseMap',
-                        class: 'labelText',
-                        style: 'font-style: italic;',
-                        tabindex: 0,
-                        innerHTML: this.baseMap.title
-                    }, titleBaseText);
-
-                    on(baseMapLabel, "click", lang.hitch(this, 
-                        function (evt) {
-                            var cb = dojo.byId('layer_ck_baseMap');
-                            var action = !cb.checked;
-                            for(var ib=0; ib<this.baseMap.baseMapLayers.length; ib++) {
-                                this.baseMap.baseMapLayers[ib].layerObject.setVisibility(action);
-                            }
-                    }));
+                    var basemapGalley = new ShowBasemapGallery({
+                        map: this.map,
+                        basemapHost:{
+                            sharinghost:'',
+                            basemapgroup:'',
+                        },
+                    }, baseMapDiv);
+                    basemapGalley.startup();
+                }
             }
         },
 

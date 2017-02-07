@@ -890,6 +890,7 @@ define(["dojo/ready",
                         dataItems: this.config.response.itemInfo.itemData,
                         hasLegend: has("legend"),
                         hasFeatureTable: has("featureTable"),
+                        hasBasemapGallery: has("basemap"),
                         mapNode: dojo.byId('mapPlace'),
                     }, domConstruct.create("div", {}, layersDivDesc));
                     toc.startup();
