@@ -530,7 +530,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             sharinghost:'',
                             basemapgroup:'',
                         },
-                        selectId: this.baseMap.baseMapLayers[0].id,
+                        initialMap: this.baseMap,
                     }, baseMapDiv);
                     basemapGallery.startup();
 

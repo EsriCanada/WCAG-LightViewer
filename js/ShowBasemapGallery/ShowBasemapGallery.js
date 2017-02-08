@@ -38,7 +38,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 sharinghost:'',
                 basemapgroup:'',
             },
-            selectId : '',
+            initialMap : '',
         },
 
         // lifecycle: 1
@@ -88,7 +88,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         _init: function () {
             var deferred = new Deferred();
             if (has("basemap")) {
-                var basemap = new BasemapGallery({
+                this.basemap = new BasemapGallery({
                     id: "basemapGallery1",
                     map: this.map,
                     showArcGISBasemaps: true,
@@ -97,7 +97,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     //class:"verticalScrollContainer"
                 }, domConstruct.create("div", {}, this.domNode));
 
-                basemap.startup();
+                this.basemap.startup();
 
                 // if(this.defaults.selectId !== '') {
                 //     basemap.select(this.defaults.selectId);
@@ -114,32 +114,28 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 // basemap.add(basemap1);
 
 
-                var flowContainer = dojo.query('div[dojoattachpoint="flowContainer"]', basemap.domNode)[0];
+                var flowContainer = dojo.query('div[dojoattachpoint="flowContainer"]', this.basemap.domNode)[0];
                 domAttr.set(flowContainer, 'class', 'basemapFlowContainer');
 
-                on(basemap, "load", lang.hitch(basemap, function () {
+                on(this.basemap, "load", lang.hitch(this, function () {
 
-                    if(this.defaults.selectId !== '') {
-                        basemap.select(this.defaults.selectId);
+                    this.basemap.on("selection-change",lang.hitch(this, function(){
+                        var bm = this.basemap.getSelected(); 
+                        this.emit("changed", {newBasemap: bm} );
+                        console.log(bm);
+                    }));
+
+                    var mapTitle = this.defaults.initialMap.title;
+
+                    var ids = this.basemap.basemaps.filter(function(bm) {return bm.title == mapTitle;}).map(function(bm) { return bm.id;});
+                    if(ids && ids.length===1) {
+                        this.basemap.select(ids[0]);
                     }
 
-                    // var layer1 = new BasemapLayer({
-                    //     url:"https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer"
-                    // });
-                    // var basemap1 = new Basemap({
-                    //     layers:[layer1],
-                    //     title:"Vector Tiles Layer",
-                    //     thumbnailUrl:"images/icons_black/VectorTiles.png"
-                    // });
-                    // basemap.add(basemap1);
-
-
-
-
-                    var list = this.domNode.querySelector("div");
+                    var list = this.basemap.domNode.querySelector("div");
                     domAttr.set(list, "role", "list");
 
-                    var nodes = this.domNode.querySelectorAll(".esriBasemapGalleryNode");
+                    var nodes = this.basemap.domNode.querySelectorAll(".esriBasemapGalleryNode");
                     var galleryNodeObserver = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
                             //console.log(mutation);
