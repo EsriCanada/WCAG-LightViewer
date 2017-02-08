@@ -524,14 +524,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     //on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
 
 
-                    var basemapGalley = new ShowBasemapGallery({
+                    var basemapGallery = new ShowBasemapGallery({
                         map: this.map,
                         basemapHost:{
                             sharinghost:'',
                             basemapgroup:'',
                         },
+                        selectId: this.baseMap.baseMapLayers[0].id,
                     }, baseMapDiv);
-                    basemapGalley.startup();
+                    basemapGallery.startup();
+
                 }
             }
         },

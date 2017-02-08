@@ -4,7 +4,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     "dojo/i18n!application/nls/resources",
     "dojo/i18n!application/nls/BaseMapLabels",
     "dojo/on", "dojo/Deferred", 
-    "esri/dijit/Legend", "esri/dijit/BasemapGallery", 
+    "esri/dijit/Legend", "esri/dijit/BasemapGallery",
+    "esri/dijit/BasemapLayer", "esri/dijit/Basemap",
     "application/ShowFeatureTable/ShowFeatureTable", 
     "dojo/text!application/TableOfContents/Templates/TableOfContents.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/event", 
@@ -16,7 +17,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         //_TemplatedMixin, 
         i18n, i18n_BaseMapLabels,
         on, Deferred,
-        Legend, BasemapGallery, ShowFeatureTable,
+        Legend, BasemapGallery, 
+        BasemapLayer, Basemap,
+        ShowFeatureTable,
         dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
         array,
@@ -34,7 +37,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             basemapHost: {
                 sharinghost:'',
                 basemapgroup:'',
-            }
+            },
+            selectId : '',
         },
 
         // lifecycle: 1
@@ -95,11 +99,43 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                 basemap.startup();
 
+                // if(this.defaults.selectId !== '') {
+                //     basemap.select(this.defaults.selectId);
+                // }
+
+                // var layer1 = new BasemapLayer({
+                //     url:"https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer"
+                // });
+                // var basemap1 = new Basemap({
+                //     layers:[layer1],
+                //     title:"Vector Tiles Layer",
+                //     thumbnailUrl:"images/icons_black/VectorTiles.png"
+                // });
+                // basemap.add(basemap1);
+
+
                 var flowContainer = dojo.query('div[dojoattachpoint="flowContainer"]', basemap.domNode)[0];
                 domAttr.set(flowContainer, 'class', 'basemapFlowContainer');
 
-                on(basemap, "load", 
-                lang.hitch(basemap, function () {
+                on(basemap, "load", lang.hitch(basemap, function () {
+
+                    if(this.defaults.selectId !== '') {
+                        basemap.select(this.defaults.selectId);
+                    }
+
+                    var layer1 = new BasemapLayer({
+                        url:"https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer"
+                    });
+                    var basemap1 = new Basemap({
+                        layers:[layer1],
+                        title:"Vector Tiles Layer",
+                        thumbnailUrl:"images/icons_black/VectorTiles.png"
+                    });
+                    basemap.add(basemap1);
+
+
+
+
                     var list = this.domNode.querySelector("div");
                     domAttr.set(list, "role", "list");
 
