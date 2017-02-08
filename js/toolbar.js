@@ -196,12 +196,18 @@ on, mouse, query, Deferred) {
             //     innerHTML: "<img class='pageIcon' src ='images/icons_" + this.config.icons + "/" + name + ".png' alt=''/>"
             // }, pageHeader);
 
+            
+            // var verticalScrollContainer = domConstruct.create('div', {
+            //     class: 'verticalScrollContainer',
+            // }, pageContent);
+            
             var pageBody = domConstruct.create("div", {
                 className: "pageBody",
                 tabindex: 0,
                 id: "pageBody_" + name,
-            }, 
-            pageContent);
+            }, domConstruct.create('div', {
+                class: 'verticalScrollContainer',
+            }, pageContent));
 
             //var page = query(this.domNode).closest('.pageBody')[0]
 

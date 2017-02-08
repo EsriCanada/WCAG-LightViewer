@@ -246,6 +246,15 @@ define(["dojo/ready",
             }
         },
 
+        _bodyResize: function() {
+            var pageBodyContents = query('.verticalScrollContainer'); 
+            var h = (document.body.clientHeight - 120) + 'px';
+
+            pageBodyContents.forEach(lang.hitch(this, function(node) {
+                domStyle.set(node, 'max-height', h);
+            }));
+        },
+
         // Create UI
         _createUI: function () {
             domStyle.set("panelPages", "visibility", "hidden");
@@ -313,6 +322,9 @@ define(["dojo/ready",
                     var tools = array.some(results, function (r) {
                         return r;
                     });
+
+                    this._bodyResize();
+                    document.body.onresize = lang.hitch(this, this._bodyResize);
 
                     var home = has("home");
                     var locate = has("locate");

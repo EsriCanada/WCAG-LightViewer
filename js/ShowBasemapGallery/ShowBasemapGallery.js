@@ -123,15 +123,15 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         basemap.select(this.defaults.selectId);
                     }
 
-                    var layer1 = new BasemapLayer({
-                        url:"https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer"
-                    });
-                    var basemap1 = new Basemap({
-                        layers:[layer1],
-                        title:"Vector Tiles Layer",
-                        thumbnailUrl:"images/icons_black/VectorTiles.png"
-                    });
-                    basemap.add(basemap1);
+                    // var layer1 = new BasemapLayer({
+                    //     url:"https://basemaps.arcgis.com/v1/arcgis/rest/services/World_Basemap/VectorTileServer"
+                    // });
+                    // var basemap1 = new Basemap({
+                    //     layers:[layer1],
+                    //     title:"Vector Tiles Layer",
+                    //     thumbnailUrl:"images/icons_black/VectorTiles.png"
+                    // });
+                    // basemap.add(basemap1);
 
 
 

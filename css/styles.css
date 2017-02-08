@@ -1526,7 +1526,7 @@ text-align: left;
 @media only screen and (min-width: 720px) {
   #leftPanel{
     min-width: 400px;
-    max-width: 50%;
+    max-width: 35%;
   }
 }
 
@@ -1766,11 +1766,11 @@ main {
 .verticalScrollContainer {
     overflow: hidden;
     overflow-y: auto;
-    position: absolute !important;
+    /*position: absolute !important;
     height: calc(100% - 24px);
-    width: calc(100% - 3px);
+    
     border: gray 1px Solid;
-    background-color: white;
+    background-color: white;*/
 }
 
 .dialog-content {
