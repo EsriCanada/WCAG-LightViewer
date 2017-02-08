@@ -618,7 +618,7 @@ img {
   color: #000000;
   overflow: hidden;
   overflow-y: auto;
-  border: gray 1px solid;
+  /*border: gray 1px solid;*/
   background-color: white;
 }
 
@@ -1766,10 +1766,10 @@ main {
 .verticalScrollContainer {
     overflow: hidden;
     overflow-y: auto;
+    border: gray 1px Solid;
     /*position: absolute !important;
     height: calc(100% - 24px);
     
-    border: gray 1px Solid;
     background-color: white;*/
 }
 

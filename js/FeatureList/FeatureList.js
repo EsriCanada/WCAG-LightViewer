@@ -225,12 +225,17 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
         _reloadList : function(ext) {
             if(!this._isVisible()) return;
-            var loading_features = this.domNode.parentNode.parentNode.querySelector('#loading_features');
+            var loading_features = this.domNode.parentNode.parentNode.parentNode.querySelector('#loading_features');
+              //query(this.domNode).closest('#loading_features')[0];
 
-            domClass.replace(loading_features, "showLoading", "hideLoading");
+            if(loading_features) {
+                domClass.replace(loading_features, "showLoading", "hideLoading");
+            }
 
             this.__reloadList(ext).then(function(results) {
-                domClass.replace(loading_features, "hideLoading", "showLoading");
+                if(loading_features) {
+                    domClass.replace(loading_features, "hideLoading", "showLoading");
+                }
             });
         },
 
