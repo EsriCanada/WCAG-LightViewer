@@ -68,15 +68,15 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 layer: "toc-layer",
                 firstLayer: "toc-first-layer",
                 title: "toc-title",
-                titleContainer: "toc-title-container",
+                //titleContainer: "toc-title-container",
                 content: "toc-content",
-                titleCheckbox: "checkbox",
+                //titleCheckbox: "checkbox",
                 checkboxCheck: "icon-check-1",
-                titleText: "checkbox",
+                //titleText: "checkbox",
                 accountText: "toc-account",
                 visible: "toc-visible",
                 settingsIcon: "icon-cog",
-                settings: "toc-settings",
+                //settings: "toc-settings",
                 actions: "toc-actions",
                 account: "toc-account",
                 clear: "clear"
@@ -190,35 +190,35 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     }));
                 }
 
-                if(this.defaults.hasFeatureTable) {
-                    var tableCloseNode = domConstruct.create("input",{
-                        type:"radio",
-                        name:"showFeatureTable",
-                        //value:layer.id,
-                        class:"tableRadio",
-                        id:"radio_tableClose",
-                        style:"display:none;",
-                    }, toolsDiv);
-                    tableCloseNode.checked= true;
-                    on(tableCloseNode, "change", lang.hitch(this, this._layerShowTableChanged));
+                // if(this.defaults.hasFeatureTable) {
+                //     var tableCloseNode = domConstruct.create("input",{
+                //         type:"checkbox",
+                //         name:"showFeatureTable",
+                //         //value:layer.id,
+                //         class:"tableRadio",
+                //         id:"radio_tableClose",
+                //         style:"display:none;",
+                //     }, toolsDiv);
+                //     tableCloseNode.checked= true;
+                //     on(tableCloseNode, "change", lang.hitch(this, this._layerShowTableChanged));
 
-                    var closeTableBtn = domConstruct.create("img", {
-                        id: 'radio_tableCloseImg',
-                        src: 'images/icons_' + this.iconset + '/tableClose.png',
-                        alt:'Close Feature Table',
-                        role: "button",
-                        tabindex:0,
-                        title: 'Close Feature Table',
-                    }, domConstruct.create("label",{
-                        for:"radio_tableClose",
-                    },toolsDiv));
-                }
+                //     var closeTableBtn = domConstruct.create("img", {
+                //         id: 'radio_tableCloseImg',
+                //         src: 'images/icons_' + this.iconset + '/tableClose.png',
+                //         alt:'Close Feature Table',
+                //         role: "button",
+                //         tabindex:0,
+                //         title: 'Close Feature Table',
+                //     }, domConstruct.create("label",{
+                //         for:"radio_tableClose",
+                //     },toolsDiv));
+                // }
 
                 for (var i = 0; i < layers.length; i++) {
                     var layer = layers[i];
 
                     // ceckbox class
-                    var titleCheckBoxClass = this.css.titleCheckbox;
+                    var titleCheckBoxClass = "checkbox";
                     // layer class
                     var layerClass = this.css.layer;
                     // first layer
@@ -257,25 +257,25 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     // title container
                     var titleContainerDiv = domConstruct.create("div", {
-                        className: this.css.titleContainer,
+                        className: "toc-title-container",
                         tabindex: -1,
                     }, titleDiv);
                     
-                    titleCheckbox = domConstruct.create("input", 
+                    var titleText = domConstruct.create("div", {
+                        className: "checkbox",
+                        title : layer.title,
+                        // role: "presentation",
+                        // tabindex:0,
+                    }, titleContainerDiv);
+
+                    var titleCheckbox = domConstruct.create("input", 
                     {
                         id: "layer_ck_"+i,
                         className: titleCheckBoxClass, 
                         type: "checkbox",
                         tabindex: 0,
                         checked: layer.visibility,
-                    }, titleContainerDiv);
-
-                    var titleText = domConstruct.create("div", {
-                        className: this.css.titleText,
-                        title : layer.title,
-                        // role: "presentation",
-                        // tabindex:0,
-                    }, titleContainerDiv);
+                    }, titleText);
 
                     domConstruct.create('label',{
                         for: 'layer_ck_'+i,
@@ -284,7 +284,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         innerHTML: layer.title
                     }, titleText);
 
-                    this._atachSpaceKey(titleContainerDiv, titleCheckbox);
+                    //this._atachSpaceKey(titleContainerDiv, titleCheckbox);
 
                     var accountText = '';
                     if (layer.account) {
@@ -314,15 +314,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }
                         else 
                         {
-                            var tableNode = domConstruct.create("input",{
-                                type:"radio",
-                                name:"showFeatureTable",
+                            var cbShowTable = domConstruct.create("input",{
+                                type:"checkbox",
+                                //name:"showFeatureTable",
                                 value:layer.id,
-                                class:"tableRadio",
-                                id:"radio_"+layer.id,
+                                class:"cbShowTable",
+                                id:"cbShowTable_"+i,
                                 style:"display:none;",
                             }, settingsDiv);
-                            on(tableNode, "change", lang.hitch(this, this._layerShowTableChanged));
+
+                            on(cbShowTable, "change", lang.hitch(this, this._layerShowTable));
 
                             domConstruct.create("img", {
                                 src: 'images/table.18.png',
@@ -332,7 +333,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                                 tabindex:0,
                                 title: 'Feature Table',
                             }, domConstruct.create("label",{
-                                for:"radio_"+layer.id,
+                                for:"cbShowTable_"+i,
                             },settingsDiv));
                         }
                     }
@@ -356,6 +357,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     // legend ?
                     if(this.defaults.hasLegend && this._showLegend(layer)) {
+                        
                         var divWrapLegend = domConstruct.create('div', {
                             class:'showLegendBtn',
                             title:'Show Legend',
@@ -369,11 +371,12 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             class: 'cbLegend',
                         }, divWrapLegend);
                         
-
                         var expandLegendBtn = domConstruct.create('label',{
                             for: 'cbLegend_'+layer.id,
                             class: 'cbLegendLabel',
                         }, divWrapLegend);
+
+                        
                         domConstruct.create('img',{
                             src:'images/icons_black/down.png',
                             alt:'Show Legend',
@@ -381,14 +384,20 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             tabindex: 0,
                         }, expandLegendBtn);
 
+
+                        var layerExpandArea = domConstruct.create('div', {
+                            id: 'layerExpandArea_'+i,
+                            class: 'layerExpandArea',
+                        }, titleContainerDiv);
+
                         var slider = domConstruct.create('input', {
                             type:'range',
                             class:'layerOpacitySlider',
                             value:100,
                             'data-layerid':layer.id,
                             title:'Opacity',
-                        });
-                        dojo.place(slider, expandLegendBtn, 'after');
+                        }, layerExpandArea);
+                        //dojo.place(slider, expandLegendBtn, 'after');
                         on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
 
                         var legend = new Legend({
@@ -400,8 +409,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, domConstruct.create("div", {
                             role:'application', 
                             class:'legend',
-                        }, divWrapLegend));//titleContainerDiv));
+                        }, layerExpandArea));//titleContainerDiv));
                         legend.startup();
+
+                        on(titleCheckbox, 'click', lang.hitch(this, this._showHidelayerExpandArea));
                     }
                     
                     // lets save all the nodes for events
@@ -426,7 +437,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             this.baseMap = this.dataItems.baseMap;
             if(this.baseMap) {
 
-                var titleBaseCheckBoxClass = this.css.titleCheckbox;
+                var titleBaseCheckBoxClass = "checkbox";
                 // layer class
                 var layerBaseClass = this.css.layer;
                 // first layer
@@ -453,40 +464,46 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 
                 // title container
                 var titleBaseContainerDiv = domConstruct.create("div", {
-                    className: this.css.titleContainer,
+                    className: "toc-title-container",
                     tabindex: -1,
                 }, titleBaseDiv);
                 
-                var titleCheckbox = domConstruct.create("input", 
+                var titleBaseText = domConstruct.create("div", {
+                    className: "checkbox",
+                    // role: "presentation",
+                    // tabindex:0,
+                }, titleBaseContainerDiv);
+
+                var titleBasemapCheckbox = domConstruct.create("input", 
                 {
                     id: "layer_ck_baseMap",
                     className: titleBaseCheckBoxClass, 
                     type: "checkbox",
                     tabindex: 0,
                     checked: this.baseMap.baseMapLayers[0].visibility,
-                }, titleBaseContainerDiv);
-
-                var titleBaseText = domConstruct.create("div", {
-                    className: this.css.titleText,
-                    title : "BaseMap: "+this.baseMap.title,
-                    // role: "presentation",
-                    // tabindex:0,
-                }, titleBaseContainerDiv);
+                }, titleBaseText);
 
                 var baseMapLabel = domConstruct.create('label',{
                     for: 'layer_ck_baseMap',
                     class: 'labelText',
                     style: 'font-style: italic;',
                     tabindex: 0,
-                    innerHTML: this.baseMap.title
+                    innerHTML: this.baseMap.title,
+                    title : "BaseMap: "+this.baseMap.title,
                 }, titleBaseText);
+
+                var hideBasemapArea = domConstruct.create('div', {
+                    style:'display:inherit',
+                    class: 'hideBasemapArea',
+                }, titleBaseContainerDiv);
 
                 on(baseMapLabel, "click", lang.hitch(this, 
                     function (evt) {
                         var cb = dojo.byId('layer_ck_baseMap');
                         var action = !cb.checked;
+                        hideBasemapArea.style.display = action?'inherit':'none';
                         for(var ib=0; ib<this.baseMap.baseMapLayers.length; ib++) {
-                            this.baseMap.baseMapLayers[ib].layerObject.setVisibility(action);
+                            this.baseMap.baseMapLayers[ib].opacity=action?1:0;//.setVisibility(action);
                         }
                 }));
 
@@ -494,11 +511,11 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     type:'checkbox',
                     id: 'cbBasemapGallery',
                     class: 'cbLegend',
-                }, titleBaseContainerDiv);
+                }, hideBasemapArea);
                 var expandBasemapGallery = domConstruct.create('label',{
                     for: 'cbBasemapGallery',
                     class: 'cbLegendLabel showLegendBtn',
-                }, titleBaseContainerDiv);
+                }, hideBasemapArea);
                 domConstruct.create('img',{
                     src:'images/icons_black/down.png',
                     alt:'Show BasemapGallery',
@@ -513,20 +530,20 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     //'data-layerid':layer.id,
                     title:'Opacity',
                     style: 'display:none; top: auto; margin: -10px 0 0 0; background-color: transparent;',
-                }, layerBaseDiv);
+                }, hideBasemapArea);
 
                 on(cbBasemapGallery, 'click', lang.hitch(basemapSlider, function(evt) {
                     var expand = evt.target.checked;
                     domStyle.set(this, 'display', expand?'inherit':'none');
                 }));
 
-                on(titleCheckbox, 'click', lang.hitch(cbBasemapGallery, function(evt) {
-                    var expand = evt.target.checked;
-                    if(!expand && this.checked) {
-                        this.click();
-                    }
-                    domStyle.set(this.labels[0], 'display', expand?'inherit':'none');
-                }));
+                // on(titleCheckbox, 'click', lang.hitch(cbBasemapGallery, function(evt) {
+                //     var expand = evt.target.checked;
+                //     if(!expand && this.checked) {
+                //         this.click();
+                //     }
+                //     domStyle.set(this.labels[0], 'display', expand?'inherit':'none');
+                // }));
 
                 if(this.defaults.hasBasemapGallery) {
 
@@ -558,11 +575,29 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             basemapgroup:'',
                         },
                         initialMap: this.baseMap,
-                    }, baseMapDiv);
+                    }, hideBasemapArea);
                     basemapGallery.startup();
 
+                    on(basemapGallery, "changed", lang.hitch(this, function(evt) {
+                        console.log(this.baseMap.baseMapLayers[0].layerObject, this.baseMap.baseMapLayers);
+
+                        var newBasemap = evt.newBasemap;
+                        baseMapLabel.innerHTML = this.baseMap.title = newBasemap.title;
+                        console.log(newBasemap.layers[0], newBasemap.layers);
+
+                        this.baseMap.baseMapLayers = newBasemap.layers;
+                        // this.baseMap = this.map.getLayer(newBasemap.id);
+
+
+
+                    }));
                 }
             }
+        },
+
+        _showHidelayerExpandArea : function(evt) {
+            var expand = evt.target.checked;
+            domStyle.set(dojo.byId('layerExpandArea_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
         },
 
         _showLegend : function(layer) {
@@ -585,35 +620,34 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             }
         },
 
-        _layerShowTableChanged: function(arg)  {
-            //var checked = arg.currentTarget.checked;
-            console.log(arg);
-            var tableCloseImg = dojo.byId('radio_tableCloseImg');
-            var toolsDiv = dojo.byId('tools_layers');
-            //var iconset = toolsDiv.dataset.iconset;
-        
-            //if(checked) {
-            if(arg.target.id !== 'radio_tableClose') {
-                var layerId = arg.currentTarget.defaultValue;
-                for(var i = 0, m = null; i < this.layers.length; ++i) {
-                    if(this.layers[i].id === layerId) {
-                        if(this.featureTable) {
-                            this.featureTable.destroy();
-                            domConstruct.create("div", { id: 'featureTableNode'}, dojo.byId('featureTableContainer'));
-                        }
-                        this.featureTable.loadTable(this.layers[i]);
-
-                        this.showBadge(true);
-
-                        tableCloseImg.src = 'images/icons_' + this.iconset + '/tableClose.red.png';
-                        break;
-                    }
-                }
-            }
-            else {
-                tableCloseImg.src = 'images/icons_' + this.iconset + '/tableClose.png';
-
+        _layerShowTable: function(arg)  {
+            var checked = arg.currentTarget.checked;
+            if(!checked) {
                 this.featureTable.destroy();
+                this.showBadge(false);
+                return;
+            }
+
+            console.log(arg);
+            var toolsDiv = dojo.byId('tools_layers');
+
+            var cbShowTables = dojo.query('.cbShowTable');
+            array.forEach(cbShowTables, function(cb) {
+                cb.checked = cb.id === arg.currentTarget.id;
+            });
+
+            var layerId = arg.currentTarget.defaultValue;
+            for(var i = 0, m = null; i < this.layers.length; ++i) {
+                if(this.layers[i].id === layerId) {
+                    if(this.featureTable) {
+                        this.featureTable.destroy();
+                        domConstruct.create("div", { id: 'featureTableNode'}, dojo.byId('featureTableContainer'));
+                    }
+                    this.featureTable.loadTable(this.layers[i]);
+
+                    this.showBadge(true);
+                    break;
+                }
             }
         },
 
