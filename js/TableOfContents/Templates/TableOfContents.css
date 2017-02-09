@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Ubuntu+Mono');
 
 .TableOfContents .toc-title {
-  border-top: 1px solid gray;
+  border-top: 1px solid silver;
   font-size: 16px;
   /*line-height: 16px;*/
   -webkit-user-select: none;
@@ -221,16 +221,31 @@
     margin-left: 5px;
 }
 
-/*.draggable {
-    cursor: move; / fallback: no `url()` support or images disabled /
-    cursor: url(images/grab.cur); / fallback: Internet Explorer /
-    cursor: -webkit-grab; / Chrome 1-21, Safari 4+ /
-    cursor:    -moz-grab; / Firefox 1.5-26 /
-    cursor:         grab; / W3C standards syntax, should come least /
+.dragabble {
+    height: 5px;
+    width: 50%;
+    background-color: silver;
+    margin-left: 25%;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+    margin-top: -1px;
+    position: absolute;
+    z-index: 1000;
 }
-.draggable:active {
-    cursor: url(images/grabbing.cur);
-    cursor: -webkit-grabbing;
-    cursor:    -moz-grabbing;
-    cursor:         grabbing;
-}*/
+
+.dragabble:hover {
+	background-color: rgba(0, 169, 230, 0.901961);
+	cursor: url(images/grab.cur);
+	cursor: ns-resize;
+}
+
+.dragabble:focus {
+	outline: none;
+	background-color: orange;
+}
+
+.dragabble:active{
+	background-color: rgba(0, 169, 230, 0.901961);
+}
+

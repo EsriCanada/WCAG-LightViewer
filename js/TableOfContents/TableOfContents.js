@@ -136,6 +136,23 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         /* Private Functions */
         /* ----------------- */
 
+        _allowDrop: function (evt) {
+            evt.target.opacity=1;
+            evt.preventDefault();
+        },
+
+        _drag: function(evt) {
+            console.log(this, evt);
+            //evt.target.parentNode.draggable = true;
+            evt.dataTransfer.setData("text", evt.target.id);
+        },
+
+        _drop: function (evt) {
+            evt.preventDefault();
+            var data = evt.dataTransfer.getData("text");
+            //evt.target.appendChild(document.getElementById(data));
+        },
+
         _createList: function () {
             var layers = this.layers;
             this._nodes = [];
@@ -225,9 +242,19 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     // title of layer
                     var titleDiv = domConstruct.create("div", {
-                        className: this.css.title,
+                        className: 'toc-title',
+                        draggable: true,
                     }, layerDiv);
                     
+                    var layerHandleDiv = domConstruct.create("div", {
+                        className: 'dragabble',
+                        title: "Drag to change layers' order, or\nclick and use up/down arrow keys.",
+                        tabindex:0,
+                        //draggable: true,
+                    }, titleDiv);
+                    on(layerHandleDiv, 'dragstart', lang.hitch(this, this._drag));
+                    on(titleDiv, 'dragover', lang.hitch(this, this._allowDrop));
+
                     // title container
                     var titleContainerDiv = domConstruct.create("div", {
                         className: this.css.titleContainer,

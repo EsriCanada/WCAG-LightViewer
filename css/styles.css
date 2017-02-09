@@ -1790,3 +1790,15 @@ main {
     height: 20px;
     margin-left: 5px;
 }
+
+/**[title]:hover:after {
+content: attr(title);
+  position: absolute;
+  color: black;
+  background-color: aliceblue;
+  border: 1px solid black;
+  top:10px;
+  left:10px;
+  z-index:10000;
+  padding:10px;
+}*/
