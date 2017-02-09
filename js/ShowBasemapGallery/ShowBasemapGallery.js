@@ -120,9 +120,11 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 on(this.basemap, "load", lang.hitch(this, function () {
 
                     this.basemap.on("selection-change",lang.hitch(this, function(){
-                        var bm = this.basemap.getSelected(); 
-                        this.emit("changed", {newBasemap: bm} );
-                        console.log(bm);
+                        var basemapObject = this.basemap.getSelected();
+                        this.emit("changed", {
+                            newBasemap: basemapObject,
+                            loaded: this.basemap.loaded,
+                        } );
                     }));
 
                     var mapTitle = this.defaults.initialMap.title;
