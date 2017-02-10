@@ -164,55 +164,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             // if we got layers
             if (layers && layers.length) {
                 var toolsDiv = dojo.byId('tools_layers');
-                //var iconset = toolsDiv.dataset.iconset;
-                if(this.defaults.hasLegend) {
-                    var expandCollapseLegends = domConstruct.create('img', {
-                        id: 'expandCollapseLegends',
-                        src: 'images/icons_' + this.iconset + '/legend.png',
-                        alt: 'Legend',
-                        role: 'button',
-                        tabindex:0,
-                        style:'width:20px; height:20px;',
-                        title: "Expand or Collapse Legends"
-                    },toolsDiv);
-                    on(expandCollapseLegends, 'click', lang.hitch(this, function(evt) {
-                        var flippers = dojo.query('.cbLegend');
-                        if(flippers && flippers.length>0) {
-                            var action = !flippers[0].checked;
-                            for(var i=0; i<flippers.length; i++) {
-                                var label = dojo.query('label[for="'+flippers[i].id+'"]')[0];
-                                if(domStyle.get(label ,'display') !== 'none')
-                                    flippers[i].checked = action;
-                                else 
-                                    flippers[i].checked = false;
-                            }
-                        }
-                    }));
-                }
-
-                // if(this.defaults.hasFeatureTable) {
-                //     var tableCloseNode = domConstruct.create("input",{
-                //         type:"checkbox",
-                //         name:"showFeatureTable",
-                //         //value:layer.id,
-                //         class:"tableRadio",
-                //         id:"radio_tableClose",
-                //         style:"display:none;",
-                //     }, toolsDiv);
-                //     tableCloseNode.checked= true;
-                //     on(tableCloseNode, "change", lang.hitch(this, this._layerShowTableChanged));
-
-                //     var closeTableBtn = domConstruct.create("img", {
-                //         id: 'radio_tableCloseImg',
-                //         src: 'images/icons_' + this.iconset + '/tableClose.png',
-                //         alt:'Close Feature Table',
-                //         role: "button",
-                //         tabindex:0,
-                //         title: 'Close Feature Table',
-                //     }, domConstruct.create("label",{
-                //         for:"radio_tableClose",
-                //     },toolsDiv));
-                // }
 
                 for (var i = 0; i < layers.length; i++) {
                     var layer = layers[i];
@@ -603,8 +554,20 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
         _showHidelayerExpandArea : function(evt) {
             var expand = evt.target.checked;
-            domStyle.set(dojo.byId('layerExpandArea_'+evt.target.id.split('_')[1]), 'display', expand?'inherit':'none');
-            //domStyle.set(dojo.byId('legendBtn_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
+            var id = evt.target.id;
+            var thisLabel = dojo.byId('layerExpandArea_'+id.split('_')[1]);
+            domStyle.set(dojo.byId(thisLabel), 'display', expand?'inherit':'none');
+
+            // if(evt.ctrlKey)
+            // {
+            //     var btns = dojo.query('input[type="checkbox"].cbLegend');
+            //     array.forEach(btns, function(btn) {
+            //         if(btn.id !== id) {
+            //             btn.checked = !expand;
+            //             btn.click();
+            //         }
+            //     });
+            // }
         },
 
         _showHidelayerExpandAreaBtn : function(evt) {
