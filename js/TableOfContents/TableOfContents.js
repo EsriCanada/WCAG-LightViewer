@@ -284,8 +284,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         innerHTML: layer.title
                     }, titleText);
 
-                    //this._atachSpaceKey(titleContainerDiv, titleCheckbox);
-
                     var accountText = '';
                     if (layer.account) {
                         accountText = domConstruct.create("a", {
@@ -361,33 +359,36 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         var divWrapLegend = domConstruct.create('div', {
                             class:'showLegendBtn',
                             title:'Show Legend',
+                            id:'legendBtn_'+i,
                             tabindex:0
                         },
                         titleContainerDiv);
 
-                        domConstruct.create('input',{
+                        var expandLegendBtn = domConstruct.create('input',{
                             type:'checkbox',
-                            id: 'cbLegend_'+layer.id,
+                            id: 'cbLegend_'+i,
                             class: 'cbLegend',
                         }, divWrapLegend);
                         
-                        var expandLegendBtn = domConstruct.create('label',{
-                            for: 'cbLegend_'+layer.id,
+                        var expandLegendLbl = domConstruct.create('label',{
+                            for: 'cbLegend_'+i,
                             class: 'cbLegendLabel',
                         }, divWrapLegend);
-
                         
                         domConstruct.create('img',{
                             src:'images/icons_black/down.png',
                             alt:'Show Legend',
                             class: 'flipper',
                             tabindex: 0,
-                        }, expandLegendBtn);
+                        }, expandLegendLbl);
+
+                        on(expandLegendBtn, 'click', lang.hitch(this, this._showHidelayerExpandArea));
 
 
                         var layerExpandArea = domConstruct.create('div', {
                             id: 'layerExpandArea_'+i,
                             class: 'layerExpandArea',
+                            style: 'display: none;'
                         }, titleContainerDiv);
 
                         var slider = domConstruct.create('input', {
@@ -412,7 +413,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, layerExpandArea));//titleContainerDiv));
                         legend.startup();
 
-                        on(titleCheckbox, 'click', lang.hitch(this, this._showHidelayerExpandArea));
+                        on(titleCheckbox, 'click', lang.hitch(this, this._showHidelayerExpandAreaBtn));
                     }
                     
                     // lets save all the nodes for events
@@ -427,7 +428,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         layer: layerDiv
                     };
                     this._nodes.push(nodesObj);
-                    // create click event
+
                     this._checkboxEvent(i);
                 }
                 this._setLayerEvents();
@@ -493,7 +494,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 }, titleBaseText);
 
                 var hideBasemapArea = domConstruct.create('div', {
-                    style:'display:inherit',
+                    //style:'display:inherit',
                     class: 'hideBasemapArea',
                 }, titleBaseContainerDiv);
 
@@ -507,7 +508,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }
                 }));
 
-                domConstruct.create('input',{
+                var cbBasemapGallery = domConstruct.create('input',{
                     type:'checkbox',
                     id: 'cbBasemapGallery',
                     class: 'cbLegend',
@@ -522,6 +523,11 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     class: 'flipper',
                     tabindex: 0,
                 }, expandBasemapGallery);
+
+                on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
+                    var expand = evt.target.checked;
+                    domStyle.set(dojo.byId('showBasemapGallery'), 'display', expand?'inherit':'none');
+                }));
 
                 var basemapSlider = domConstruct.create('input', {
                     type:'range',
@@ -597,7 +603,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
         _showHidelayerExpandArea : function(evt) {
             var expand = evt.target.checked;
+            domStyle.set(dojo.byId('layerExpandArea_'+evt.target.id.split('_')[1]), 'display', expand?'inherit':'none');
+            //domStyle.set(dojo.byId('legendBtn_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
+        },
+
+        _showHidelayerExpandAreaBtn : function(evt) {
+            var expand = evt.target.checked;
             domStyle.set(dojo.byId('layerExpandArea_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
+            domStyle.set(dojo.byId('legendBtn_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
         },
 
         _showLegend : function(layer) {

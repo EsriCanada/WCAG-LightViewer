@@ -95,7 +95,12 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     portalUrl: this.defaults.basemapHost.sharinghost,
                     basemapsGroup: this._getBasemapGroup(),
                     //class:"verticalScrollContainer"
-                }, domConstruct.create("div", {}, this.domNode));
+                }, domConstruct.create("div", {
+
+                }, domConstruct.create("div", {
+                        id:'showBasemapGallery',
+                        style:'display:none;',
+                }, this.domNode)));
 
                 this.basemap.startup();
 

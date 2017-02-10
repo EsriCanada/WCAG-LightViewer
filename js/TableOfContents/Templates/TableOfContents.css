@@ -94,13 +94,13 @@
     text-decoration: initial;
 }
 
-.TableOfContents input[type="checkbox"].checkbox + div .toc-settings {
+/*.TableOfContents input[type="checkbox"].checkbox + div .toc-settings {
     display:none;
 }
 
 .TableOfContents input[type="checkbox"].checkbox:checked + div .toc-settings {
     display:initial;
-}
+}*/
 
 .esriRTL .TableOfContents .toc-settings {
   margin-right: 0;
@@ -171,7 +171,7 @@
 
 .showLegendBtn img {
 	width:18px;
-	display: block;
+	/*display: block;*/
     cursor: pointer;
 }
 
@@ -192,15 +192,15 @@
 	transform: rotateX(180deg);
 }
 
-.TableOfContents input[type="checkbox"] + div + div .cbLegendLabel {
+/*.TableOfContents input[type="checkbox"] + div + div .cbLegendLabel {
     display:none;
 }
 
 .TableOfContents input[type="checkbox"]:checked + div + div .cbLegendLabel {
     display:initial;
-}
+}*/
 
-.TableOfContents input[type="checkbox"].cbLegend + label + input[type="range"] + div {
+/*.TableOfContents input[type="checkbox"].cbLegend + label + input[type="range"] + div {
     display:none;
 }
 
@@ -213,7 +213,7 @@
 
 .TableOfContents input[type="checkbox"].cbLegend:checked + label + input[type="range"] {
     display:initial;
-}
+}*/
 
 .layerOpacitySlider {
 	position: absolute;
@@ -254,3 +254,6 @@
 	background-color: rgba(0, 169, 230, 0.901961);
 }
 
+label.cbLegendLabel {
+    display: inherit;
+}
