@@ -438,7 +438,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     class:'showLegendBtn',
                     title:'Show Basemap Gallery',
                     id:'legend1Btn',
-                    tabindex:0
+                    tabindex:0,
+                    style:'margin-left:-4px;'
                 },
                 titleBaseContainerDiv);
 
@@ -463,7 +464,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     class: 'hideBasemapArea',
                 }, titleBaseContainerDiv);
 
-                on(baseMapLabel, "click", lang.hitch(this, 
+                on(titleBasemapCheckbox, "click", lang.hitch(this, 
                     function (evt) {
                         var cb = dojo.byId('layer_ck_baseMap');
                         var action = !cb.checked;
@@ -472,7 +473,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             this.baseMap.baseMapLayers[ib].opacity=action?1:0;//.setVisibility(action);
                         }
                         
-                        domStyle.set(dojo.byId('legend1Btn'), 'display', action?'table':'none');
+                        domStyle.set(dojo.byId('legend1Btn'), 'display', !action?'table':'none');
                 }));
 
                  on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
