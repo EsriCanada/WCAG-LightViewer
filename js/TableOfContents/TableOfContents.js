@@ -573,7 +573,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             var i = evt.target.id.split('_')[2];
             if(expand) {
                 var ck = dojo.byId('cbLegend_'+i).checked;
-                domStyle.set(dojo.byId('legendBtn_'+i), 'display', 'inherit');
+                domStyle.set(dojo.byId('legendBtn_'+i), 'display', 'table');
                 domStyle.set(dojo.byId('layerExpandArea_'+i), 'display', ck?'inherit':'none');
             }
             else {
