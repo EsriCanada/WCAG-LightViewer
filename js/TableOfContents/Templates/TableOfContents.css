@@ -176,7 +176,7 @@
 
 .showLegendBtn img {
 	width:18px;
-	/*display: block;*/
+	display: block;
     cursor: pointer;
 }
 

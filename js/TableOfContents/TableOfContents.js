@@ -388,17 +388,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             if(this.baseMap) {
 
                 var titleBaseCheckBoxClass = "checkbox";
-                // layer class
-                //  var layerBaseClass = "toc-layer";
-                // first layer
-                // if (this.baseMap.visibility) {
-                //     layerBaseClass += " ";
-                //     layerBaseClass += this.css.visible;
-                //     titleBaseCheckBoxClass += " ";
-                //     titleBaseCheckBoxClass += this.css.checkboxCheck;
-                // }
 
-                // layer node
                 var layerBaseDiv = domConstruct.create("div", {
                     id:'layerBaseDiv',
                     className: "toc-layer",
@@ -410,6 +400,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 // title of layer
                 var titleBaseDiv = domConstruct.create("div", {
                     className: this.css.title,
+                    style: 'min-height: 24px;',
                 }, layerBaseDiv);
                 
                 // title container
@@ -420,15 +411,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 
                 var titleBaseText = domConstruct.create("div", {
                     className: "checkbox",
+                    // title:'Show Basemap Gallery',
                     // role: "presentation",
                     // tabindex:0,
                 }, titleBaseContainerDiv);
 
                 var titleBasemapCheckbox = domConstruct.create("input", 
                 {
+                    type: "checkbox",
                     id: "layer_ck_baseMap",
                     className: titleBaseCheckBoxClass, 
-                    type: "checkbox",
                     tabindex: 0,
                     checked: this.baseMap.baseMapLayers[0].visibility,
                 }, titleBaseText);
@@ -442,30 +434,23 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     title : "BaseMap: "+this.baseMap.title,
                 }, titleBaseText);
 
-                var hideBasemapArea = domConstruct.create('div', {
-                    //style:'display:inherit',
-                    class: 'hideBasemapArea',
-                }, titleBaseContainerDiv);
+                var divWrapLegend1 = domConstruct.create('div', {
+                    class:'showLegendBtn',
+                    title:'Show Basemap Gallery',
+                    id:'legend1Btn',
+                    tabindex:0
+                },
+                titleBaseContainerDiv);
 
-                on(baseMapLabel, "click", lang.hitch(this, 
-                    function (evt) {
-                        var cb = dojo.byId('layer_ck_baseMap');
-                        var action = !cb.checked;
-                        hideBasemapArea.style.display = action?'inherit':'none';
-                        for(var ib=0; ib<this.baseMap.baseMapLayers.length; ib++) {
-                            this.baseMap.baseMapLayers[ib].opacity=action?1:0;//.setVisibility(action);
-                        }
-                }));
-
-                var cbBasemapGallery = domConstruct.create('input',{
+               var cbBasemapGallery = domConstruct.create('input',{
                     type:'checkbox',
                     id: 'cbBasemapGallery',
                     class: 'cbLegend',
-                }, hideBasemapArea);
+                }, legend1Btn);
                 var expandBasemapGallery = domConstruct.create('label',{
                     for: 'cbBasemapGallery',
                     class: 'cbLegendLabel showLegendBtn',
-                }, hideBasemapArea);
+                }, legend1Btn);
                 domConstruct.create('img',{
                     src:'images/icons_black/down.png',
                     alt:'Show BasemapGallery',
@@ -473,7 +458,24 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     tabindex: 0,
                 }, expandBasemapGallery);
 
-                on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
+                var hideBasemapArea = domConstruct.create('div', {
+                    style:'display:block',
+                    class: 'hideBasemapArea',
+                }, titleBaseContainerDiv);
+
+                on(baseMapLabel, "click", lang.hitch(this, 
+                    function (evt) {
+                        var cb = dojo.byId('layer_ck_baseMap');
+                        var action = !cb.checked;
+                        hideBasemapArea.style.display = action?'block':'none';
+                        for(var ib=0; ib<this.baseMap.baseMapLayers.length; ib++) {
+                            this.baseMap.baseMapLayers[ib].opacity=action?1:0;//.setVisibility(action);
+                        }
+                        
+                        domStyle.set(dojo.byId('legend1Btn'), 'display', action?'table':'none');
+                }));
+
+                 on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
                     var expand = evt.target.checked;
                     domStyle.set(dojo.byId('showBasemapGallery'), 'display', expand?'inherit':'none');
                 }));
@@ -492,36 +494,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     domStyle.set(this, 'display', expand?'inherit':'none');
                 }));
 
-                // on(titleCheckbox, 'click', lang.hitch(cbBasemapGallery, function(evt) {
-                //     var expand = evt.target.checked;
-                //     if(!expand && this.checked) {
-                //         this.click();
-                //     }
-                //     domStyle.set(this.labels[0], 'display', expand?'inherit':'none');
-                // }));
+                //on(basemapSlider, 'change', lang.hitch(this, this._layerSliderChanged));
+
 
                 if(this.defaults.hasBasemapGallery) {
-
-                    var divWrapBaseMapGallery = domConstruct.create('div', {
-                        class:'showLegendBtn',
-                        title:'Show Legend',
-                        tabindex:0
-                    },
-                    layerBaseDiv);
-
-                    var baseMapDiv = domConstruct.create('div', {
-                        id : 'baseMapDiv',
-                        style: 'display:none;'
-                    }, layerBaseDiv);
-
-                    on(cbBasemapGallery, 'click', lang.hitch(baseMapDiv, function(evt) {
-                        //console.log(this, evt);
-                        var expand = evt.target.checked;
-                        domStyle.set(this, 'display', expand?'inherit':'none');
-                    }));
-
-                    //on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
-
 
                     var basemapGallery = new ShowBasemapGallery({
                         map: this.map,
@@ -542,9 +518,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                         this.baseMap.baseMapLayers = newBasemap.layers;
                         // this.baseMap = this.map.getLayer(newBasemap.id);
-
-
-
                     }));
                 }
             }
