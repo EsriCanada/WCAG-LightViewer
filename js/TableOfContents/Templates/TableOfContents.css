@@ -122,8 +122,7 @@
 
 .TableOfContents input[type=checkbox].checkbox {
     display: none;
-    width: 18px;
-    margin-top: 1px;
+    margin: 4px 0px 0px 4px;
 }
 
 .TableOfContents .tableBtn {
