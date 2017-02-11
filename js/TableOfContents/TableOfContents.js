@@ -65,8 +65,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             // classes
             this.css = {
                 container: "toc-container",
-                layer: "toc-layer",
-                firstLayer: "toc-first-layer",
+                //layer: "toc-layer",
+                //firstLayer: "toc-first-layer",
                 title: "toc-title",
                 //titleContainer: "toc-title-container",
                 content: "toc-content",
@@ -74,7 +74,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 checkboxCheck: "icon-check-1",
                 //titleText: "checkbox",
                 accountText: "toc-account",
-                visible: "toc-visible",
+                //visible: "toc-visible",
                 settingsIcon: "icon-cog",
                 //settings: "toc-settings",
                 actions: "toc-actions",
@@ -143,7 +143,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
         _drag: function(evt) {
             console.log(this, evt);
-            //evt.target.parentNode.draggable = true;
             evt.dataTransfer.setData("text", evt.target.id);
         },
 
@@ -171,22 +170,22 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     // ceckbox class
                     var titleCheckBoxClass = "checkbox";
                     // layer class
-                    var layerClass = this.css.layer;
+                    //var layerClass = "toc-layer";
                     // first layer
-                    if (i === (layers.length - 1)) {
-                        layerClass += " ";
-                        layerClass += this.css.firstLayer;
-                    }
-                    if (layer.visibility) {
-                        layerClass += " ";
-                        layerClass += this.css.visible;
-                        titleCheckBoxClass += " ";
-                        titleCheckBoxClass += this.css.checkboxCheck;
-                    }
+                    // if (i === (layers.length - 1)) {
+                    //     layerClass += " ";
+                    //     layerClass += this.css.firstLayer;
+                    // }
+                    // if (layer.visibility) {
+                    //     layerClass += " ";
+                    //     layerClass += this.css.visible;
+                    //     titleCheckBoxClass += " ";
+                    //     titleCheckBoxClass += this.css.checkboxCheck;
+                    // }
 
                     // layer node
                     var layerDiv = domConstruct.create("div", {
-                        className: layerClass,
+                        className: "toc-layer",
                         role: "listitem",
                     });
                     domConstruct.place(layerDiv, this._layersNode, "first");
@@ -194,22 +193,13 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     // title of layer
                     var titleDiv = domConstruct.create("div", {
                         className: 'toc-title',
-                        draggable: true,
                     }, layerDiv);
                     
-                    var layerHandleDiv = domConstruct.create("div", {
-                        className: 'dragabble',
-                        title: "Drag to change layers' order, or\nclick and use up/down arrow keys.",
-                        tabindex:0,
-                        //draggable: true,
-                    }, titleDiv);
-                    on(layerHandleDiv, 'dragstart', lang.hitch(this, this._drag));
-                    on(titleDiv, 'dragover', lang.hitch(this, this._allowDrop));
-
                     // title container
                     var titleContainerDiv = domConstruct.create("div", {
                         className: "toc-title-container",
                         tabindex: -1,
+                        draggable: true,
                     }, titleDiv);
                     
                     var titleText = domConstruct.create("div", {
@@ -218,6 +208,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         // role: "presentation",
                         // tabindex:0,
                     }, titleContainerDiv);
+
+                    var layerHandleDiv = domConstruct.create("div", {
+                        className: 'dragabble',
+                        title: "Drag to change layers' order, or\nclick and use up/down arrow keys.",
+                        tabindex:0,
+                    }, titleText);
+                    on(layerHandleDiv, 'dragstart', lang.hitch(this, this._drag));
+                    on(titleDiv, 'dragover', lang.hitch(this, this._allowDrop));
 
                     var titleCheckbox = domConstruct.create("input", 
                     {
@@ -313,7 +311,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             id:'legendBtn_'+i,
                             tabindex:0
                         },
-                        titleContainerDiv);
+                        titleDiv);
 
                         var expandLegendBtn = domConstruct.create('input',{
                             type:'checkbox',
@@ -340,7 +338,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             id: 'layerExpandArea_'+i,
                             class: 'layerExpandArea',
                             style: 'display: none;'
-                        }, titleContainerDiv);
+                        }, titleDiv);
 
                         var slider = domConstruct.create('input', {
                             type:'range',
@@ -391,19 +389,19 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                 var titleBaseCheckBoxClass = "checkbox";
                 // layer class
-                var layerBaseClass = this.css.layer;
+                //  var layerBaseClass = "toc-layer";
                 // first layer
-                if (this.baseMap.visibility) {
-                    layerBaseClass += " ";
-                    layerBaseClass += this.css.visible;
-                    titleBaseCheckBoxClass += " ";
-                    titleBaseCheckBoxClass += this.css.checkboxCheck;
-                }
+                // if (this.baseMap.visibility) {
+                //     layerBaseClass += " ";
+                //     layerBaseClass += this.css.visible;
+                //     titleBaseCheckBoxClass += " ";
+                //     titleBaseCheckBoxClass += this.css.checkboxCheck;
+                // }
 
                 // layer node
                 var layerBaseDiv = domConstruct.create("div", {
                     id:'layerBaseDiv',
-                    className: layerBaseClass,
+                    className: "toc-layer",
                     role: "listitem",
                     style:"background-color: silver;"
                 });
@@ -572,8 +570,15 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
         _showHidelayerExpandAreaBtn : function(evt) {
             var expand = evt.target.checked;
-            domStyle.set(dojo.byId('layerExpandArea_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
-            domStyle.set(dojo.byId('legendBtn_'+evt.target.id.split('_')[2]), 'display', expand?'inherit':'none');
+            var i = evt.target.id.split('_')[2];
+            if(expand) {
+                var ck = dojo.byId('cbLegend_'+i).checked;
+                domStyle.set(dojo.byId('legendBtn_'+i), 'display', 'inherit');
+                domStyle.set(dojo.byId('layerExpandArea_'+i), 'display', ck?'inherit':'none');
+            }
+            else {
+                domStyle.set(dojo.byId('legendBtn_'+i), 'display', 'none');
+            }
         },
 
         _showLegend : function(layer) {

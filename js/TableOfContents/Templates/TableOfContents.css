@@ -6,7 +6,7 @@
   /*line-height: 16px;*/
   -webkit-user-select: none;
   -moz-user-select: none;
-  margin: 1px 2px;
+  /*margin: 1px 2px;*/
 }
 
 .TableOfContents .toc-first-layer{
@@ -21,7 +21,7 @@
   background: none;
   color: black;
   position: relative;
-  padding: 8px;
+  /*padding: 8px;*/
 }
 
 .TableOfContents {
@@ -46,7 +46,9 @@
 .TableOfContents .labelText {
 	max-width: calc(100% - 55px); 
 	display: inline-block;
-	padding-left: 4px;
+	padding: 0px 4px;
+    margin-top: 4px;
+    margin-left: 4px;
 }
 
 @media screen and (max-width: 300px) {
@@ -217,7 +219,7 @@
 
 .layerOpacitySlider {
 	position: absolute;
-    top: 27px;
+    margin-top: -16px;
 	right: 36px;
     width: 20%;
 }
