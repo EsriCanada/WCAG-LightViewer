@@ -484,7 +484,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     value:100,
                     //'data-layerid':layer.id,
                     title:'Opacity',
-                    style: 'display:none; top: auto; margin: -10px 0 0 0; background-color: transparent;',
+                    style: 'display:none;',
                 }, hideBasemapArea);
 
                 on(cbBasemapGallery, 'click', lang.hitch(basemapSlider, function(evt) {
