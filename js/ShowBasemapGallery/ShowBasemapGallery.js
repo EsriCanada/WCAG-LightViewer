@@ -230,6 +230,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             return mapName;
         },
 
+        getSelected: function() {
+            return this.basemap.getSelected();
+        },
+
         _getBasemapGroup: function () {
             //Get the id or owner and title for an organizations custom basemap group.
             var basemapGroup = null;
