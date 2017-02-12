@@ -65,25 +65,18 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             // classes
             this.css = {
                 container: "toc-container",
-                //layer: "toc-layer",
-                //firstLayer: "toc-first-layer",
                 title: "toc-title",
-                //titleContainer: "toc-title-container",
                 content: "toc-content",
-                //titleCheckbox: "checkbox",
                 checkboxCheck: "icon-check-1",
-                //titleText: "checkbox",
                 accountText: "toc-account",
-                //visible: "toc-visible",
                 settingsIcon: "icon-cog",
-                //settings: "toc-settings",
                 actions: "toc-actions",
                 account: "toc-account",
                 clear: "clear"
             };
 
-            this.toolsDiv = dojo.byId('tools_layers');
-            this.iconset = this.toolsDiv.dataset.iconset;
+            // this.toolsDiv = dojo.byId('tools_layers');
+            // this.iconset = this.toolsDiv.dataset.iconset;
         },
 
         // start widget. called by user
