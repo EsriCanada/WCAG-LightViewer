@@ -460,13 +460,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 on(titleBasemapCheckbox, "click", lang.hitch(this, 
                     function (evt) {
                         var cb = dojo.byId('layer_ck_baseMap');
-                        var action = !cb.checked;
-                        hideBasemapArea.style.display = action?'block':'none';
-                        for(var ib=0; ib<this.baseMap.baseMapLayers.length; ib++) {
-                            this.baseMap.baseMapLayers[ib].opacity=action?1:0;//.setVisibility(action);
-                        }
+                        var action = cb.checked;
                         
-                        domStyle.set(dojo.byId('legend1Btn'), 'display', !action?'table':'none');
+                        hideBasemapArea.style.display = action?'block':'none';
+                        domStyle.set(dojo.byId('legend1Btn'), 'display', action?'table':'none');
                 }));
 
                  on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
