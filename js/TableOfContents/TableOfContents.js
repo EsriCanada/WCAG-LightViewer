@@ -485,7 +485,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     domStyle.set(this, 'display', expand?'inherit':'none');
                 }));
 
-                //on(basemapSlider, 'change', lang.hitch(this, this._layerSliderChanged));
+                on(basemapSlider, 'change', lang.hitch(this, function(ev) {
+                    this.baseMap.setOpacity(ev.currentTarget.value/100);
+                }));
 
 
                 if(this.defaults.hasBasemapGallery) {
@@ -501,14 +503,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     basemapGallery.startup();
 
                     on(basemapGallery, "changed", lang.hitch(this, function(evt) {
-                        console.log(this.baseMap.baseMapLayers[0].layerObject, this.baseMap.baseMapLayers);
-
                         var newBasemap = evt.newBasemap;
                         baseMapLabel.innerHTML = this.baseMap.title = basemapGallery.getLocalizedMapName(newBasemap.title);
-                        console.log(newBasemap.layers[0], newBasemap.layers);
 
-                        this.baseMap.baseMapLayers = newBasemap.layers;
-                        // this.baseMap = this.map.getLayer(newBasemap.id);
+                        console.log(this.baseMap = array.filter(Object.values(this.map._layers), function(l) {return l._basemapGalleryLayerType === "basemap";})[0]);
                     }));
                 }
             }
