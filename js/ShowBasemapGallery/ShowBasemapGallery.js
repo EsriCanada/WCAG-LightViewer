@@ -129,6 +129,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         this.emit("changed", {
                             newBasemap: basemapObject,
                             loaded: this.basemap.loaded,
+                            localizedLabel: i18n_BaseMapLabels.baseMapLabels[basemapObject.title],
                         } );
                     }));
 
@@ -179,20 +180,22 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         dojo.place(labelNode, aNode, "last");
 
                         var aSpan = node.querySelector("a span");
+
                         var aSpanLabel = aSpan.innerHTML.toLowerCase().replace(/\s/g, '_');
-                        try {
-                            var localizedLabel = i18n_BaseMapLabels.baseMapLabels[aSpanLabel];
-                            if(localizedLabel && localizedLabel !== undefined)
-                                aSpan.innerText = localizedLabel;
-                            var l = aSpan.innerText;
-                            if(dojo.hasClass(node, "esriBasemapGallerySelectedNode"))
-                            {
-                                l += ' '+this.config.i18n.tools.basemapGallery.selected;
-                            }       
-                            l += '.';                          
-                            domAttr.set(aSpan, 'aria-label', l);
-                            //img.alt=aSpan.innerText;
-                        } catch(e) {}
+                        var localizedLabel = i18n_BaseMapLabels.baseMapLabels[aSpanLabel];
+                        if(localizedLabel && localizedLabel !== undefined)
+                            aSpan.innerText = localizedLabel;
+                        var l = aSpan.innerText;
+
+                        //var l = aSpan.innerText = this.getLocalizedMapName(aSpan.innerHTML);
+
+                        if(dojo.hasClass(node, "esriBasemapGallerySelectedNode"))
+                        {
+                            l += ' '+this.config.i18n.tools.basemapGallery.selected;
+                        }       
+                        l += '.';                          
+                        domAttr.set(aSpan, 'aria-label', l);
+                        //img.alt=aSpan.innerText;
                         
                         domAttr.set(labelNode, "tabindex", 0);   
                         on(img, "click", function() { node.focus();});
@@ -217,6 +220,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             }
 
             return deferred.promise;
+        },
+
+        getLocalizedMapName: function(mapName) {
+            var aString = mapName.toLowerCase().replace(/\s/g, '_');
+            var localized= i18n_BaseMapLabels.baseMapLabels[aString];
+            if(localized && localized !== undefined)
+                return localized;
+            return mapName;
         },
 
         _getBasemapGroup: function () {

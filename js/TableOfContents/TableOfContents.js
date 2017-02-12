@@ -507,7 +507,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         console.log(this.baseMap.baseMapLayers[0].layerObject, this.baseMap.baseMapLayers);
 
                         var newBasemap = evt.newBasemap;
-                        baseMapLabel.innerHTML = this.baseMap.title = newBasemap.title;
+                        baseMapLabel.innerHTML = this.baseMap.title = basemapGallery.getLocalizedMapName(newBasemap.title);
                         console.log(newBasemap.layers[0], newBasemap.layers);
 
                         this.baseMap.baseMapLayers = newBasemap.layers;
