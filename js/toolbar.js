@@ -171,6 +171,12 @@ on, mouse, query, Deferred) {
             }, 
             pageContent);
 
+            domConstruct.create("div", {
+                className: "pageResizeTab",
+                tabindex: 0,
+            }, 
+            pageHeader);
+
             domConstruct.create("h1", {
                 className: "pageTitle fc",
                 innerHTML: this.config.i18n.tooltips[name] || name,
@@ -191,16 +197,6 @@ on, mouse, query, Deferred) {
                 'data-iconset': settings.iconSet
             }, pageHeader);
 
-            // domConstruct.create("div", {
-            //     className: "pageHeaderImg",
-            //     innerHTML: "<img class='pageIcon' src ='images/icons_" + this.config.icons + "/" + name + ".png' alt=''/>"
-            // }, pageHeader);
-
-            
-            // var verticalScrollContainer = domConstruct.create('div', {
-            //     class: 'verticalScrollContainer',
-            // }, pageContent);
-            
             var pageBody = domConstruct.create("div", {
                 className: "pageBody",
                 tabindex: 0,
@@ -223,12 +219,6 @@ on, mouse, query, Deferred) {
 
        _toolClick: function (name) {
             
-            // var defaultBtns = dojo.query(".panelToolDefault");
-            // var defaultBtn;
-            // if(defaultBtns !== undefined && defaultBtns.length > 0) {
-            //     defaultBtn = defaultBtns[0].id.split("_")[1];
-            // }
-
             this._updateMap(); // ! out of place
             var active = false;
             var page = dom.byId("page_"+name);
@@ -276,16 +266,5 @@ on, mouse, query, Deferred) {
                 this.map.reposition();
             }
         },
-
-        // // menu click
-        // _menuClick: function () {
-        //     if (query("#panelTools").style("display") == "block") {
-        //         query("#panelTools").style("display", "none");
-        //         this._closePage();
-        //     } else {
-        //         query("#panelTools").style("display", "block");
-        //     }
-        //     this._updateMap();
-        // }
     });
 });

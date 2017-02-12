@@ -1802,3 +1802,15 @@ content: attr(title);
   z-index:10000;
   padding:10px;
 }*/
+
+.pageResizeTab {
+    width: 6px;
+    height: 22px;
+    /*border-bottom-right-radius: 4px;*/
+    cursor: ew-resize;
+    background: rgba(255, 255, 255, 0.5);
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+    background: -o-linear-gradient(right, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+    background: -moz-linear-gradient(right, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+}
