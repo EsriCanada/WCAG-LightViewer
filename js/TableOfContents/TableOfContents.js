@@ -457,13 +457,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     class: 'hideBasemapArea',
                 }, titleBaseContainerDiv);
 
-                on(titleBasemapCheckbox, "click", lang.hitch(this, 
-                    function (evt) {
-                        var cb = dojo.byId('layer_ck_baseMap');
-                        var action = cb.checked;
-                        
-                        hideBasemapArea.style.display = action?'block':'none';
-                        domStyle.set(dojo.byId('legend1Btn'), 'display', action?'table':'none');
+                on(titleBasemapCheckbox, "click", lang.hitch(this, function (evt) {
+                    var cb = dojo.byId('layer_ck_baseMap');
+                    var action = cb.checked;
+                    
+                    hideBasemapArea.style.display = action?'block':'none';
+                    domStyle.set(dojo.byId('legend1Btn'), 'display', action?'table':'none');
+
+                    this.baseMap.setVisibility(action);
                 }));
 
                  on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
