@@ -258,3 +258,7 @@
 label.cbLegendLabel {
     display: inherit;
 }
+
+#showBasemapGallery {
+    margin-left: -4px;
+}

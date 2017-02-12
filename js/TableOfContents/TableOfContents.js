@@ -518,30 +518,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             var id = evt.target.id;
             var thisLabel = dojo.byId('layerExpandArea_'+id.split('_')[1]);
             domStyle.set(dojo.byId(thisLabel), 'display', expand?'inherit':'none');
-
-            // if(evt.ctrlKey)
-            // {
-            //     var btns = dojo.query('input[type="checkbox"].cbLegend');
-            //     array.forEach(btns, function(btn) {
-            //         if(btn.id !== id) {
-            //             btn.checked = !expand;
-            //             btn.click();
-            //         }
-            //     });
-            // }
         },
 
         _showHidelayerExpandAreaBtn : function(evt) {
-            var expand = evt.target.checked;
             var i = evt.target.id.split('_')[2];
-            if(expand) {
-                var ck = dojo.byId('cbLegend_'+i).checked;
-                domStyle.set(dojo.byId('legendBtn_'+i), 'display', 'table');
-                domStyle.set(dojo.byId('layerExpandArea_'+i), 'display', ck?'inherit':'none');
-            }
-            else {
-                domStyle.set(dojo.byId('legendBtn_'+i), 'display', 'none');
-            }
+            
+            var expand = evt.target.checked;
+            domStyle.set(dojo.byId('legendBtn_'+i), 'display', expand?'table':'none');
+            
+            var ck = dojo.byId('cbLegend_'+i).checked;
+            domStyle.set(dojo.byId('layerExpandArea_'+i), 'display', (ck && expand)?'inherit':'none');
         },
 
         _showLegend : function(layer) {
