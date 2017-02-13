@@ -54,6 +54,19 @@ on, mouse, query, Deferred) {
             return deferred.promise;
         },
 
+        // resizeTab : null,
+
+        // _resize: function (e) {
+        //     if(!this.resizeTab) return;
+        //     this.resizeTab.style.width = (e.clientX - this.resizeTab.clientLeft + this.resizeTab.clientWidth) + 'px';
+        //     //element.style.height = (e.clientY - element.offsetTop) + 'px';
+        // },
+        // _stopResize: function(e) {
+        //     this.resizeTab = null;
+        //     window.removeEventListener('mousemove', this._resize, false);
+        //     window.removeEventListener('mouseup', this._stopResize, false);
+        // },
+
         //Create a tool and return the div where you can place content
         createTool: function (tool, options) { 
             var settings = lang.mixin({}, {
@@ -122,11 +135,17 @@ on, mouse, query, Deferred) {
             }, 
             pageContent);
 
-            domConstruct.create("div", {
+            var pageResizeTab = domConstruct.create("div", {
                 className: "pageResizeTab",
                 tabindex: 0,
-            }, 
-            pageHeader);
+            }, pageHeader);
+            // on(pageResizeTab, 'mousedown', lang.hitch(this, function(e) {
+            //     this.resizeTab = e.target.closest('.pageContent');
+            //     window.addEventListener('mousemove', lang.hitch(this, this._resize), false);
+            //     window.addEventListener('mouseup', lang.hitch(this, this._stopResize), false);
+            // }));
+
+
 
             domConstruct.create("h1", {
                 className: "pageTitle fc",
