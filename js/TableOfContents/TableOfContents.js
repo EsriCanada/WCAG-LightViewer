@@ -176,18 +176,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             var indexStart = this._getLayerPosition(this._startTarget);
             var indexDrop = this._getLayerPosition(this._dropTarget);
             dojo.place(this._startTarget, this._dropTarget, indexStart<indexDrop?"after":"before");
-            //console.log(this._startTarget, this._dropTarget);
-            // var layerStart = this._getLayerById(this._startTarget.dataset.layerid);
-            // var index = (indexStart>indexDrop)?indexDrop:indexDrop-1;
-            // console.log(indexStart, indexDrop, index);
-            // console.log(this.layers.map(function(l) {return l.id;}));
-            // this.map.reorderLayer(layerStart, index);
-            // this.layers = array.filter(Object.values(this.map._layers), function(l) {
-            //     return l._basemapGalleryLayerType !== "basemap" && 
-            //     l.id !== 'mapDiv_graphics' &&
-            //     l.id !== 'labels';});
-            // this._createList();
-            // console.log(this.layers.map(function(l) {return l.id;}));
+            this.map.reorderLayer(this._startTarget.dataset.layerid, indexDrop);
             this._dropTarget = null;
             evt.preventDefault();
         },
