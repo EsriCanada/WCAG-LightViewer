@@ -41,66 +41,17 @@ on, mouse, query, Deferred) {
             var deferred;
 
             deferred = new Deferred();
-            on(window, "scroll", lang.hitch(this, this._windowScrolled));
-            on(window, "resize", lang.hitch(this, this._windowScrolled));
             this.pTools = dom.byId("panelTools");
             this.pMenu = dom.byId("panelMenu");
-            // on(this.pMenu, "click", lang.hitch(this, this._menuClick));
             this.pPages = dom.byId("panelPages");
-            //Prevent body scroll when scrolling to the end of the panel content
-            on(this.pPages, mouse.enter, lang.hitch(this, function () {
-
-                if (this._hasScrollbar()) {
-                    var p = dom.byId("panelPages");
-                    if (p) {
-                        domClass.add(p, "modal-scrollbar");
-                    }
-                }
-                domStyle.set(win.body(), "overflow", "hidden");
-
-            }));
-            on(this.pPages, mouse.leave, lang.hitch(this, function () {
-                if (this._hasScrollbar === false) {
-                    var p = dom.byId("panelPages");
-                    if (p) {
-                        domClass.remove(p, "modal-scrollbar");
-                    }
-                    domStyle.set(win.body(), "overflow-y", "auto");
-                }
-
-
-            }));
             deferred.resolve();
 
+            this.leftPanel = dom.byId("leftPanel");
+            this.leftPanelTop = leftPanel.offsetTop;
+
+            document.body.onresize = this._verticalScrollsResize;
+
             return deferred.promise;
-        },
-
-        _hasScrollbar: function () {
-            // The Modern solution
-            if (typeof window.innerWidth === 'number') return window.innerWidth > document.documentElement.clientWidth;
-
-            // rootElem for quirksmode
-            var rootElem = document.documentElement || document.body;
-
-            // Check overflow style property on body for fauxscrollbars
-            var overflowStyle;
-
-            if (typeof rootElem.currentStyle !== 'undefined') overflowStyle = rootElem.currentStyle.overflow;
-
-            overflowStyle = overflowStyle || window.getComputedStyle(rootElem, '').overflow;
-
-            // Also need to check the Y axis overflow
-            var overflowYStyle;
-
-            if (typeof rootElem.currentStyle !== 'undefined') overflowYStyle = rootElem.currentStyle.overflowY;
-
-            overflowYStyle = overflowYStyle || window.getComputedStyle(rootElem, '').overflowY;
-
-            var contentOverflows = rootElem.scrollHeight > rootElem.clientHeight;
-            var overflowShown = /^(visible|auto)$/.test(overflowStyle) || /^(visible|auto)$/.test(overflowYStyle);
-            var alwaysShowScroll = overflowStyle === 'scroll' || overflowYStyle === 'scroll';
-
-            return (contentOverflows && overflowShown) || (alwaysShowScroll);
         },
 
         //Create a tool and return the div where you can place content
@@ -197,13 +148,18 @@ on, mouse, query, Deferred) {
                 'data-iconset': settings.iconSet
             }, pageHeader);
 
+            var verticalScrollContainer = domConstruct.create('div', {
+                class: 'verticalScrollContainer',
+            }, pageContent);
+
             var pageBody = domConstruct.create("div", {
                 className: "pageBody",
                 tabindex: 0,
                 id: "pageBody_" + name,
-            }, domConstruct.create('div', {
-                class: 'verticalScrollContainer',
-            }, pageContent));
+            }, verticalScrollContainer);
+
+            var h = (document.body.clientHeight - dom.byId("leftPanel").offsetTop - 36) + 'px';
+            domStyle.set(verticalScrollContainer, 'max-height', h);
 
             //var page = query(this.domNode).closest('.pageBody')[0]
 
@@ -249,8 +205,8 @@ on, mouse, query, Deferred) {
                 }
             }));           
 
-            domStyle.set(query("#panelPages")[0], "visibility", active?'visible':'collapse');
-            domStyle.set(query("#leftPanel")[0], "display", active?'flex':'none');
+            domStyle.set(dom.byId("panelPages"), "visibility", active?'visible':'collapse');
+            domStyle.set(dom.byId("leftPanel"), "display", active?'flex':'none');
         },
 
         _atachEnterKey: function(onButton, clickButton) {
@@ -265,6 +221,15 @@ on, mouse, query, Deferred) {
                 this.map.resize();
                 this.map.reposition();
             }
+        },
+
+        _verticalScrollsResize: function() {
+            var pageBodyContents = query('.verticalScrollContainer'); 
+            var h = (document.body.clientHeight - dom.byId("leftPanel").offsetTop - 36) + 'px';
+
+            pageBodyContents.forEach(lang.hitch(this, function(node) {
+                domStyle.set(node, 'max-height', h);
+            }));
         },
     });
 });
