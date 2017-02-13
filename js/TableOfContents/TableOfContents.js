@@ -162,10 +162,20 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             //console.log(this, evt);
         },
 
+        _getLayerPosition:function(layer) {
+            var layers = dojo.query('.toc-title', dojo.byId('pageBody_layers'));
+            var layersIds = layers.map(function(l) {return l.id;});
+            for(var i=0; i<layers.length; i++) {
+                if(layers[i].id === layer.id) {
+                    return i;
+                }
+            }
+            return -1;
+        },
         _drop: function (evt) {
-            var indexStart = this._startTarget.id.split('_')[1];
-            var indexDrop = this._dropTarget.id.split('_')[1];
-            dojo.place(this._startTarget, this._dropTarget, indexStart>indexDrop?"after":"before");
+            var indexStart = this._getLayerPosition(this._startTarget);
+            var indexDrop = this._getLayerPosition(this._dropTarget);
+            dojo.place(this._startTarget, this._dropTarget, indexStart<indexDrop?"after":"before");
             //console.log(this._startTarget, this._dropTarget);
             // var layerStart = this._getLayerById(this._startTarget.dataset.layerid);
             // var index = (indexStart>indexDrop)?indexDrop:indexDrop-1;
