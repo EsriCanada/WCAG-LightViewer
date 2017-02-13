@@ -129,20 +129,57 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         /* Private Functions */
         /* ----------------- */
 
+        _startTarget: null,
+        _dropTarget: null,
+
         _allowDrop: function (evt) {
-            evt.target.opacity=1;
+            var target = evt.target.closest('.toc-title');
+            if(target.id !== this._dropTarget.id)
+            {
+                this._dropTarget = target;
+                //console.log(target.id, this._startTarget, this._dropTarget);
+            }
             evt.preventDefault();
         },
 
         _drag: function(evt) {
-            console.log(this, evt);
-            evt.dataTransfer.setData("text", evt.target.id);
+            //evt.dataTransfer.setData("text", evt.target.id);
+            this._dropTarget = 
+            this._startTarget = evt.target.closest('.toc-title');
+            //console.log(evt.target, this._startTarget);
+            var bar = dojo.query('.dragabble', evt.target)[0];
+            if(bar) {
+                if(bar.setActive) {
+                    bar.setActive();
+                }
+                else if(bar.focus) {
+                    bar.focus();
+                }
+            }
+            else {
+                evt.preventDefault();
+            }
+            //console.log(this, evt);
         },
 
         _drop: function (evt) {
+            var indexStart = this._startTarget.id.split('_')[1];
+            var indexDrop = this._dropTarget.id.split('_')[1];
+            dojo.place(this._startTarget, this._dropTarget, indexStart>indexDrop?"after":"before");
+            //console.log(this._startTarget, this._dropTarget);
+            // var layerStart = this._getLayerById(this._startTarget.dataset.layerid);
+            // var index = (indexStart>indexDrop)?indexDrop:indexDrop-1;
+            // console.log(indexStart, indexDrop, index);
+            // console.log(this.layers.map(function(l) {return l.id;}));
+            // this.map.reorderLayer(layerStart, index);
+            // this.layers = array.filter(Object.values(this.map._layers), function(l) {
+            //     return l._basemapGalleryLayerType !== "basemap" && 
+            //     l.id !== 'mapDiv_graphics' &&
+            //     l.id !== 'labels';});
+            // this._createList();
+            // console.log(this.layers.map(function(l) {return l.id;}));
+            this._dropTarget = null;
             evt.preventDefault();
-            var data = evt.dataTransfer.getData("text");
-            //evt.target.appendChild(document.getElementById(data));
         },
 
         _createList: function () {
@@ -186,6 +223,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     // title of layer
                     var titleDiv = domConstruct.create("div", {
                         className: 'toc-title',
+                        id: 'tocTitle_'+i,
+                        'data-layerid': layer.id,
                     }, layerDiv);
                     
                     // title container
@@ -193,7 +232,12 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         className: "toc-title-container",
                         tabindex: -1,
                         draggable: true,
+                        id: 'titleContainerDiv_'+i,
                     }, titleDiv);
+                    on(titleContainerDiv, 'dragstart', lang.hitch(this, this._drag));
+                    //on(titleContainerDiv, 'dragover', lang.hitch(this, this._allowDrop));
+                    on(titleContainerDiv, 'dragover', lang.hitch(this, this._allowDrop));
+                    on(titleContainerDiv, 'dragend', lang.hitch(this, this._drop));
                     
                     var titleText = domConstruct.create("div", {
                         className: "checkbox",
@@ -204,11 +248,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     var layerHandleDiv = domConstruct.create("div", {
                         className: 'dragabble',
+                        //draggable: true,
                         title: "Drag to change layers' order, or\nclick and use up/down arrow keys.",
                         tabindex:0,
                     }, titleText);
-                    on(layerHandleDiv, 'dragstart', lang.hitch(this, this._drag));
-                    on(titleDiv, 'dragover', lang.hitch(this, this._allowDrop));
 
                     var titleCheckbox = domConstruct.create("input", 
                     {
@@ -540,14 +583,20 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             return false;
         },
 
-        _layerSliderChanged: function(evt) {
-            for(var il=0; il < this.defaults.layers.length; il++) {
+        _getLayerById: function(layerid) {
+            for(var il=0; il < this.layers.length; il++) {
                 var layer = this.defaults.layers[il];
-                if(layer.id === evt.target.dataset.layerid) {
-                    //console.log(evt.target.value, layer, evt);
-                    layer.layerObject.setOpacity(evt.target.value / 100.0);
-                    break;
+                if(layer.id === layerid) {
+                    return layer;
                 }
+            }
+            return null;
+        },
+
+        _layerSliderChanged: function(evt) {
+            var layer = this._getLayerById(evt.target.dataset.layerid);
+            if(layer) {
+                layer.layerObject.setOpacity(evt.target.value / 100.0);
             }
         },
 
