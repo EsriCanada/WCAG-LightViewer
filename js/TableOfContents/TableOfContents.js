@@ -341,7 +341,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             title:'Opacity',
                         }, layerExpandArea);
                         //dojo.place(slider, expandLegendBtn, 'after');
-                        on(slider, 'change', lang.hitch(this, this._layerSliderChanged));
+                        on(slider, 'input', lang.hitch(this, this._layerSliderChanged));
 
                         var legend = new Legend({
                             map: this.map,
@@ -486,7 +486,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     domStyle.set(this, 'display', expand?'inherit':'none');
                 }));
 
-                on(basemapSlider, 'change', lang.hitch(this, function(ev) {
+                on(basemapSlider, 'input', lang.hitch(this, function(ev) {
                     this.baseMap.setOpacity(ev.currentTarget.value/100);
                 }));
 
