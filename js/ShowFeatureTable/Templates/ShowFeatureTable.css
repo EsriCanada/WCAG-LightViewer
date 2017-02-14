@@ -113,7 +113,7 @@ blockquote {
     margin:0 8px;
 }
 
-#featureTableTools img {
+/*#featureTableTools img {
     width: 22px;
     height: 22px;
     margin: 2px 1px;
@@ -134,4 +134,4 @@ input[type="checkbox"].cbToggleBtn:checked + label img.UnselectedToggleImg,
 input[type="checkbox"].cbToggleBtn + label img.SelectedToggleImg
 {
     display: none;
-}
+}*/

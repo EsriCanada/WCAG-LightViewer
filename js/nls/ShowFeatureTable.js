@@ -6,7 +6,9 @@ define({
                 hideTypes: "Hide Data Types",
                 refresh: "Refresh",
                 close: "Close",
-                datePattern: "MMMM d, y"
+                datePattern: "MMMM d, y",
+                listFromMap: "List all features from map.",
+                listFromView: "List just the features from view.",
             })
         })
     }),

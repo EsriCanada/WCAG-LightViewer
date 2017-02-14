@@ -1,9 +1,11 @@
 define([
-    "dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "dojo/dom","esri/kernel", 
+    "dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", 
+    "dojo/has", "dojo/dom","esri/kernel", 
     //"dijit/_WidgetBase",
     "dijit/layout/_LayoutWidget", 
     "esri/layers/FeatureLayer",
-    "esri/dijit/FeatureTable", "dstore/RequestMemory",
+    "esri/dijit/FeatureTable", "application/ImageToggleButton/ImageToggleButton", 
+    //"dstore/RequestMemory",
     "esri/map", 
     //"dijit/_TemplatedMixin", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
@@ -24,7 +26,8 @@ define([
         Evented, declare, lang, has, dom, esriNS,
         //_WidgetBase, 
         _LayoutWidget,
-        FeatureLayer, FeatureTable, RequestMemory,
+        FeatureLayer, FeatureTable, ImageToggleButton,
+        //RequestMemory,
         Map,
         //_TemplatedMixin, 
         //ShowFeatureTableTemplate, 
@@ -300,28 +303,19 @@ define([
             });
             domConstruct.place(featureTableTools, iconMenu, 'after');
 
-            var featureTableToggleViewBtn = domConstruct.create('input', {
-                id: 'featureTableToggleViewBtn',
-                type: 'checkbox',
-                class: 'cbToggleBtn'
-            }, featureTableTools);
-            var featureTableToggleViewLbl = domConstruct.create('label', {
-                for: 'featureTableToggleViewBtn',
-            }, featureTableTools);
-            domConstruct.create('img', {
-                src: 'images/SelectOnMap.png',
-                alt:'',
-                title:'Show all features on map.',
-                class:'UnselectedToggleImg',
-                tabindex:0
-            }, featureTableToggleViewLbl);
-            domConstruct.create('img', {
-                src: 'images/SelectOnView.png',
-                alt:'',
-                title:'Show Features just in view.',
-                class:'SelectedToggleImg',
-                tabindex:0
-            }, featureTableToggleViewLbl);
+            var selectFeaturesBtn = new ImageToggleButton({
+                imgSelected: 'images/SelectOnView.png',
+                imgUnselected: 'images/SelectOnMap.png',
+                imgClass: '',
+                titleUnselected: i18n.widgets.showFeatureTable.listFromMap, 
+                titleSelected: i18n.widgets.showFeatureTable.listFromView, 
+            }, domConstruct.create('div', {}, featureTableTools));
+
+            selectFeaturesBtn.startup();
+            //console.log(selectFeaturesBtn.isChecked());
+            on(selectFeaturesBtn, 'change', function(ev) {
+                //console.log(ev.checked, selectFeaturesBtn.isChecked());
+            });
 
             this.status.show = true;
 

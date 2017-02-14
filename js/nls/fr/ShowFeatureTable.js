@@ -5,7 +5,9 @@ define({
             hideTypes: "Masquer les types de données",
             refresh: "Rafraîchir",
             close: "Fermer",
-            datePattern: "d MMMM y"
+            datePattern: "d MMMM y",
+            listFromMap: "Liste toutes les caractéristiques de la carte.",
+            listFromView: "Liste seulement les caractéristiques de la vue.",
         })
     })
 });
