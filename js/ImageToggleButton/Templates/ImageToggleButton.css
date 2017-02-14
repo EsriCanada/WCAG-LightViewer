@@ -19,14 +19,14 @@
     display:none;
 }
 
-.ImageToggleButton input[type="checkbox"].cbToggleBtn + label.cbToggleBtn img.UnselectedToggleImg,
-.ImageToggleButton input[type="checkbox"].cbToggleBtn:checked + label.cbToggleBtn img.SelectedToggleImg
+.ImageToggleButton input.cbToggleBtn + label.cbToggleBtn img.UnselectedToggleImg,
+.ImageToggleButton input.cbToggleBtn:checked + label.cbToggleBtn img.SelectedToggleImg
 {
     display: initial;
 }
 
-.ImageToggleButton input[type="checkbox"].cbToggleBtn:checked + label.cbToggleBtn img.UnselectedToggleImg,
-.ImageToggleButton input[type="checkbox"].cbToggleBtn + label.cbToggleBtn img.SelectedToggleImg
+.ImageToggleButton input.cbToggleBtn:checked + label.cbToggleBtn img.UnselectedToggleImg,
+.ImageToggleButton input.cbToggleBtn + label.cbToggleBtn img.SelectedToggleImg
 {
     display: none;
 }

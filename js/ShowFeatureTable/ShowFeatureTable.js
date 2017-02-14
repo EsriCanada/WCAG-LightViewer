@@ -295,8 +295,6 @@ define([
 
             var iconMenu = query('.esri-feature-table-menu-item.esri-feature-table-title')[0];
 
-            console.log(iconMenu);
-            //domClass.remove(iconMenu, 'esri-feature-table-hidden');
             var featureTableTools = domConstruct.create('div', {
                 class:'esri-feature-table-menu-item',
                 id: 'featureTableTools',
@@ -306,16 +304,20 @@ define([
             var selectFeaturesBtn = new ImageToggleButton({
                 imgSelected: 'images/SelectOnView.png',
                 imgUnselected: 'images/SelectOnMap.png',
-                imgClass: '',
                 titleUnselected: i18n.widgets.showFeatureTable.listFromMap, 
                 titleSelected: i18n.widgets.showFeatureTable.listFromView, 
             }, domConstruct.create('div', {}, featureTableTools));
 
             selectFeaturesBtn.startup();
-            //console.log(selectFeaturesBtn.isChecked());
             on(selectFeaturesBtn, 'change', function(ev) {
-                //console.log(ev.checked, selectFeaturesBtn.isChecked());
+                // console.log(ev.checked, selectFeaturesBtn.isChecked());
             });
+
+            // console.log(selectFeaturesBtn.isChecked());
+            // selectFeaturesBtn.Check(true);
+            // console.log(selectFeaturesBtn.isChecked());
+            // selectFeaturesBtn.Check(false);
+            // console.log(selectFeaturesBtn.isChecked());
 
             this.status.show = true;
 

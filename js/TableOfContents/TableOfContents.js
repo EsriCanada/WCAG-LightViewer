@@ -607,7 +607,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 return;
             }
 
-            console.log(arg);
+            // console.log(arg);
             var toolsDiv = dojo.byId('tools_layers');
 
             var cbShowTables = dojo.query('.cbShowTable');

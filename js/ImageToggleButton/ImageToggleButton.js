@@ -25,6 +25,8 @@ define([
         options: {
             // labelText:'My Label',
             // showLabel:false,
+            type: 'checkbox',
+            group: '',
             imgSelected: '',
             imgUnselected: '',
             imgClass: '',
@@ -38,6 +40,8 @@ define([
             this.defaults = lang.mixin({}, this.options, options);
             this.id = this.defaults.id || dijit.registry.getUniqueId(this.declaredClass);
             this.domNode = srcRefNode;
+            this.type = this.defaults.type;
+            this.name = this.type==='radio' ? "name='"+this.defaults.group+"'":'';
 
             var link = document.createElement("link");
             link.href = "js/ImageToggleButton/Templates/ImageToggleButton.css";
@@ -67,6 +71,14 @@ define([
         isChecked : function() {
             return dojo.byId(this.id+'_cb').checked;
         },
+
+        Check: function(value) {
+            var cbInput = dojo.byId(this.id+'_cb');
+            if(cbInput.checked !== value) {
+                cbInput.checked = value;
+                this.emit('change', {checked: cbInput.checked});
+            }
+        }
 
     });
 
