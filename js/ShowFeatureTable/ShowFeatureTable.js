@@ -290,6 +290,39 @@ define([
 
             this.myFeatureTable.startup();
 
+            var iconMenu = query('.esri-feature-table-menu-item.esri-feature-table-title')[0];
+
+            console.log(iconMenu);
+            //domClass.remove(iconMenu, 'esri-feature-table-hidden');
+            var featureTableTools = domConstruct.create('div', {
+                class:'esri-feature-table-menu-item',
+                id: 'featureTableTools',
+            });
+            domConstruct.place(featureTableTools, iconMenu, 'after');
+
+            var featureTableToggleViewBtn = domConstruct.create('input', {
+                id: 'featureTableToggleViewBtn',
+                type: 'checkbox',
+                class: 'cbToggleBtn'
+            }, featureTableTools);
+            var featureTableToggleViewLbl = domConstruct.create('label', {
+                for: 'featureTableToggleViewBtn',
+            }, featureTableTools);
+            domConstruct.create('img', {
+                src: 'images/SelectOnMap.png',
+                alt:'',
+                title:'Show all features on map.',
+                class:'UnselectedToggleImg',
+                tabindex:0
+            }, featureTableToggleViewLbl);
+            domConstruct.create('img', {
+                src: 'images/SelectOnView.png',
+                alt:'',
+                title:'Show Features just in view.',
+                class:'SelectedToggleImg',
+                tabindex:0
+            }, featureTableToggleViewLbl);
+
             this.status.show = true;
 
             dojo.create('img', {

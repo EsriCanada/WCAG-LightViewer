@@ -105,3 +105,33 @@ blockquote {
 .esri-feature-table .esri-feature-table-menu .dijitDropDownButton .dijitButtonContents {
     margin: 1px;
 }
+
+#featureTableTools {
+    /*width:30px;
+    background-color: red;*/
+    float:left;
+    margin:0 8px;
+}
+
+#featureTableTools img {
+    width: 22px;
+    height: 22px;
+    margin: 2px 1px;
+    padding: 2px;
+}
+
+.cbToggleBtn {
+    display:none;
+}
+
+input[type="checkbox"].cbToggleBtn + label img.UnselectedToggleImg,
+input[type="checkbox"].cbToggleBtn:checked + label img.SelectedToggleImg
+{
+    display: initial;
+}
+
+input[type="checkbox"].cbToggleBtn:checked + label img.UnselectedToggleImg,
+input[type="checkbox"].cbToggleBtn + label img.SelectedToggleImg
+{
+    display: none;
+}
