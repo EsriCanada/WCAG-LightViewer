@@ -168,7 +168,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                         var img = node.querySelector("img");
                         img.alt='';
-                        domAttr.set(img, "aria-hidden", true);
+                        domAttr.set(img, "aria-hidden", "true");
                         domAttr.remove(img, "title");
                         domAttr.remove(img, "tabindex");
 

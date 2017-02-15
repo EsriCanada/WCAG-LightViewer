@@ -10,6 +10,7 @@ define({
                 showLegend : 'Show Legend',
                 hideLegend : 'Hide Legend',
                 legendFor : 'Legend for: ',
+                symbol: 'Symbol',
             })
         })
     }),

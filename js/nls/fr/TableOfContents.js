@@ -8,7 +8,8 @@ define({
             baseMapOpacity: 'Opacité de la carte de base',
             showLegend : 'Afficher la légende',
             hideLegend : 'Masquer la légende',
-            legendFor : 'Légende pour : '
+            legendFor : 'Légende pour : ',
+            symbol: 'Symbole',
         })
     })
 });

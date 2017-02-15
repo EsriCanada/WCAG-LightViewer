@@ -846,10 +846,6 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             this._delay(200).then(lang.hitch(this, function() {
             var legends = dojo.query('div.legend');
             array.forEach(legends, lang.hitch(this, function(legend) {
-                // domAttr.set(legend, 'tabindex', 0);
-                // domAttr.set(legend, 'title', 'Legend');
-                // domAttr.set(legend, 'aria-label', 'Legend');
-
                 var tables = legend.querySelectorAll("table");
                 array.forEach(tables, function(table) {
                     domAttr.set(table, 'role', "presentation");
@@ -857,7 +853,16 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                 var svgs = legend.querySelectorAll("svg");
                 array.forEach(svgs, function(svg) {
-                    domAttr.set(svg, 'title', "symbol");
+                    var description = svg.closest('tr').children[1].children[0].children[0].children[0].children[0].innerHTML;
+                    var symbol = i18n.widgets.tableOfContents.symbol;
+                    var alt = (description==='') ? symbol : '';
+                    domAttr.set(svg, 'alt', alt);
+                    domAttr.set(svg, 'title', symbol);
+                    if(description !== '')
+                        domAttr.set(svg, 'aria-hidden', "true");
+                    else 
+                        domAttr.set(svg, 'aria-label', alt);
+
                 });
 
                 var LegendServiceLabels = legend.querySelectorAll(".esriLegendServiceLabel");
