@@ -807,7 +807,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 ft.startup();
                 this.featureTable = ft;
                 on(ft, "destroy", lang.hitch(this, function(evt) {
-                    dojo.byId('radio_tableClose').click();
+                    var checkedBtns = dojo.query('.TableOfContents .cbShowTable input:checked');
+                    array.forEach(checkedBtns, function(checkedBtn) {
+                        checkedBtn.click();
+                    });
                 }));
                 on(ft, "destroied", lang.hitch(this, function(evt) {
                     this.showBadge(false);
