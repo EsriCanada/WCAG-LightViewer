@@ -884,6 +884,7 @@ define(["dojo/ready",
                         hasFeatureTable: has("featureTable"),
                         hasBasemapGallery: has("basemap"),
                         mapNode: dojo.byId('mapPlace'),
+                        toolbar: toolbar,
                     }, domConstruct.create("div", {}, layersDivDesc));
                     toc.startup();
 

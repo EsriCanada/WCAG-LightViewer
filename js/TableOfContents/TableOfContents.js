@@ -29,7 +29,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             hasLegend:true,
             hasFeatureTable:false,
             hasBasemapGallery:true,
-            mapNode: dojo.byId('mapPlace')
+            mapNode: dojo.byId('mapPlace'),
+            toolbar: null
         },
 
         // lifecycle: 1
@@ -94,6 +95,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             } else {
                 on.once(this.map, "load", lang.hitch(this, function () {
                     this._init();
+                }));
+            }
+
+            // this._fixLegends();
+            
+            if(this.defaults.toolbar) {
+                on(this.defaults.toolbar, 'updateTool_layers', lang.hitch(this, function(name) {
+                    this._fixLegends();
                 }));
             }
         },
