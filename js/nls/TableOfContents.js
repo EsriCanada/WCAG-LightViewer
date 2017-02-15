@@ -9,6 +9,7 @@ define({
                 baseMapOpacity: 'Base Map Opacity',
                 showLegend : 'Show Legend',
                 hideLegend : 'Hide Legend',
+                legendFor : 'Legend for: ',
             })
         })
     }),

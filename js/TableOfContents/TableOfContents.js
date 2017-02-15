@@ -386,6 +386,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         //dojo.place(slider, expandLegendBtn, 'after');
                         on(slider, 'input', lang.hitch(this, this._layerSliderChanged));
 
+                        var legendTitle = i18n.widgets.tableOfContents.legendFor+layer.title;
                         var legend = new Legend({
                             map: this.map,
                             layerInfos: [{
@@ -395,7 +396,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }, domConstruct.create("div", {
                             role:'application', 
                             class:'legend',
-                        }, layerExpandArea));//titleContainerDiv));
+                            tabindex: 0,
+                            title: legendTitle,
+                            'aria-label': legendTitle,
+                        }, layerExpandArea));
                         legend.startup();
 
                         on(titleCheckbox, 'click', lang.hitch(this, this._showHidelayerExpandAreaBtn));
@@ -842,9 +846,9 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             this._delay(200).then(lang.hitch(this, function() {
             var legends = dojo.query('div.legend');
             array.forEach(legends, lang.hitch(this, function(legend) {
-                domAttr.set(legend, 'tabindex', 0);
-                domAttr.set(legend, 'title', 'Legend');
-                domAttr.set(legend, 'aria-label', 'Legend');
+                // domAttr.set(legend, 'tabindex', 0);
+                // domAttr.set(legend, 'title', 'Legend');
+                // domAttr.set(legend, 'aria-label', 'Legend');
 
                 var tables = legend.querySelectorAll("table");
                 array.forEach(tables, function(table) {
