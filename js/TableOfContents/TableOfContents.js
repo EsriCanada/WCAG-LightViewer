@@ -3,6 +3,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     "esri/dijit/Legend", "application/ShowFeatureTable/ShowFeatureTable", 
     "application/ShowBasemapGallery/ShowBasemapGallery",
     "application/ImageToggleButton/ImageToggleButton", 
+    "dojo/i18n!application/nls/TableOfContents",
     "dojo/text!application/TableOfContents/Templates/TableOfContents.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/event", 
     "dojo/_base/array",
@@ -11,7 +12,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         Evented, declare, lang, has, esriNS,
         _WidgetBase, _TemplatedMixin, on, 
         Legend, ShowFeatureTable, ShowBasemapGallery, ImageToggleButton,
-        dijitTemplate, 
+        i18n, dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
         array,
         TextSymbol, SimpleRenderer, LabelLayer
@@ -249,7 +250,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     var layerHandleDiv = domConstruct.create("div", {
                         className: 'dragabble',
                         //draggable: true,
-                        title: "Drag to change layers' order, or\nclick and use up/down arrow keys.",
+                        title: i18n.widgets.tableOfContents.dragLayer,//"Drag to change layers' order, or\nclick and use up/down arrow keys.",
                         tabindex:0,
                     }, titleText);
 
@@ -303,8 +304,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                                 value: layer.id,
                                 class: 'cbShowTable',
                                 imgClass: 'tableBtn',
-                                titleSelected: 'Hide Feature Table',
-                                titleUnselected: 'Show Feature Table',
+                                titleSelected: i18n.widgets.tableOfContents.hideFeatureTable,
+                                titleUnselected: i18n.widgets.tableOfContents.showFeatureTable,
                             }, domConstruct.create('div',{}, settingsDiv));
                             cbShowTable.startup();
                             on(cbShowTable, 'change', lang.hitch(this, this._layerShowTable));
