@@ -812,10 +812,67 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 on(ft, "destroied", lang.hitch(this, function(evt) {
                     this.showBadge(false);
                 }));
+
+                on(this.map, "extent-change", lang.hitch(this, this._fixLegends));
             }
 
             this.set("loaded", true);
             this.emit("load", {});
+        },
+
+        _fixLegends : function() {
+            var legends = dojo.query('div.legend');
+            array.forEach(legends, lang.hitch(this, function(legend) {
+                domAttr.set(legend, 'tabindex', 0);
+                domAttr.set(legend, 'title', 'Legend');
+                domAttr.set(legend, 'aria-label', 'Legend');
+
+                var tables = legend.querySelectorAll("table");
+                array.forEach(tables, function(table) {
+                    domAttr.set(table, 'role', "presentation");
+                });
+
+                var svgs = legend.querySelectorAll("svg");
+                array.forEach(svgs, function(svg) {
+                    domAttr.set(svg, 'title', "symbol");
+                });
+
+                // var LegendServiceLabels = legend.querySelectorAll(".esriLegendServiceLabel");
+                // array.forEach(LegendServiceLabels, function(LegendServiceLabel) {
+                //     if(LegendServiceLabel.parentNode && LegendServiceLabel.nodeName !== 'H2') {
+                //         var h2 = domConstruct.create("h2",{
+                //             className: LegendServiceLabel.className,
+                //             innerHTML: LegendServiceLabel.innerHTML
+                //         });
+                //         //?? LegendServiceLabel.parentNode.replaceChild(h2, LegendServiceLabel);
+                //     }
+
+                //     domAttr.set(LegendServiceLabel, 'tabindex', 0);
+                // });
+
+                var LegendLayers = legend.querySelectorAll(".esriLegendLayer");
+                array.forEach(LegendLayers, function(LegendLayer) {
+                    //var LegendServiceLists = legend.querySelectorAll(".esriLegendLayer tbody");
+                    var LegendServiceList = LegendLayer.querySelector("tbody");
+
+                    domAttr.set(LegendServiceList, "role", "list");
+
+                    array.forEach(LegendServiceList.childNodes, function(item) {
+                        domAttr.set(item, "role", "listitem");
+                        domAttr.set(item, "tabindex", "0");
+                    });
+                });
+
+                var LegendLayerImages = legend.querySelectorAll(".esriLegendLayer image");
+                array.forEach(LegendLayerImages, function(image) {
+                    domAttr.set(image,'alt','');
+                });
+
+                var messages = legend.querySelectorAll(".esriLegendMsg");
+                array.forEach(messages, function(message) {
+                    domAttr.set(message,'tabindex',0);
+                });
+            }));
         },
 
         _updateThemeWatch: function () {
