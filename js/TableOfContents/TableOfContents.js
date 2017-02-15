@@ -856,19 +856,22 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     domAttr.set(svg, 'title', "symbol");
                 });
 
-                // var LegendServiceLabels = legend.querySelectorAll(".esriLegendServiceLabel");
-                // array.forEach(LegendServiceLabels, function(LegendServiceLabel) {
-                //     if(LegendServiceLabel.parentNode && LegendServiceLabel.nodeName !== 'H2') {
-                //         var h2 = domConstruct.create("h2",{
-                //             className: LegendServiceLabel.className,
-                //             innerHTML: LegendServiceLabel.innerHTML,
-                //             parentNode: LegendServiceLabel.parentNode,
-                //         });
-                //         LegendServiceLabel.parentNode.replaceChild(h2, LegendServiceLabel);
-                //     }
+                var LegendServiceLabels = legend.querySelectorAll(".esriLegendServiceLabel");
+                array.forEach(LegendServiceLabels, function(LegendServiceLabel) {
+                    if (window.getComputedStyle(LegendServiceLabel).display !== 'none')
+                    {
+                        if(LegendServiceLabel.parentNode && LegendServiceLabel.nodeName !== 'H2') {
+                            var h2 = domConstruct.create("h2",{
+                                className: LegendServiceLabel.className,
+                                innerHTML: LegendServiceLabel.innerHTML,
+                                parentNode: LegendServiceLabel.parentNode,
+                            });
+                            LegendServiceLabel.parentNode.replaceChild(h2, LegendServiceLabel);
+                        }
 
-                //     domAttr.set(LegendServiceLabel, 'tabindex', 0);
-                // });
+                        domAttr.set(LegendServiceLabel, 'tabindex', 0);
+                    }
+                });
 
                 var LegendLayers = legend.querySelectorAll(".esriLegendLayer");
                 array.forEach(LegendLayers, function(LegendLayer) {
