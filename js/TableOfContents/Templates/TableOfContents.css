@@ -134,13 +134,18 @@
 	cursor:default !important;
 }
 
-.TableOfContents .tableBtn:hover, .TableOfContents .tableBtn:focus,
-.TableOfContents .VectorTilesBtn:hover, .TableOfContents .VectorTilesBtn:focus
+.TableOfContents img.tableBtn:hover, /*.TableOfContents img.tableBtn:focus,*/
+.TableOfContents .VectorTilesBtn:hover, .TableOfContents .VectorTilesBtn:focus,
+.TableOfContents label.cbToggleBtn:focus img
 {
-	opacity:1;
+	opacity:1 !important;
 }
 
-.TableOfContents input[type="checkbox"].cbShowTable:checked + label .tableBtn {
+.TableOfContents .ImageToggleButton.cbShowTable:hover {
+  background-color: transparent !important; 
+}
+
+.TableOfContents input[type="checkbox"].cbToggleBtn:checked + label img.tableBtn.SelectedToggleImg {
 	/*box-shadow: 2px 2px 4px black;*/
 	filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.75));
 	-webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.75));

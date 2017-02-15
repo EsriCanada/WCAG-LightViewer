@@ -2,6 +2,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on",
     "esri/dijit/Legend", "application/ShowFeatureTable/ShowFeatureTable", 
     "application/ShowBasemapGallery/ShowBasemapGallery",
+    "application/ImageToggleButton/ImageToggleButton", 
     "dojo/text!application/TableOfContents/Templates/TableOfContents.html", 
     "dojo/dom-class", "dojo/dom-attr", "dojo/dom-style", "dojo/dom-construct", "dojo/_base/event", 
     "dojo/_base/array",
@@ -9,7 +10,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     ], function (
         Evented, declare, lang, has, esriNS,
         _WidgetBase, _TemplatedMixin, on, 
-        Legend, ShowFeatureTable, ShowBasemapGallery,
+        Legend, ShowFeatureTable, ShowBasemapGallery, ImageToggleButton,
         dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
         array,
@@ -296,27 +297,17 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         }
                         else 
                         {
-                            var cbShowTable = domConstruct.create("input",{
-                                type:"checkbox",
-                                //name:"showFeatureTable",
-                                value:layer.id,
-                                class:"cbShowTable",
-                                id:"cbShowTable_"+i,
-                                style:"display:none;",
-                            }, settingsDiv);
-
-                            on(cbShowTable, "change", lang.hitch(this, this._layerShowTable));
-
-                            domConstruct.create("img", {
-                                src: 'images/table.18.png',
-                                class: 'tableBtn',
-                                alt:'Table',
-                                role: "button",
-                                tabindex:0,
-                                title: 'Feature Table',
-                            }, domConstruct.create("label",{
-                                for:"cbShowTable_"+i,
-                            },settingsDiv));
+                            var cbShowTable = new ImageToggleButton({
+                                imgSelected: 'images/icons_black/TableClose.Red.png',
+                                imgUnselected: 'images/table.18.png',
+                                value: layer.id,
+                                class: 'cbShowTable',
+                                imgClass: 'tableBtn',
+                                titleSelected: 'Hide Feature Table',
+                                titleUnselected: 'Show Feature Table',
+                            }, domConstruct.create('div',{}, settingsDiv));
+                            cbShowTable.startup();
+                            on(cbShowTable, 'change', lang.hitch(this, this._layerShowTable));
                         }
                     }
 
@@ -600,22 +591,19 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         },
 
         _layerShowTable: function(arg)  {
-            var checked = arg.currentTarget.checked;
+            var checked = arg.checked;
             if(!checked) {
                 this.featureTable.destroy();
                 this.showBadge(false);
                 return;
             }
 
-            // console.log(arg);
-            var toolsDiv = dojo.byId('tools_layers');
-
-            var cbShowTables = dojo.query('.cbShowTable');
-            array.forEach(cbShowTables, function(cb) {
-                cb.checked = cb.id === arg.currentTarget.id;
+            var cbToggleBtns = dojo.query('.cbShowTable .cbToggleBtn');
+            array.forEach(cbToggleBtns, function(cb) {
+                cb.checked = cb.value === arg.value;
             });
 
-            var layerId = arg.currentTarget.defaultValue;
+            var layerId = arg.value;
             for(var i = 0, m = null; i < this.layers.length; ++i) {
                 if(this.layers[i].id === layerId) {
                     if(this.featureTable) {

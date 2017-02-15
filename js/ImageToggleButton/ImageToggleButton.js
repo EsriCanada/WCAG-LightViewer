@@ -25,6 +25,8 @@ define([
         options: {
             // labelText:'My Label',
             // showLabel:false,
+            class: '',
+            value: '',
             type: 'checkbox',
             group: '',
             imgSelected: '',
@@ -41,7 +43,9 @@ define([
             this.id = this.defaults.id || dijit.registry.getUniqueId(this.declaredClass);
             this.domNode = srcRefNode;
             this.type = this.defaults.type;
-            this.name = this.type==='radio' ? "name='"+this.defaults.group+"'":'';
+            this.name = this.type==='radio' ? " name='"+this.defaults.group+"'":'';
+            this._value = this.defaults.value !== '' ? " value="+this.defaults.value:'';
+            this._class = this.defaults.class !== ''? " class='"+this.defaults.class+"'":'';
 
             var link = document.createElement("link");
             link.href = "js/ImageToggleButton/Templates/ImageToggleButton.css";
@@ -64,7 +68,10 @@ define([
             });
 
             on(cbInput, 'change', lang.hitch(this, function(ev) {
-                this.emit('change', {checked: cbInput.checked});
+                this.emit('change', {
+                    checked: cbInput.checked,
+                    value: cbInput.value,
+                });
             }));
         },
 
