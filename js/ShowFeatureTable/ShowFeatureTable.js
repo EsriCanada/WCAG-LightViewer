@@ -204,9 +204,8 @@ define([
             if(this.myFeatureTable)
                 this.myFeatureTable.destroy();
             //this.hide();
-            this.status.show = false;
-
             this.emit("destroied", {});
+            this.status.show = false;
         },
 
         loadTable: function(myFeatureLayer){
@@ -238,7 +237,7 @@ define([
                     // pagingDelay: 1000,
                     // pageSizeOptions: [50, 100, 500],
                 },
-                editable: true,
+                editable: false,
                 dateOptions: {
                     datePattern: i18n.widgets.showFeatureTable.datePattern,
                     timeEnabled: false
@@ -276,7 +275,6 @@ define([
                     {
                         label: i18n.widgets.showFeatureTable.refresh, 
                         callback: lang.hitch(this, function(evt){
-                            // console.log(" Callback evt: ", evt);
                             this.myFeatureTable.refresh();
                         })
                     },
