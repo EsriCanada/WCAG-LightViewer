@@ -1,5 +1,5 @@
 define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "esri/kernel", 
-    "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on",
+    "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/on", "dojo/Deferred", 
     "esri/dijit/Legend", "application/ShowFeatureTable/ShowFeatureTable", 
     "application/ShowBasemapGallery/ShowBasemapGallery",
     "application/ImageToggleButton/ImageToggleButton", 
@@ -10,7 +10,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
     "esri/symbols/TextSymbol", "esri/renderers/SimpleRenderer", "esri/layers/LabelLayer"
     ], function (
         Evented, declare, lang, has, esriNS,
-        _WidgetBase, _TemplatedMixin, on, 
+        _WidgetBase, _TemplatedMixin, on, Deferred,
         Legend, ShowFeatureTable, ShowBasemapGallery, ImageToggleButton,
         i18n, dijitTemplate, 
         domClass, domAttr, domStyle, domConstruct, event, 
@@ -820,7 +820,14 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             this.emit("load", {});
         },
 
+        _delay: function(ms) {
+            var deferred = new Deferred();
+            setTimeout(function() {deferred.resolve(true);}, ms);
+            return deferred.promise;
+        },
+
         _fixLegends : function() {
+            this._delay(200).then(lang.hitch(this, function() {
             var legends = dojo.query('div.legend');
             array.forEach(legends, lang.hitch(this, function(legend) {
                 domAttr.set(legend, 'tabindex', 0);
@@ -842,9 +849,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                 //     if(LegendServiceLabel.parentNode && LegendServiceLabel.nodeName !== 'H2') {
                 //         var h2 = domConstruct.create("h2",{
                 //             className: LegendServiceLabel.className,
-                //             innerHTML: LegendServiceLabel.innerHTML
+                //             innerHTML: LegendServiceLabel.innerHTML,
+                //             parentNode: LegendServiceLabel.parentNode,
                 //         });
-                //         //?? LegendServiceLabel.parentNode.replaceChild(h2, LegendServiceLabel);
+                //         LegendServiceLabel.parentNode.replaceChild(h2, LegendServiceLabel);
                 //     }
 
                 //     domAttr.set(LegendServiceLabel, 'tabindex', 0);
@@ -873,6 +881,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     domAttr.set(message,'tabindex',0);
                 });
             }));
+        }));
         },
 
         _updateThemeWatch: function () {
