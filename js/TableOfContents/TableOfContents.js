@@ -334,7 +334,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         
                         var divWrapLegend = domConstruct.create('div', {
                             class:'showLegendBtn',
-                            title:'Show Legend',
+                            title: i18n.widgets.tableOfContents.showLegend,
                             id:'legendBtn_'+i,
                             tabindex:0
                         },
@@ -372,7 +372,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                             class:'layerOpacitySlider',
                             value:100,
                             'data-layerid':layer.id,
-                            title:'Opacity',
+                            title: i18n.widgets.tableOfContents.opacity,
                         }, layerExpandArea);
                         //dojo.place(slider, expandLegendBtn, 'after');
                         on(slider, 'input', lang.hitch(this, this._layerSliderChanged));
@@ -511,7 +511,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     class:'layerOpacitySlider',
                     value:100,
                     //'data-layerid':layer.id,
-                    title:'Opacity',
+                    title: i18n.widgets.tableOfContents.baseMapOpacity,
                     style: 'display:none;',
                 }, hideBasemapArea);
 
@@ -837,8 +837,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             var indicator = dojo.byId('badge_featureTableSelected'); // !
             if (show) {
                 domStyle.set(indicator,'display','');
-                // domAttr.set(indicator, "title", i18n.widgets.featureList.featureSelected);
-                // domAttr.set(indicator, "alt", i18n.widgets.featureList.featureSelected);
+                // domAttr.set(indicator, "title", i18n.widgets.tableOfContents.showFeatureTable);
+                domAttr.set(indicator, "alt", '');
             } else {
                 domStyle.set(indicator,'display','none');
             }
