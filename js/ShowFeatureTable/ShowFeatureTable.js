@@ -102,7 +102,7 @@ define([
             }, document.head);
 
             //if(options.animatedMarker) {
-                this.markerSymbol = new esri.symbol.PictureMarkerSymbol({
+                this.pointMarker = new esri.symbol.PictureMarkerSymbol({
                     "angle": 0,
                     "xoffset": 0,
                     "yoffset": 0,
@@ -113,7 +113,7 @@ define([
                     "height": 33
                 });
             // } else {
-            //     this.markerSymbol = new SimpleMarkerSymbol({
+            //     this.pointMarker = new SimpleMarkerSymbol({
             //           "color": [3,126,175,20],
             //           "size": options.markerSize,
             //           "xoffset": 0,
@@ -129,6 +129,17 @@ define([
             //         });
             // }
 
+            this.lineMarker = new CartographicLineSymbol(
+                CartographicLineSymbol.STYLE_SOLID, new Color([0, 127, 255]), 10, 
+                CartographicLineSymbol.CAP_ROUND,
+                CartographicLineSymbol.JOIN_ROUND, 5);
+
+            this.polygonMarker = new SimpleFillSymbol(
+                SimpleFillSymbol.STYLE_SOLID, 
+                new SimpleLineSymbol(
+                    SimpleLineSymbol.STYLE_SOLID,
+                    new Color([0, 127, 255]), 3),
+                    new Color([0, 127, 255, 0.25]));
 
             this.borderContainer = new BorderContainer({
                 design:'headline',
@@ -379,33 +390,25 @@ define([
                         var markerGeometry;
                         var marker;
 
-                    //     switch (graphic.geometry.type) {
-                    //         case "point":
+                        switch (graphic.geometry.type) {
+                            case "point":
                                 markerGeometry = graphic.geometry;
-                                marker = this.markerSymbol;
-                    //            break;
-                    //     case "extent":
-                    //         markerGeometry = graphic.getCenter();
-                    //         // marker = new SimpleMarkerSymbol
-                    //         break;
-                    //     case "polyline" :
-                    //         markerGeometry = graphic.geometry;
-                    //         marker = new CartographicLineSymbol(
-                    //             CartographicLineSymbol.STYLE_SOLID, new Color([0, 127, 255]), 10, 
-                    //             CartographicLineSymbol.CAP_ROUND,
-                    //             CartographicLineSymbol.JOIN_ROUND, 5);
-                    //         break;
-                    //     default:
-                    //         // if the graphic is a polygon
-                    //         markerGeometry = graphic.geometry;
-                    //         marker = new SimpleFillSymbol(
-                    //             SimpleFillSymbol.STYLE_SOLID, 
-                    //             new SimpleLineSymbol(
-                    //                 SimpleLineSymbol.STYLE_SOLID,
-                    //                 new Color([0, 127, 255]), 3),
-                    //                 new Color([0, 127, 255, 0.25]));
-                    //         break;
-                    //     }
+                                marker = this.pointMarker;
+                                break;
+                        //case "extent":
+                            // markerGeometry = graphic.getCenter();
+                            // marker = new SimpleMarkerSymbol();
+                            // break;
+                        case "polyline" :
+                            markerGeometry = graphic.geometry;
+                            marker = this.lineMarker;
+                            break;
+                        default:
+                            // if the graphic is a polygon
+                            markerGeometry = graphic.geometry;
+                            marker = this.polygonMarker;
+                            break;
+                        }
 
                          var gr = new Graphic(markerGeometry, marker);
                          gr.tag = row.id;
@@ -415,7 +418,7 @@ define([
             }));
 
             on(this.myFeatureTable, "row-deselect", lang.hitch(this, function(evt){
-                console.log("deselect event: ", evt.rows.length);
+                //console.log("deselect event: ", evt.rows.length);
                 evt.rows.forEach(lang.hitch(this, function(row) {
                     this.layer.layerObject._map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
                         if(gr.tag && gr.tag === row.id) {
