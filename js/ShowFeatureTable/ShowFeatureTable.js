@@ -307,9 +307,15 @@ define([
             }, domConstruct.create('div', {}, featureTableTools));
 
             selectFeaturesBtn.startup();
-            on(selectFeaturesBtn, 'change', function(ev) {
+            on(selectFeaturesBtn, 'change', lang.hitch(this, function(ev) {
                 // console.log(ev.checked, selectFeaturesBtn.isChecked());
-            });
+                if(selectFeaturesBtn.isChecked()) {
+                    this._selectViewIds();
+                    on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));
+                } else {
+                    this.myFeatureTable.clearFilter();
+                }
+            }));
 
             // console.log(selectFeaturesBtn.isChecked());
             // selectFeaturesBtn.Check(true);
@@ -443,6 +449,21 @@ define([
             // });
 
         },
+
+        _selectViewIds: function() {
+            var objectIdFieldName = this.layer.layerObject.objectIdField;
+            q = new Query();
+            q.outFields = [objectIdFieldName];
+            q.geometry = this.map.extent;
+            var exp='';//this.layer.getDefinitionExpression();
+            q.where = exp;
+            q.returnGeometry = true;
+            new QueryTask(this.layer.layerObject.url).execute(q).then(lang.hitch(this, function(ev) {
+                var selectedIds = ev.features.map(function(f) {return f.attributes[objectIdFieldName];});
+
+                this.myFeatureTable.filterRecordsByIds(selectedIds);
+            }));
+        }
     });
 
     if (has("extend-esri")) {
