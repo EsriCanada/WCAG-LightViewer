@@ -223,13 +223,40 @@ define([
             //return;
             this.status.Layer = myFeatureLayer;
 
-            var outFields =[];
+            var outFields = [];
+            var fieldInfos = [];
             var fieldsMap = myFeatureLayer.layerObject.infoTemplate._fieldsMap;
             for(var p in fieldsMap) {
                 if(fieldsMap.hasOwnProperty(p) && fieldsMap[p].visible)
                 {
                     var pField = fieldsMap[p];
                     outFields.push(pField.fieldName);
+
+                    var fieldInfo = {
+                        name : pField.fieldName,
+                        alias: pField.label,
+                    };
+                    if(pField.hasOwnProperty('format')) {
+                        var format = pField.format;
+                        if(format.hasOwnProperty('dateFormat')) {
+                            fieldInfo.dateOptions= {
+                                datePattern: i18n.widgets.showFeatureTable.datePattern,
+                                timeEnabled: false,
+                            };
+                        } 
+                        else if(format.hasOwnProperty('time')) {
+                            fieldInfo.dateOptions = {
+                                datePattern: i18n.widgets.showFeatureTable.shortDatePattern, 
+                                timeEnabled: true,
+                                timePattern: i18n.widgets.showFeatureTable.shortTimePattern,
+                            };
+                        }
+                        else {
+                            fieldInfo.format = format;
+                        }
+                    }
+
+                    fieldInfos.push(fieldInfo);
                 }
             }
 
@@ -258,6 +285,7 @@ define([
                 //     timeEnabled: true
                 // },
                 "outFields": outFields,
+                fieldInfos: fieldInfos,
                 // showRelatedRecords: true,
                 showDataTypes: true,
                 // showFeatureCount:true,
@@ -410,9 +438,9 @@ define([
                             break;
                         }
 
-                         var gr = new Graphic(markerGeometry, marker);
-                         gr.tag = row.id;
-                         this.layer.layerObject._map.graphics.add(gr);
+                        var gr = new Graphic(markerGeometry, marker);
+                        gr.tag = row.id;
+                        this.layer.layerObject._map.graphics.add(gr);
                     }));
                 }));
             }));

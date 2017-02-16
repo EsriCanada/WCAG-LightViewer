@@ -7,6 +7,8 @@ define({
                 refresh: "Refresh",
                 close: "Close",
                 datePattern: "MMMM d, y",
+                shortDatePattern: "M/d/yyyy",
+                shortTimePattern: "H:mm a",
                 listFromMap: "List all features from map.",
                 listFromView: "List just the features from view.",
             })
