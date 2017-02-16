@@ -455,7 +455,7 @@ define([
             q = new Query();
             q.outFields = [objectIdFieldName];
             q.geometry = this.map.extent;
-            var exp='';//this.layer.getDefinitionExpression();
+            var exp=this.layer.layerObject.getDefinitionExpression();
             q.where = exp;
             q.returnGeometry = true;
             new QueryTask(this.layer.layerObject.url).execute(q).then(lang.hitch(this, function(ev) {
