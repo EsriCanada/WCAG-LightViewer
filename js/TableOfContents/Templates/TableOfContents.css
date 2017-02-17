@@ -170,8 +170,8 @@
 }
 
 .showLegendBtn {
-    cursor: pointer;
-	display:table;
+  cursor: pointer;
+	display: table !important;
 	opacity: 0.75;
 	line-height: 2px;
 	margin: 1px;
@@ -179,9 +179,11 @@
 }
 
 .showLegendBtn img {
-	width:18px;
-	display: block;
-    cursor: pointer;
+	  width:18px !important;
+    height:9px !important;
+	  cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .cbLegend {

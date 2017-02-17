@@ -350,8 +350,9 @@ define([
                 // console.log(ev.checked, selectFeaturesBtn.isChecked());
                 if(selectFeaturesBtn.isChecked()) {
                     this._selectViewIds();
-                    on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));
+                    this._selectSignal = on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));
                 } else {
+                    this._selectSignal.remove();
                     this.myFeatureTable.clearFilter();
                 }
             }));
@@ -404,7 +405,8 @@ define([
             });
 
             on(this.myFeatureTable, "row-select", lang.hitch(this, function(evt){
-                //console.log("select event: ", evt.rows.length);
+                //this._selectSignal.remove();
+
                 evt.rows.forEach(lang.hitch(this, function(row) {
 
                     var objectIdFieldName = this.layer.layerObject.objectIdField;
@@ -412,7 +414,7 @@ define([
                     q.where = objectIdFieldName+"="+row.id;
                     q.outFields = [objectIdFieldName];
                     q.returnGeometry = true;
-                    new QueryTask(this.layer.layerObject.url).execute(q).then(lang.hitch(this,function(ev) {
+                    new QueryTask(this.layer.layerObject.url).execute(q).then(lang.hitch(this, function(ev) {
                         var graphic = ev.features[0];
                         //console.log(ev, graphic);
                         var markerGeometry;
@@ -440,9 +442,11 @@ define([
 
                         var gr = new Graphic(markerGeometry, marker);
                         gr.tag = row.id;
-                        this.layer.layerObject._map.graphics.add(gr);
+                        this.map.graphics.add(gr);
                     }));
                 }));
+
+                //this._delat(500).then(lang.hitch(this, function() {this._selectSignal = on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));}));
             }));
 
             on(this.myFeatureTable, "row-deselect", lang.hitch(this, function(evt){
@@ -481,6 +485,8 @@ define([
 
         },
 
+        _selectSignal: null,
+
         _selectViewIds: function() {
             var objectIdFieldName = this.layer.layerObject.objectIdField;
             q = new Query();
@@ -491,10 +497,17 @@ define([
             q.returnGeometry = true;
             new QueryTask(this.layer.layerObject.url).execute(q).then(lang.hitch(this, function(ev) {
                 var selectedIds = ev.features.map(function(f) {return f.attributes[objectIdFieldName];});
-
                 this.myFeatureTable.filterRecordsByIds(selectedIds);
             }));
-        }
+        },
+
+        _delay: function(ms) {
+            var deferred = new dojo.Deferred();
+            setTimeout(function() {deferred.resolve(true);}, ms);
+            return deferred.promise;
+        },
+
+
     });
 
     if (has("extend-esri")) {

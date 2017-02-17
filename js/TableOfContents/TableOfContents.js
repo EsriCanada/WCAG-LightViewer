@@ -253,7 +253,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         className: "checkbox",
                         title : layer.title,
                         // role: "presentation",
-                        // tabindex:0,
+                        tabindex:-1,
                     }, titleContainerDiv);
 
                     var layerHandleDiv = domConstruct.create("div", {
@@ -340,36 +340,21 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     // legend ?
                     if(this.defaults.hasLegend && this._showLegend(layer)) {
+
+                        var expandLegend = new ImageToggleButton({
+                                imgSelected: 'images/icons_black/down.png',
+                                imgUnselected: 'images/icons_black/up.png',
+                                value: i,
+                                class: 'showLegendBtn',
+                                titleSelected: i18n.widgets.tableOfContents.hideLegend,
+                                titleUnselected: i18n.widgets.tableOfContents.showLegend,
+                            }, domConstruct.create('div',{},
+                                domConstruct.create('div',{
+                                id: 'legendBtn_'+i,
+                            }, titleDiv)));
+                            expandLegend.startup();
+                            on(expandLegend, 'change', lang.hitch(this, this._showHidelayerExpandArea));
                         
-                        var divWrapLegend = domConstruct.create('div', {
-                            class:'showLegendBtn',
-                            title: i18n.widgets.tableOfContents.showLegend,
-                            id:'legendBtn_'+i,
-                            tabindex:0
-                        },
-                        titleDiv);
-
-                        var expandLegendBtn = domConstruct.create('input',{
-                            type:'checkbox',
-                            id: 'cbLegend_'+i,
-                            class: 'cbLegend',
-                        }, divWrapLegend);
-                        
-                        var expandLegendLbl = domConstruct.create('label',{
-                            for: 'cbLegend_'+i,
-                            class: 'cbLegendLabel',
-                        }, divWrapLegend);
-                        
-                        domConstruct.create('img',{
-                            src:'images/icons_black/down.png',
-                            alt:'Show Legend',
-                            class: 'flipper',
-                            tabindex: 0,
-                        }, expandLegendLbl);
-
-                        on(expandLegendBtn, 'click', lang.hitch(this, this._showHidelayerExpandArea));
-
-
                         var layerExpandArea = domConstruct.create('div', {
                             id: 'layerExpandArea_'+i,
                             class: 'layerExpandArea',
@@ -562,9 +547,8 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
         },
 
         _showHidelayerExpandArea : function(evt) {
-            var expand = evt.target.checked;
-            var id = evt.target.id;
-            var thisLabel = dojo.byId('layerExpandArea_'+id.split('_')[1]);
+            var expand = evt.checked;
+            var thisLabel = dojo.byId('layerExpandArea_'+evt.value);
             domStyle.set(dojo.byId(thisLabel), 'display', expand?'inherit':'none');
         },
 
@@ -574,7 +558,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
             var expand = evt.target.checked;
             domStyle.set(dojo.byId('legendBtn_'+i), 'display', expand?'table':'none');
             
-            var ck = dojo.byId('cbLegend_'+i).checked;
+            var ck = dojo.query('#legendBtn_'+i+' input')[0].checked;
             domStyle.set(dojo.byId('layerExpandArea_'+i), 'display', (ck && expand)?'inherit':'none');
         },
 

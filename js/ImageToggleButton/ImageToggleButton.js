@@ -47,11 +47,15 @@ define([
             this._value = this.defaults.value !== '' ? " value="+this.defaults.value:'';
             this._class = this.defaults.class !== ''? " class='"+this.defaults.class+"'":'';
 
-            var link = document.createElement("link");
-            link.href = "js/ImageToggleButton/Templates/ImageToggleButton.css";
-            link.type = "text/css";
-            link.rel = "stylesheet";
-            query('html')[0].appendChild(link);
+
+            var cssFile = "js/ImageToggleButton/Templates/ImageToggleButton.css";
+            if(query('html link[href="'+cssFile+'"]').length===0) {
+                var link = document.createElement("link");
+                link.href = cssFile;
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                query('html')[0].appendChild(link);
+            }
         },
 
         startup: function() {
