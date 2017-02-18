@@ -482,18 +482,18 @@ define([
 
                         var gr = new Graphic(markerGeometry, marker);
                         gr.tag = row.id;
-                        gr.name = 'featureTableMarker';
+                        gr.name = 'ftMarker';
                         this.map.graphics.add(gr);
 
                         if(!SelectOnMapOrView.isChecked() && ! SelectOnRectangle.isChecked()) {
-                            var grs = array.filter(this.map.graphics.graphics, function(gr){ return gr.name && gr.name === 'featureTableMarker'; });
+                            var grs = array.filter(this.map.graphics.graphics, function(gr){ return gr.name && gr.name === 'ftMarker'; });
                             var extent = (this, graphicsUtils.graphicsExtent(grs)).expand(1.5);
                             this.map.setExtent(extent);
                         }
                     }));
                 }));
 
-                //this._delat(500).then(lang.hitch(this, function() {this._selectSignal = on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));}));
+                //this._delaty(500).then(lang.hitch(this, function() {this._selectSignal = on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));}));
             }));
 
             on(this.myFeatureTable, "row-deselect", lang.hitch(this, function(evt){
@@ -505,16 +505,16 @@ define([
                         }
                     }));
                 }));
+
+                if(!SelectOnMapOrView.isChecked() && ! SelectOnRectangle.isChecked()) {
+                    var grs = array.filter(this.map.graphics.graphics, function(gr){ return gr.name && gr.name === 'ftMarker'; });
+                    var extent = (this, graphicsUtils.graphicsExtent(grs)).expand(1.5);
+                    this.map.setExtent(extent);
+                }
             }));
 
             on(this.myFeatureTable, "refresh", lang.hitch(this, function(evt){
-                //console.log("refresh event - ", evt);
-                //this.map.graphics.clear();
-                this.map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
-                    if(gr.name  && gr.name === 'featureTableMarker') {
-                        this.map.graphics.remove(gr);
-                    }
-                }));
+                this.map.graphics.graphics.forEach(lang.hitch(this, this._removeAllGraphics('ftMarker')));
             }));
 
             // on(this.myFeatureTable, "column-resize", lang.hitch(this, function(evt){
@@ -535,6 +535,19 @@ define([
             //     console.log("filter event - ", evt);
             // });
 
+        },
+
+        _removeAllGraphics: function(name) {
+            if(!name) {
+                this.map.graphics.clear();
+            }
+            else {
+                this.map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
+                    if(gr.name  && gr.name === 'ftMarker') {
+                        this.map.graphics.remove(gr);
+                    }
+                }));
+            }
         },
 
         _selectSignal: null,

@@ -76,6 +76,8 @@ blockquote {
     background-image: none;
     height: 30px;
     width: 30px;
+    left: 50%;
+    position: absolute;
 }
 
 .esri-feature-table-column-header-type {
