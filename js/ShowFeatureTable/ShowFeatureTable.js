@@ -379,8 +379,10 @@ define([
                         toolbar.activate(Draw.EXTENT, {
                             showTooltips: false,
                         });
+                        this.map.setMapCursor("url(images/Select.cur),auto");
                         this.map.hideZoomSlider();
                         toolbar.on("draw-end", lang.hitch(this, function(evt) {
+                            this.map.setMapCursor("default");
                             var symbol;
                             toolbar.deactivate();
                             this.map.showZoomSlider();
