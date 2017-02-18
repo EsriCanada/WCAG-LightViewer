@@ -219,6 +219,8 @@ define([
             this.status.show = false;
         },
 
+        _rectangleGr : null,
+
         loadTable: function(myFeatureLayer){
             //return;
             this.status.Layer = myFeatureLayer;
@@ -338,17 +340,28 @@ define([
             });
             domConstruct.place(featureTableTools, iconMenu, 'after');
 
-            var selectFeaturesBtn = new ImageToggleButton({
+            var SelectOnMapOrView = new ImageToggleButton({
                 imgSelected: 'images/SelectOnView.png',
                 imgUnselected: 'images/SelectOnMap.png',
                 titleUnselected: i18n.widgets.showFeatureTable.listFromMap, 
                 titleSelected: i18n.widgets.showFeatureTable.listFromView, 
             }, domConstruct.create('div', {}, featureTableTools));
 
-            selectFeaturesBtn.startup();
-            on(selectFeaturesBtn, 'change', lang.hitch(this, function(ev) {
-                // console.log(ev.checked, selectFeaturesBtn.isChecked());
-                if(selectFeaturesBtn.isChecked()) {
+            SelectOnMapOrView.startup();
+
+            var SelectOnRectangle = new ImageToggleButton({
+                imgSelected: 'images/SearchList.Checked.png',
+                imgUnselected: 'images/SearchList.Unchecked.png',
+                titleUnselected: i18n.widgets.showFeatureTable.listFromMap, 
+                titleSelected: i18n.widgets.showFeatureTable.listFromView, 
+            }, domConstruct.create('div', {}, featureTableTools));
+
+            SelectOnRectangle.startup();
+
+            on(SelectOnMapOrView, 'change', lang.hitch(this, function(ev) {
+                // console.log(ev.checked, SelectOnMapOrView.isChecked());
+                if(SelectOnMapOrView.isChecked()) {
+                    SelectOnRectangle.Check(false);
                     this._selectViewIds();
                     this._selectSignal = on(this.map, "extent-change", lang.hitch(this, this._selectViewIds, this));
                 } else {
@@ -356,12 +369,37 @@ define([
                     this.myFeatureTable.clearFilter();
                 }
             }));
+            on(SelectOnRectangle, 'change', lang.hitch(this, function(ev) {
+                // // console.log(ev.checked, SelectOnMapOrView.isChecked());
+                if(SelectOnRectangle.isChecked()) {
+                    SelectOnMapOrView.Check(false);
 
-            // console.log(selectFeaturesBtn.isChecked());
-            // selectFeaturesBtn.Check(true);
-            // console.log(selectFeaturesBtn.isChecked());
-            // selectFeaturesBtn.Check(false);
-            // console.log(selectFeaturesBtn.isChecked());
+                    require(["esri/toolbars/draw"], lang.hitch(this, function(Draw) { 
+                        var toolbar = new Draw(this.map);
+                        toolbar.activate(Draw.EXTENT, {
+                            showTooltips: false,
+                        });
+                        this.map.hideZoomSlider();
+                        toolbar.on("draw-end", lang.hitch(this, function(evt) {
+                              var symbol;
+                              toolbar.deactivate();
+                              this.map.showZoomSlider();
+                              symbol = new SimpleLineSymbol().setColor('red');
+                              this._rectangleGr = new Graphic(evt.geometry, symbol);
+                              this._selectViewIds(this._rectangleGr.geometry);
+                              this.map.graphics.add(this._rectangleGr);
+                        }));
+                    }));
+                }
+                else 
+                {
+                    if(this._rectangleGr) {
+                        this.map.graphics.remove(this._rectangleGr);
+                        this.myFeatureTable.clearFilter();
+                    }
+                }
+            }));
+
 
             this.status.show = true;
 
@@ -452,9 +490,9 @@ define([
             on(this.myFeatureTable, "row-deselect", lang.hitch(this, function(evt){
                 //console.log("deselect event: ", evt.rows.length);
                 evt.rows.forEach(lang.hitch(this, function(row) {
-                    this.layer.layerObject._map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
+                    this.map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
                         if(gr.tag && gr.tag === row.id) {
-                            this.layer.layerObject._map.graphics.remove(gr);
+                            this.map.graphics.remove(gr);
                         }
                     }));
                 }));
@@ -462,7 +500,12 @@ define([
 
             on(this.myFeatureTable, "refresh", lang.hitch(this, function(evt){
                 //console.log("refresh event - ", evt);
-                this.layer.layerObject._map.graphics.clear();
+                //this.map.graphics.clear();
+                this.map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
+                    if(gr.tag) {// && gr.tag !== row.id) {
+                        this.map.graphics.remove(gr);
+                    }
+                }));
             }));
 
             // on(this.myFeatureTable, "column-resize", lang.hitch(this, function(evt){
@@ -487,11 +530,11 @@ define([
 
         _selectSignal: null,
 
-        _selectViewIds: function() {
+        _selectViewIds: function(geometry) {
             var objectIdFieldName = this.layer.layerObject.objectIdField;
             q = new Query();
             q.outFields = [objectIdFieldName];
-            q.geometry = this.map.extent;
+            q.geometry = geometry ? geometry : this.map.extent;
             var exp=this.layer.layerObject.getDefinitionExpression();
             q.where = exp;
             q.returnGeometry = true;
