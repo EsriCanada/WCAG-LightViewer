@@ -6,7 +6,7 @@ define([
     "esri/layers/FeatureLayer",
     "esri/dijit/FeatureTable", "application/ImageToggleButton/ImageToggleButton", 
     //"dstore/RequestMemory",
-    "esri/map", 
+    "esri/map", "dojo/_base/array", 
     //"dijit/_TemplatedMixin", 
     //"dojo/text!application/ShowFeatureTable/templates/ShowFeatureTable.html", 
     "dojo/i18n!application/nls/ShowFeatureTable",
@@ -19,7 +19,7 @@ define([
     "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", 
     "esri/symbols/CartographicLineSymbol", 
     "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleLineSymbol",
-    "esri/graphic", "esri/Color", 
+    "esri/graphic", "esri/Color", "esri/graphicsUtils",
     "dojo/NodeList-dom", "dojo/NodeList-traverse"
     
     ], function (
@@ -28,7 +28,7 @@ define([
         _LayoutWidget,
         FeatureLayer, FeatureTable, ImageToggleButton,
         //RequestMemory,
-        Map,
+        Map, array,
         //_TemplatedMixin, 
         //ShowFeatureTableTemplate, 
         i18n,
@@ -41,7 +41,7 @@ define([
         SimpleMarkerSymbol, PictureMarkerSymbol, 
         CartographicLineSymbol, 
         SimpleFillSymbol, SimpleLineSymbol,
-        Graphic, Color
+        Graphic, Color, graphicsUtils
     ) {
     var Widget = declare("esri.dijit.ShowFeatureTable", [
         //_WidgetBase, 
@@ -268,7 +268,7 @@ define([
                 "featureLayer" : myFeatureLayer.layerObject,
                 "map" : this.map,
                 showAttachments: true,
-                syncSelection: true, 
+                syncSelection: false, 
                 zoomToSelection: true, 
                 gridOptions: {
                     allowSelectAll: false,
@@ -381,13 +381,15 @@ define([
                         });
                         this.map.hideZoomSlider();
                         toolbar.on("draw-end", lang.hitch(this, function(evt) {
-                              var symbol;
-                              toolbar.deactivate();
-                              this.map.showZoomSlider();
-                              symbol = new SimpleLineSymbol().setColor('red');
-                              this._rectangleGr = new Graphic(evt.geometry, symbol);
-                              this._selectViewIds(this._rectangleGr.geometry);
-                              this.map.graphics.add(this._rectangleGr);
+                            var symbol;
+                            toolbar.deactivate();
+                            this.map.showZoomSlider();
+                            symbol = new SimpleLineSymbol().setColor('red');
+                            this._rectangleGr = new Graphic(evt.geometry, symbol);
+                            this._selectViewIds(this._rectangleGr.geometry);
+                            this.map.graphics.add(this._rectangleGr);
+                            var extent = graphicsUtils.graphicsExtent([this._rectangleGr]).expand(1.2);
+                            this.map.setExtent(extent);
                         }));
                     }));
                 }
@@ -480,7 +482,14 @@ define([
 
                         var gr = new Graphic(markerGeometry, marker);
                         gr.tag = row.id;
+                        gr.name = 'featureTableMarker';
                         this.map.graphics.add(gr);
+
+                        if(!SelectOnMapOrView.isChecked() && ! SelectOnRectangle.isChecked()) {
+                            var grs = array.filter(this.map.graphics.graphics, function(gr){ return gr.name && gr.name === 'featureTableMarker'; });
+                            var extent = (this, graphicsUtils.graphicsExtent(grs)).expand(1.2);
+                            this.map.setExtent(extent);
+                        }
                     }));
                 }));
 
@@ -502,7 +511,7 @@ define([
                 //console.log("refresh event - ", evt);
                 //this.map.graphics.clear();
                 this.map.graphics.graphics.forEach(lang.hitch(this, function(gr) { 
-                    if(gr.tag) {// && gr.tag !== row.id) {
+                    if(gr.name  && gr.name === 'featureTableMarker') {
                         this.map.graphics.remove(gr);
                     }
                 }));
