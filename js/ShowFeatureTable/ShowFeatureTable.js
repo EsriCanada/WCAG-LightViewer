@@ -487,7 +487,7 @@ define([
 
                         if(!SelectOnMapOrView.isChecked() && ! SelectOnRectangle.isChecked()) {
                             var grs = array.filter(this.map.graphics.graphics, function(gr){ return gr.name && gr.name === 'featureTableMarker'; });
-                            var extent = (this, graphicsUtils.graphicsExtent(grs)).expand(1.2);
+                            var extent = (this, graphicsUtils.graphicsExtent(grs)).expand(1.5);
                             this.map.setExtent(extent);
                         }
                     }));
