@@ -1561,7 +1561,7 @@ define(["dojo/ready",
                 if (search && search.domNode) {
                     domConstruct.place(search.domNode, "panelGeocoder");
             
-                    esriIconDownArrowNode = dojo.query(".esriIconDownArrow")[0];
+                    var esriIconDownArrowNode = dojo.query(".esriIconDownArrow")[0];
                     if(esriIconDownArrowNode)
                     {
                         domClass.remove(esriIconDownArrowNode, "esriIconDownArrow");
@@ -1570,10 +1570,10 @@ define(["dojo/ready",
                         '<img src="images\\downArrow.png" alt="Search in" width="20" height="20">';
                     }
 
-                    searchInput = dojo.query(".searchInput")[0];
+                    var searchInput = dojo.query(".searchInput")[0];
                     dojo.setAttr(searchInput, 'role', 'search');
 
-                    esriIconZoomNode = dojo.query(".esriIconZoom")[0];
+                    var esriIconZoomNode = dojo.query(".esriIconZoom")[0];
                     if(esriIconZoomNode)
                     {
                         domClass.remove(esriIconZoomNode, "esriIconZoom");
@@ -1581,7 +1581,7 @@ define(["dojo/ready",
                         '<img src="images\\searchZoom.png" alt="Search" width="20" height="20">';
                     }
 
-                    esriIconCloseNode = dojo.query(".esriIconClose")[0]; 
+                    var esriIconCloseNode = dojo.query(".esriIconClose")[0]; 
                     if(esriIconCloseNode) {
                         domClass.remove(esriIconCloseNode, "esriIconClose");
                         esriIconCloseNode.innerHTML = 
