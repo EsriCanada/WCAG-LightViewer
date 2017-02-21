@@ -59,16 +59,10 @@
 	} 
 }
 
-.TableOfContents .toc-settings{
-	/*width:18px;*/
-	height:18px;
-	/*background-color: black;*/
-}
-
 .TableOfContents .toc-settings {
   	float: right;
     margin-right: 4px;
-    margin-top: 1px;
+    margin-top: -4px;
 }
 
 .TableOfContents .toc-settings img{
