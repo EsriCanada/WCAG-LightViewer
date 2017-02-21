@@ -28,7 +28,6 @@ define(["dojo/ready",
     "esri/dijit/Measurement", "esri/dijit/OverviewMap", "esri/geometry/Extent", 
     "esri/layers/FeatureLayer", 
     "application/NavToolBar/NavToolBar", 
-    //"application/ShowFeatureTable/ShowFeatureTable", 
     "application/FeatureList/FeatureList", "application/Filters/Filters", "application/TableOfContents/TableOfContents", 
     "application/LanguageSelect/LanguageSelect",
     "application/ShareDialog", //"application/SearchSources",
@@ -51,7 +50,6 @@ define(["dojo/ready",
     Measurement, OverviewMap, Extent, 
     FeatureLayer, 
     NavToolBar,
-    //ShowFeatureTable,
     FeatureList, Filters, TableOfContents, 
     LanguageSelect,
     ShareDialog, //SearchSources,
@@ -482,7 +480,7 @@ define(["dojo/ready",
 
             skipToMap = function() {
                 //document.querySelector('.esriSimpleSliderIncrementButton input').focus();
-                document.querySelector('#mapDiv').focus();
+                dojo.byId('mapDiv').focus();
             };
 
             skipToInstructions = function() {
@@ -560,18 +558,6 @@ define(["dojo/ready",
 
         featureTable: null,
         layers:null,
-
-        // _addFeatureTable: function(mapDiv) {
-        //     var deferred = new Deferred();
-
-        //     var ft = new ShowFeatureTable({
-        //         map: this.map,
-        //     }, dojo.byId("mapPlace"));
-        //     ft.startup();
-        //     this.featureTable = ft;
-        //     deferred.resolve(true);
-        //     return deferred.promise;
-        // },
 
         _addFilter: function (tool, toolbar) {
             //Add the legend tool to the toolbar. Only activated if the web map has operational layers.
@@ -1721,7 +1707,7 @@ define(["dojo/ready",
                 bingMapsKey: this.config.bingKey
             }).then(lang.hitch(this, function (response) {
 
-                var mapDiv = document.querySelector('#mapDiv');
+                var mapDiv = dojo.byId('mapDiv');
                 on(mapDiv, 'keydown', lang.hitch(this, function(evn){
                     if(!document.querySelector(':focus') || document.querySelector(':focus').id !== "mapDiv") return; 
                     switch(evn.keyCode)  {
