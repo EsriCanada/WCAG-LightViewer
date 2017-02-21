@@ -459,53 +459,38 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     title : "BaseMap: "+this.baseMap.title,
                 }, titleBaseText);
 
-                var divWrapLegend1 = domConstruct.create('div', {
-                    class:'showLegendBtn',
-                    title:'Show Basemap Gallery',
-                    id:'legend1Btn',
-                    tabindex:0,
-                    style:'margin-left:-4px;'
-                },
-                titleBaseContainerDiv);
-
-               var cbBasemapGallery = domConstruct.create('input',{
-                    type:'checkbox',
-                    id: 'cbBasemapGallery',
-                    class: 'cbLegend',
-                }, legend1Btn);
-                var expandBasemapGallery = domConstruct.create('label',{
-                    for: 'cbBasemapGallery',
-                    class: 'cbLegendLabel showLegendBtn',
-                }, legend1Btn);
-                domConstruct.create('img',{
-                    src:'images/icons_black/down.png',
-                    alt:'Show BasemapGallery',
-                    class: 'flipper',
-                    tabindex: 0,
-                }, expandBasemapGallery);
+                var expandBaseMaps = new ImageToggleButton({
+                    imgSelected: 'images/icons_black/down.png',
+                    imgUnselected: 'images/icons_black/up.png',
+                    //value: i,
+                    class: 'showLegendBtn',
+                    titleSelected: i18n.widgets.tableOfContents.hideLegend,
+                    titleUnselected: i18n.widgets.tableOfContents.showLegend,
+                }, domConstruct.create('div',{},
+                    domConstruct.create('div',{
+                    id: 'basemapsBtn',
+                    style:"padding-bottom: 3px;"
+                }, titleBaseDiv)));
+                expandBaseMaps.startup();
 
                 var hideBasemapArea = domConstruct.create('div', {
                     style:'display:block',
                     class: 'hideBasemapArea',
-                }, titleBaseContainerDiv);
+                }, titleBaseDiv);
 
                 on(titleBasemapCheckbox, "click", lang.hitch(this, function (evt) {
                     var cb = dojo.byId('layer_ck_baseMap');
                     var action = cb.checked;
-                    
-                    hideBasemapArea.style.display = action?'block':'none';
-                    domStyle.set(dojo.byId('legend1Btn'), 'display', action?'table':'none');
 
+                    hideBasemapArea.style.display = action?'block':'none';
+                    domStyle.set(dojo.byId('basemapsBtn'), 'display', action?'table':'none');
+                    //expandBaseMaps
                     this.baseMap.setVisibility(action);
                 }));
 
-                 on(cbBasemapGallery, 'click', lang.hitch(this, function(evt) {
-                    var expand = evt.target.checked;
-                    domStyle.set(dojo.byId('showBasemapGallery'), 'display', expand?'inherit':'none');
-                }));
-
                 var basemapSlider = domConstruct.create('input', {
-                    type:'range',
+                    type: 'range',
+                    id: 'basemapSlider',
                     class:'layerOpacitySlider',
                     value:100,
                     //'data-layerid':layer.id,
@@ -513,15 +498,15 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                     style: 'display:none;',
                 }, hideBasemapArea);
 
-                on(cbBasemapGallery, 'click', lang.hitch(basemapSlider, function(evt) {
-                    var expand = evt.target.checked;
-                    domStyle.set(this, 'display', expand?'inherit':'none');
-                }));
-
                 on(basemapSlider, 'input', lang.hitch(this, function(ev) {
                     this.baseMap.setOpacity(ev.currentTarget.value/100);
                 }));
 
+                on(expandBaseMaps, 'change', lang.hitch(this, function(evt) {
+                    var expand = expandBaseMaps.isChecked();
+                    domStyle.set(dojo.byId('showBasemapGallery'), 'display', expand?'inherit':'none');
+                    domStyle.set(basemapSlider, 'display', expand?'inherit':'none');
+                }));
 
                 if(this.defaults.hasBasemapGallery) {
 

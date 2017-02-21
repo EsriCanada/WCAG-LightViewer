@@ -516,7 +516,7 @@ define([
             }));
 
             on(this.myFeatureTable, "refresh", lang.hitch(this, function(evt){
-                this.map.graphics.graphics.forEach(lang.hitch(this, this._removeAllGraphics('ftMarker')));
+                array.forEach(this.map.graphics.graphics, lang.hitch(this, this._removeAllGraphics('ftMarker')));
             }));
 
             // on(this.myFeatureTable, "column-resize", lang.hitch(this, function(evt){
