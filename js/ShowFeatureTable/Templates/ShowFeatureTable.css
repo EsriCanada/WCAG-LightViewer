@@ -1,45 +1,139 @@
-#borderContainer1 {
-  width: calc(100% - 0px);
-  height: calc(100% - 0px); 
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Ubuntu+Mono');
+
+blockquote {
+    display: inherit;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    font-style: italic; 
+}
+
+.myBorderContainer {
+  width: 100% !important;
+  height: 100% !important; 
   overflow: hidden;
   padding:0px;
 }
-#contentPaneTop {               
-  width: calc(100% - 2px);
-  height: 60%; 
-  padding:1px; 
-}
-#contentPaneBottom {
-  width: calc(100% - 28px);
-  height:50%;
-  padding:1px; 
-}
-#featureTableNode {
-  /*width: calc(100% - 2px);
-  height: calc(100% - 8px); 
-  padding:1px; */
+
+.esri-feature-table .dgrid-row-even {
+    background-color: #dadada;
 }
 
-.esriFeatureTable {
-    font-family: inherit;
-    font-size: 16px;
+.esri-feature-table .dgrid-row-odd {
+    background-color: white;
 }
 
-.dijitSplitterH {
-    height: 6px;
-    width: calc(100% - 2px);
-    cursor: row-resize;
-    -webkit-tap-highlight-color: transparent;
+.esri-feature-table .esri-feature-table-menu {
+    background-color: #767676;
+    color: black;
 }
 
-.dijitSplitterH .dijitSplitterThumb {
-    background: gray none;
-    width: 10%;
-    top: 0.5px;
-    height: calc(100% - 1.5px);
-    margin: 0;
-    overflow: hidden;
+.esri-feature-table .dgrid-header .dgrid-cell {
+    border-right: 1px solid #ccc;
+    color: #000000;
+    /*font-size: 14px;*/
+}
+
+.esri-feature-table {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+    font-stretch: condensed;
+    color:black;
+}
+
+.claro .dijitArrowButtonInner {
+    display:none !important;
+}
+
+.esri-feature-table-menu-item .dijitMenuItemLabel {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+    color:black;
+}
+
+.esri-feature-table .dgrid-header .dgrid-cell {
+    font-weight: bold;
+}
+
+.esri-feature-table .esri-feature-table-menu .dijitDropDownButton .dijitButtonNode {
+    color: black !important;
+}
+
+.dgrid-pagination .dgrid-navigation, .dgrid-pagination .dgrid-page-size {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.esri-feature-table .esri-feature-table-menu .dijitDropDownButton .dijitButtonNode:hover {
+    color: white !important;
+}
+
+.esri-feature-table .ui-state-active {
+    background-color: rgba(196, 230, 255, 0.68);
+}
+
+.esri-feature-table-loading-indicator {
+    background-image: none;
+    height: 30px;
+    width: 30px;
+    left: 50%;
     position: absolute;
-    left: 45%;
-    border-radius: 2px;
 }
+
+.esri-feature-table-column-header-type {
+    color: black;
+    float: left;
+    font-size: xx-small;
+}
+
+.dgrid-pagination .dgrid-page-disabled, .has-ie-6-7 .dgrid-navigation .dgrid-page-disabled, .has-ie.has-quirks .dgrid-navigation .dgrid-page-disabled {
+    color: #6c6c6c;
+}
+
+.dgrid-no-data {
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.esri-feature-table .dgrid-header .dgrid-cell {
+    background-color: #9e9e9e;
+}
+
+.esri-feature-table-title {
+    color: white;
+}
+
+.esri-feature-table .esri-feature-table-menu .dijitDropDownButton .dijitButtonContents {
+    margin: 1px;
+}
+
+#featureTableTools {
+    /*width:30px;
+    background-color: red;*/
+    float:left;
+    margin:0 8px;
+}
+
+/*#featureTableTools img {
+    width: 22px;
+    height: 22px;
+    margin: 2px 1px;
+    padding: 2px;
+}
+
+.cbToggleBtn {
+    display:none;
+}
+
+input[type="checkbox"].cbToggleBtn + label img.UnselectedToggleImg,
+input[type="checkbox"].cbToggleBtn:checked + label img.SelectedToggleImg
+{
+    display: initial;
+}
+
+input[type="checkbox"].cbToggleBtn:checked + label img.UnselectedToggleImg,
+input[type="checkbox"].cbToggleBtn + label img.SelectedToggleImg
+{
+    display: none;
+}*/

@@ -42,18 +42,21 @@ define({
 				"link": "Map Link",
 				"facebook": "Facebook",
 				"twitter": "Twitter"
-			}
+			},
+            "basemapGallery": {
+                selected: "Base map selected"
+            }
         },
         "tooltips":{
-        	"home": "Default extent",
-        	"locate": "Find my location",
-            "features" : "Feature list",
+        	"home": "Default Extent",
+        	"locate": "Find my Location",
+            "features" : "Feature List",
             "filter" : "Filters",
             "instructions": "Instructions",
             "legend": "Legend",
         	"bookmarks": "Bookmarks",
         	"layers": "Layers",
-        	"basemap": "Basemap gallery",
+        	"basemap": "Basemap Gallery",
         	"overview": "Overview map",
         	"measure": "Measure",
         	"edit": "Edit",
@@ -61,7 +64,22 @@ define({
         	"print": "Print",
         	"details": "Details",
         	"share": "Share"
-        }
+        },
+        "skip":{
+            "tools" : "Skip to Tools",
+            "search" : "Skip to Search",
+            "content" : "Skip to Content",
+            "splitter" : "Skip to Splitter",
+            "map" : "Skip to Map",
+            "help" : "Skip to Help",
+            "featureDetaills" : "Skip to Feature Details"
+        },
+        search : "Search: ",
+        searchPlaceholder: "Find address or place",
+        searchEnterCriteria : "Enter search term for",
+        pressAlt : "Press ALT + 0 to 7 keys for fast navigation",
+        instructions:"instructions",
+        wcagViewer : "Accessible Viewer"
     }),
 "ar": 1,
 "cs": 1,

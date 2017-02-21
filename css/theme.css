@@ -1,0 +1,96 @@
+.claro .dijitButton .dijitButtonNode, 
+.claro .dijitDropDownButton .dijitButtonNode, 
+.claro .dijitComboButton .dijitButtonNode, 
+.claro .dijitToggleButton .dijitButtonNode {
+	border: 1px solid #759dc0;
+    padding: 0px;/* 10px 3px 10px;*/ /*2px 4px 4px 4px;*/
+    color: white;
+    background-blend-mode: darken;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.15);
+    background-color: rgb(3, 126, 175);;
+    background-image: none;	
+    
+    box-sizing: border-box;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonface;
+}
+
+.claro .dijitButtonText {
+    padding: 0;
+    text-align: center;
+    margin: 1px 10px;
+}
+
+.claro .dijitButton .dijitButtonNode:focus, 
+.claro .dijitDropDownButton .dijitButtonNode:focus, 
+.claro .dijitComboButton .dijitButtonNode:focus, 
+.claro .dijitToggleButton .dijitButtonNode:focus {
+    outline-width: 2px;
+    outline-offset: -1px;
+    outline-style: solid;
+    outline-color: rgba(255, 170, 0, 0.901961);
+    --outline: -webkit-focus-ring-color auto 5px ;
+}
+
+
+.dijitSplitterV, .calcite .dijitGutterV {
+    background: none;
+    border: 0;
+    width: 5px;
+    margin: 0;
+}
+.dijitSplitterV .dijitSplitterThumb {
+    background: blue none;
+    height: 40%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 30%;
+    border-radius: 2px;
+}
+
+.dj_a11y .dijitSplitterV {
+    border-left: 1px solid #d3d3d3 !important;
+    border-right: 1px solid #d3d3d3 !important;
+}
+
+.dijitSplitterV {
+    width: 6px;
+    margin: 1px;
+    cursor: col-resize;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.claro .dijitSplitterH, .claro .dijitGutterH {
+    background: none;
+    border: 0;
+    height: 8px;
+}
+
+.claro .dijitSplitterH .dijitSplitterThumb {
+    width: 20%;
+    border-radius: 3px;
+    margin: 0;
+    overflow: hidden;
+    position: absolute;
+    left: 40%;
+    border-radius: 5px;
+
+    top: 1px;
+    height: calc(100% - 2px);
+}
+
+.claro .dijitBorderContainer {
+    padding: 0;
+}
+
+.claro .dijitContentPane {
+	padding: 0 !important;
+}
+

@@ -69,18 +69,18 @@ define([
 
             domConstruct.place(this.domNode, this.navToolBar);
 
-            on(dom.byId("navZoomIn"), "click", lang.hitch(this, function(e) {
+            on(dojo.byId("navZoomIn"), "click", lang.hitch(this, function(e) {
                 this.map.setLevel(this.map.getLevel()+1);
             }));
 
-            on(dom.byId("navZoomOut"), "click", lang.hitch(this, function(e) {
+            on(dojo.byId("navZoomOut"), "click", lang.hitch(this, function(e) {
                 this.map.setLevel(this.map.getLevel()-1);
             }));
 
             if(has("home")) {
                 var home = new HomeButton({
                     map: this.map
-                }, domConstruct.create("div",{},dom.byId("navHome")));
+                }, domConstruct.create("div",{},dojo.byId("navHome")));
                 home.startup();
 
                 var homeButton = dojo.query(".homeContainer")[0];

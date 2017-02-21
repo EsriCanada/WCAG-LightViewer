@@ -1,97 +1,94 @@
 {  
-   "configurationSettings":[  
+   "configurationSettings":[ 
       {  
          "category":"<strong>Configure template</strong>",
          "fields":[  
-            {  
-               "type":"webmap"
+            {  "type":"webmap"},
+            
+            {  "type":"string",
+               "stringFieldOption": "richtext",
+               "label": "<strong>Alternate Map Text</strong>",
+               "tooltip": "Define text that will be read by screen reader",
+               "fieldName":"altMapText"
             },
-            {  
-               "placeHolder":"Defaults to web map title",
-               "label":"Title:",
-               "fieldName":"title",
-               "type":"string",
-               "tooltip":"Defaults to web map title"
-            },
-            {  
-               "label":"Logo Image:",
-               "fieldName":"logo",
-               "type":"string",
-               "tooltip":"Defaults to sample logo"
-            },
-            {  
-               "label":"Logo Alternate Text:",
-               "fieldName":"logoAltText",
-               "type":"string",
-               "tooltip":"Type here the text from the Logo Image"
+            {  "type": "paragraph",
+               "value": "The primary purpose of alternative map text is to be read by screen readers to allow the content and function of the map to be accessible to users with visual or certain cognitive disabilities."
             },
 
-            {  
-               "type":"boolean",
-               "fieldName":"animated_marker",
-               "label":"Animated Marker"
-            },
-            {  
-               "label":"Animated Marker File:",
-               "fieldName":"marker",
-               "type":"string",
-               "tooltip":"Defaults to blue-animated"
-            },
-            {  
-               "label":"Marker size:",
-               "fieldName":"marker_size",
-               "type":"int",
-               "tooltip":"Size of the Marker"
-            },
-            {  
-               "label":"Alternate Keys:",
-               "fieldName":"alt_keys",
-               "type":"boolean",
-               "tooltip":"Show hints for alternat keys when pressing ALT key."
-            },
-            {  
+            {  "label":"<strong>Description</strong>",
                "type":"string",
                "fieldName":"description",
-               "label":"Description",
                "placeHolder":"Defaults to web map description.",
-               "tooltip":"Enter content for the details panel",
-               "stringFieldOption":"richtext"
+               "stringFieldOption":"richtext"},
+            {  "type": "paragraph",
+               "value": "When present, this markup will replace the map description in the Details panel."
+            },   
+            {  "label":"<strong>Title:</strong>",
+               "placeHolder":"Defaults to web map title",
+               "fieldName":"title",
+               "type":"string",
+               "tooltip":"Defaults to web map title" },
+            {  "label":"<strong>Logo Image:</strong>",
+               "fieldName":"logo",
+               "type":"string",
+               "tooltip":"Defaults to sample logo"},
+            {  "label":"<strong>Logo Alternate Text:</strong>",
+               "fieldName":"logoAltText",
+               "type":"string",
+               "tooltip":"Type here the text from the Logo Image"},
+            {  "label":"<strong>Animated Marker</strong>",
+               "type":"boolean",
+               "fieldName":"animated_marker"},
+            {  "label":"<strong>Animated Marker File:</strong>",
+               "fieldName":"marker",
+               "type":"string",
+               "tooltip":"Defaults to blue-animated"},
+            {  "label":"<strong>Marker size:</strong>",
+               "fieldName":"marker_size",
+               "type":"int",
+               "tooltip":"Size of the Marker"},
+            
+            {  "label":"<strong>Access Keys</strong>",
+               "fieldName":"alt_keys",
+               "type":"boolean",
+               "tooltip":"Show hints for alternate keys when pressing ALT key."},
+            {  "type": "paragraph",
+               "value": "The Access Key is a shortcut to activate or focus a screen control. <br/>The way of accessing the shortcut key is varying in different browsers.<br/>Most browsers use the [Alt]+# or [Alt][Shift]+#.<br/>However the shortcut can be set to another combination of keys."
             },
-            {  
+
+            
+            {  "label":"<strong>New Icons</strong>",
+               "type":"boolean",
+               "fieldName":"new_icons"}
+         ]
+      },
+      {  
+         "category":"<strong>Colors</strong>",
+         "fields":[  
+            {  "label":"Theme Color:",
                "type":"color",
                "fieldName":"theme",
-               "tooltip":"Title bar color",
-               "label":"Theme Color:"
-            },
-            {  
+               "tooltip":"Title bar color"},
+            {  "label":"Title Color:",
                "type":"color",
                "fieldName":"color",
-               "tooltip":"Title bar text color",
-               "label":"Title Color:"
-            },
-            {  
+               "tooltip":"Title bar text color"},
+            {  "label":"Hover Color:",
                "type":"color",
                "fieldName":"hoverColor",
-               "tooltip":"Hover over color",
-               "label":"Hover Color:"
-            },
-            {  
+               "tooltip":"Hover over color"},
+            {  "label":"Focus Color:",
                "type":"color",
                "fieldName":"focusColor",
-               "tooltip":"Focus border color",
-               "label":"Focus Color:"
-            },
-            {  
+               "tooltip":"Focus border color"},
+            {  "label":"Active Color:",
                "type":"color",
                "fieldName":"activeColor",
-               "tooltip":"Selection color",
-               "label":"Active Color:"
-            },
-            {  
+               "tooltip":"Selection color"},
+            {  "label":"Icon color:",
                "type":"string",
                "fieldName":"icons",
                "tooltip":"Icon color",
-               "label":"Icon color:",
                "options":[  
                   {  
                      "label":"White",
@@ -101,23 +98,16 @@
                      "label":"Black",
                      "value":"black"
                   }
-               ]
-            },
-            {  
-               "type":"boolean",
-               "fieldName":"new_icons",
-               "label":"New Icons"
-            }
+               ]}
          ]
       },
       {  
          "category":"Tools",
          "fields":[  
-            {  
+            {  "label":"Active Tool:",
                "type":"string",
                "fieldName":"activeTool",
                "tooltip":"Active Tool",
-               "label":"Active Tool:",
                "options":[  
                   {  
                      "label":"None",
@@ -147,6 +137,10 @@
                      "label":"Layers",
                      "value":"layers"
                   },
+                  {
+                     "label":"Feature Table",
+                     "value":"featureTable"
+                  },
                   {  
                      "label":"Features",
                      "value":"features"
@@ -175,83 +169,60 @@
                      "label":"Share",
                      "value":"share"
                   }
-               ]
-            },
-            {  
+               ]},
+            
+            {  "label":"Details",
                "type":"boolean",
-               "fieldName":"tool_basemap",
-               "label":"Basemap Gallery"
-            },
-            {  
+               "fieldName":"tool_details"},
+            {  "label":"Instructions",
                "type":"boolean",
-               "fieldName":"tool_bookmarks",
-               "label":"Bookmarks"
-            },
-            {  
+               "fieldName":"tool_instructions"},
+            {  "label":"Overview Map",
                "type":"boolean",
-               "fieldName":"tool_locate",
-               "label":"Find Location"
-            },
-            {  
+               "fieldName":"tool_overview"},
+            {  "label":"Basemap Gallery",
                "type":"boolean",
-               "fieldName":"tool_home",
-               "label":"Default Extent Button"
-            },
-            {  
+               "fieldName":"tool_basemap"},
+            {  "label":"Bookmarks",
                "type":"boolean",
-               "fieldName":"tool_legend",
-               "label":"Legend"
-            },
-            {  
+               "fieldName":"tool_bookmarks"},
+            {  "label":"Find Location",
                "type":"boolean",
-               "fieldName":"tool_layers",
-               "label":"Layers"
-            },
-            {  
+               "fieldName":"tool_locate"},
+            {  "label":"Home Button",
                "type":"boolean",
-               "fieldName":"tool_features",
-               "label":"Feature List"
-            },
-            {  
+               "tooltip":"(Default Extent)",
+               "fieldName":"tool_home"},
+            {  "label":"Legend",
                "type":"boolean",
-               "fieldName":"tool_filter",
-               "label":"Filters"
-            },
-            {  
+               "fieldName":"tool_legend"},
+            {  "label":"Layers",
                "type":"boolean",
-               "fieldName":"tool_details",
-               "label":"Details"
-            },
-            {  
+               "fieldName":"tool_layers"},
+            {  "label":"Feature Table",
                "type":"boolean",
-               "fieldName":"tool_instructions",
-               "label":"Instructions"
-            },
-            {  
+               "fieldName":"tool_featureTable"},
+            {  "label":"Feature List",
                "type":"boolean",
-               "fieldName":"tool_measure",
-               "label":"Measure Tool"
-            },
-            {  
+               "fieldName":"tool_features"},
+            {  "label":"Filters",
                "type":"boolean",
-               "fieldName":"tool_overview",
-               "label":"Overview Map"
-            },
-            {  
+               "fieldName":"tool_filter"},
+            {  "label":"Measure Tool",
                "type":"boolean",
-               "fieldName":"tool_share",
-               "label":"Share Tools"
-            },
-            {  
+               "fieldName":"tool_measure"},
+            {  "label":"Share Tools",
                "type":"boolean",
-               "fieldName":"tool_print",
-               "label":"Print Button"
-            },
-            {  
+               "fieldName":"tool_share"},
+            {  "label":"Print Button",
                "type":"boolean",
-               "fieldName":"scalebar",
-               "label":"Scalebar"
-            }
+               "fieldName":"tool_print"},
+            {  "label":"Scalebar",
+               "type":"boolean",
+               "fieldName":"scalebar"},
+            {  "label":"Extended Navigation Tool Bar",
+               "type":"boolean",
+               "fieldName":"navigation"}
          ]
       },
       {
@@ -354,6 +325,114 @@
                "label":"Add Legend to Output"
             }
          ]
+      },
+      {
+         "category":"Languages",
+         "fields":[
+            {  "label":"Control with label",
+               "type":"boolean",
+               "fieldName":"languageLabel",
+               "tooltip": "Place a localized label in front of the Language control."},
+            {  
+               "type":"paragraph",
+               "value":"<strong>Language 1</strong>"
+            },
+
+            {  "label": "Language code",
+               "fieldName":"lang1code",
+               "type":"string"
+            },
+            {  "type":"paragraph",
+               "value":"Enter the locale of the language. Example: 'en-us'"
+            },
+            {  "label": "Language Short Name",
+               "fieldName":"lang1shortName",
+               "type":"string"
+            },
+            {  "type": "paragraph",
+               "value":"The name that will appear on the Language widget as active language.<br/>Leave it blank to display first two letters of language code when no image.<br/>You may use national charactes here to change the default display."
+            },
+            {  "label": "Flag Image",
+               "fieldName":"lang1imageSrc",
+               "type":"string"
+            },
+            {  "type": "paragraph",
+               "value":"The location of the image representing the flag of the country.<br/>Note: Leave it blank to display no image and show the Language Short Name instead."
+            },
+            {  "label": "Language name",
+               "fieldName":"lang1name",
+               "type":"string"
+            },
+            {  "type":"paragraph",
+               "value":"The name that will appear in the combo-box pull-down."
+            },
+            {  "label": "Application Id",
+               "fieldName":"lang1appId",
+               "type":"string"
+            },
+            {  "type":"paragraph",
+               "value":"ID of application that will restart for this language.<br/>Note: you may want another application to customize layers, data and other custom attributes.<br/>Leave blank to use same application."
+            },
+
+            {  "type":"paragraph",
+               "value":"<strong>Language 2</strong>"
+
+            },
+            {  "label": "Language code",
+               "fieldName":"lang2code",
+               "type":"string",
+               "tooltip": "The locale of language 2."
+            },
+            {  "label": "Language Short Name",
+               "fieldName":"lang2shortName",
+               "type":"string",
+               "tooltip": "The two-letter name that will appear on the Language widget."
+            },
+            {  "label": "Flag Image",
+               "fieldName":"lang2imageSrc",
+               "type":"string",
+               "tooltip": "The location of a 22x22 image."
+            },
+            {  "label": "Language name",
+               "fieldName":"lang2name",
+               "type":"string",
+               "tooltip": "The name that will appear in the combo-box pull-down."
+            },
+            {  "label": "Application Id",
+               "fieldName":"lang2appId",
+               "type":"string",
+               "tooltip": "Application ID for language 2."
+            },
+
+            {  "type":"paragraph",
+               "value":"<strong>Language 3</strong>"
+            },
+            {  "label": "Language code",
+               "fieldName":"lang3code",
+               "type":"string",
+               "tooltip": "The locale of language 3."
+            },
+            {  "label": "Language Short Name",
+               "fieldName":"lang3shortName",
+               "type":"string",
+               "tooltip": "The name that will appear on the Language widget."
+            },
+            {  "label": "Flag Image",
+               "fieldName":"lang3imageSrc",
+               "type":"string",
+               "tooltip": "The location of a 22x22 image."
+            },
+            {  "label": "Language name",
+               "fieldName":"lang3name",
+               "type":"string",
+               "tooltip": "The name that will appear in the combo-box pull-down."
+            },
+            {  "label": "Application Id",
+               "fieldName":"lang3appId",
+               "type":"string",
+               "tooltip": "Application ID for language 3."
+            }
+          ]
       }
    ],
    "values":{  
@@ -368,12 +447,13 @@
 
       "color":"#ffffff",
       "hoverColor":"#00A9E6",
-      "focusColor":"#00FFC5",
+      "focusColor":"#FF7700",
       "activeColor":"#00b9f6",
       "theme":"#005ce6",
 
       "activeTool":"details",
       "scalebar":false,
+      "navigation":false,
       "tool_print_layouts":false,
       "tool_print_legend":false,
       "tool_share":true,
@@ -384,6 +464,7 @@
       "tool_filter":true,
       "tool_legend":true,
       "tool_layers":true,
+      "tool_featureTable":true,
       "tool_home":true,
       "tool_locate":true,
       "tool_edit":true,
@@ -393,6 +474,22 @@
       "tool_search":true,
       "tool_print":true,
       "locationSearch": true,
-      "searchExtent":false
+      "searchExtent":false,
+
+      "languageLabel":true,
+
+      "lang1shortName": "EN",
+      "lang1name": "English",
+      "lang1code": "EN-US",
+      "lang1imageSrc": "images/flag.uk.22.png",
+
+      "lang2shortName": "FR",
+      "lang2name": "French",
+      "lang2code": "FR-CA",
+      "lang2imageSrc": "images/flag.fr.22.png",
+
+      "lang3shortName": "",
+      "lang3name": "",
+      "lang3code": ""
    }
 }

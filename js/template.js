@@ -20,7 +20,9 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/kernel", "dojo/_base/array", "dojo/_base/lang", "dojo/dom-class", "dojo/Deferred", "dojo/promise/all", "esri/arcgis/utils", "esri/urlUtils", "esri/request", "esri/config", "esri/lang", "esri/IdentityManager", "esri/arcgis/Portal", "esri/arcgis/OAuthInfo", "esri/tasks/GeometryService", "config/defaults", "dojo/string"], function (
+define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/kernel", "dojo/_base/array", 
+  "dojo/_base/lang", "dojo/dom-class", "dojo/Deferred", "dojo/promise/all", 
+  "esri/arcgis/utils", "esri/urlUtils", "esri/request", "esri/config", "esri/lang", "esri/IdentityManager", "esri/arcgis/Portal", "esri/arcgis/OAuthInfo", "esri/tasks/GeometryService", "config/defaults", "dojo/string"], function (
   Evented,
   declare,
   kernel,

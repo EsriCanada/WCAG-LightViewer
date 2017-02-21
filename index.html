@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 	<head>
-		<title>WCAG Viewer</title>	
+		<title>Accessible Viewer</title>	
+		<link rel="icon" type="image/png" href="images/favicon.png">
     	
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta charset="utf-8">
@@ -11,52 +12,44 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
-		<link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/calcite/calcite.css">
-    	
-        <link rel="stylesheet"  href="//js.arcgis.com/3.13/esri/css/esri.css">
 
+		<link rel="stylesheet" href="//js.arcgis.com/3.19/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" href="css/theme.css">
+  		<link rel="stylesheet" href="//js.arcgis.com/3.19/esri/css/esri.css">
+		
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/styles1.css">
 		<link rel="stylesheet" href="css/tabs.css">
 		<link rel="stylesheet" href="css/filters.css">
-		<link rel="icon" type="image/png" href="images/favicon.png">
-		
 	</head>
-	<body>
+	<body class="claro esri app-loading">
 		<div class="loading-indicator" role="presentation">
 			<div class="loading-message" id="loading_message"></div>
-			<div id='loadingTitle'><h1>WCAG Viewer</h1></div>
+			<div id='loadingTitle'></div>
 		</div>
 
-		<div id="mapPlace">
+        <div id="mapPlace" >
 			<div id="mapDiv" dir="ltr" tabindex=0></div>
 		</div>
 		<div id="panelTitle" class="fc bg">
-			<h1 class="fc" id="panelText">WCAG Viewer</h1>
+			<h1 class="fc" id="panelText"></h1>
 
 			<div class="skip" role="banner">
-				<a accesskey="1" href="#" tabindex="0" id="skip-tools">1. Skip to Tools</a>
-				<a accesskey="2" href="#" tabindex="0" id="skip-search">2. Skip to Search</a>
-				<a accesskey="3" href="#" tabindex="0" id="skip-content">3. Skip to Content</a>
-				<a accesskey="4" href="#" tabindex="0" id="skip-splitter">4. Skip to Splitter</a>
-				<a accesskey="5" href="#" tabindex="0" id="skip-map">5. Skip to Map</a>
-				<a accesskey="6" href="#" tabindex="0" id="skip-instructions">6. Skip to Help</a>
-				<a accesskey="7" href="#" tabindex="0" id="skip-feature">7. Skip to Feature Details</a>
+				<a accesskey="1" href="#" tabindex="0" aria-hidden=true id="skip-tools">1. Skip to Tools</a>
+				<a accesskey="2" href="#" tabindex="0" aria-hidden=true id="skip-search">2. Skip to Search</a>
+				<a accesskey="3" href="#" tabindex="0" aria-hidden=true id="skip-content">3. Skip to Content</a>
+				<a accesskey="4" href="#" tabindex="0" aria-hidden=true id="skip-splitter">4. Skip to Splitter</a>
+				<a accesskey="5" href="#" tabindex="0" aria-hidden=true id="skip-map">5. Skip to Map</a>
+				<a accesskey="6" href="#" tabindex="0" aria-hidden=true id="skip-instructions">6. Skip to Help</a>
+				<a accesskey="7" href="#" tabindex="0" aria-hidden=true id="skip-feature">7. Skip to Feature Details</a>
 		    </div>
-		    	<body class="calcite app-loading" style="margin: 0; height:100%; width:100%;">
-		<!-- Loading Indicator -->
-		<div id="google_translate_element" style="position: absolute;top: 10px; left: 50%;"></div>
-			<script type="text/javascript">
-				function googleTranslateElementInit() {
-				  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'ar,bg,bn,cy,da,de,el,en,eo,es,fa,fr,ga,haw,hi,hu,id,it,iw,ja,ko,ku,la,mk,nl,no,pa,pl,pt,ro,ru,so,sv,ta,th,tr,uk,vi,yi,zh-CN,zh-TW', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
-				}
-			</script>
-			<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 	        
-		    <div id="panelSearch" class="fc bg" >
+		    <div id="panelSearch" class="fc bg" style="top:5.5px; right:40px;">
 				<div class="searchLabel"><label for="panelGeocoder">Search: </label></div>
 				<div id="panelGeocoder"></div>
 			</div>
+
+			<div id="languageSelectNode"></div>
 		</div>
 
 		<div id="panelTools" class="fc bg" role="toolbar" tabindex="0">
@@ -65,27 +58,41 @@
 		<div id="leftPanel">
 			<main id="panelPages"></main>
 		</div>
-		
 
 		<script type="text/javascript" src="js/utils.js"></script>
+		
 		<script type="text/javascript">
-         var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
 
-         var dojoConfig = {
-            packages : [{
-               name : "application",
-               location : package_path + '/js'
-            }, {
-               name : "config",
-               location : package_path + '/config'
-            },{
-                name: "arcgis_templates",
-                location: package_path + '/..'
-            }]
-         };
+		var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+
+		var locale = /locale=([a-z][a-z]-[a-z][a-z])/gi.exec(window.location.search);
+
+		if(locale && locale.length===2) {
+			locale = locale[1];
+		}
+		else locale = navigator.language.toLowerCase();//'en-us';
+		document.documentElement.lang = locale;
+
+		var dojoConfig = {
+			// The locationPath logic below may look confusing but all its doing is
+			// enabling us to load the api from a CDN and load local modules from the correct location.
+			locale: locale,
+			packages : [{
+			   name : "application",
+			   location : package_path + '/js'
+			}, {
+			   name : "config",
+			   location : package_path + '/config'
+			},{
+			    name: "arcgis_templates",
+			    location: package_path + '/..'
+			}]
+		};
 		</script>
-		<script type="text/javascript" src="//js.arcgis.com/3.13/"></script>
-	
+
+		<script src="//js.arcgis.com/3.19/" type="text/javascript" data-dojo-config="async:true, parseOnLoad:false"></script> 
+		
+		
         <script type="text/javascript">
 	        require([
 	            "dojo/parser",
@@ -103,7 +110,6 @@
 	        ){
 	          var myTemplate = new Template(templateConfig);
 	          var myApp = new Main();
-
 
 	          myTemplate.startup().then(function (config) {
 				myApp.startup(config);
