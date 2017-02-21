@@ -327,6 +327,7 @@ define([
                         })
                     },
                 ],
+                cellNavigation:false,
                 showColumnHeaderTooltips: false,
             }, dojo.byId('featureTableNode'));
 
