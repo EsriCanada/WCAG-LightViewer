@@ -309,7 +309,7 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
                         {
                             var cbShowTable = new ImageToggleButton({
                                 imgSelected: 'images/icons_black/TableClose.Red.png',
-                                imgUnselected: 'images/table.18.png',
+                                imgUnselected: 'images/icons_black/Table.png',
                                 value: layer.id,
                                 class: 'cbShowTable',
                                 imgClass: 'tableBtn',
