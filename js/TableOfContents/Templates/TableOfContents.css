@@ -124,8 +124,10 @@
 }
 
 .TableOfContents .VectorTilesBtn {
-	opacity:0.5;
-	cursor:default !important;
+	  opacity:0.5;
+	  cursor:default !important;
+    margin: 0px 2px;
+    padding: 4px;
 }
 
 .TableOfContents img.tableBtn:hover, /*.TableOfContents img.tableBtn:focus,*/

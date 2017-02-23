@@ -484,8 +484,10 @@ define(["dojo/Evented", "dojo/_base/declare", "dojo/_base/lang", "dojo/has", "es
 
                     hideBasemapArea.style.display = action?'block':'none';
                     domStyle.set(dojo.byId('basemapsBtn'), 'display', action?'table':'none');
-                    //expandBaseMaps
-                    this.baseMap.setVisibility(action);
+
+                    this.baseMap.baseMapLayers.forEach(function(bmLayer) {
+                        bmLayer.layerObject.setVisibility(action);
+                    });
                 }));
 
                 var basemapSlider = domConstruct.create('input', {
